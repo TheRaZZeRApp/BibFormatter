@@ -1,0 +1,101 @@
+package com.therazzerapp.bibformatter;
+
+import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Entry;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * <description>
+ *
+ * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @since <version>
+ */
+public class BibTools {
+
+    public static Bibliographie capitaliseTitles(Bibliographie bibliographie){
+
+        final String capEx = "(?<cap>[A-Z]+(?![^\\{]*\\}))";
+        final String bugEx = "(?<cap>\\{\\{[A-Z]{1,}\\}\\})";
+        LinkedList<Entry> entrieList = new LinkedList<>();
+
+        Matcher matcher;
+        Matcher matcher2;
+
+        for (Entry entry : bibliographie.getEntrieList()) {
+            LinkedHashMap<String,String> keys = new LinkedHashMap<>();
+            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                String temp = stringStringEntry.getValue();
+                if (stringStringEntry.getKey().equalsIgnoreCase("title")){
+                    matcher = Pattern.compile(capEx).matcher(temp);
+                    while (matcher.find()){
+                        temp = temp.replace(matcher.group("cap"), "{" + matcher.group("cap") + "}");
+                    }
+                    matcher2 = Pattern.compile(bugEx).matcher(temp);
+                    while (matcher2.find()){
+                        temp = temp.replace(matcher2.group("cap"),matcher2.group("cap").replaceAll("\\{\\{","{").replaceAll("}}","}"));
+                    }
+                }
+                keys.put(stringStringEntry.getKey(),temp);
+            }
+            entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keys));
+        }
+        bibliographie.setEntrieList(entrieList);
+        return bibliographie;
+    }
+
+    public static Bibliographie formatMonth(Bibliographie bibliographie){
+
+        for (Entry entry : bibliographie.getEntrieList()) {
+            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                if (stringStringEntry.getKey().equals("month")){
+                    if (!stringStringEntry.getValue().matches("^[0-9]*$")){
+                        stringStringEntry.setValue(""+Utils.getMonth(stringStringEntry.getValue()));
+                    }
+                }
+            }
+        }
+
+        return bibliographie;
+    }
+
+    public static Bibliographie formatPages(Bibliographie bibliographie){
+        for (Entry entry : bibliographie.getEntrieList()) {
+            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                if (stringStringEntry.getKey().equals("pages")){
+                    if (stringStringEntry.getValue().matches("[0-9]{1,}-[0-9]{1,}")){
+                        stringStringEntry.setValue(stringStringEntry.getValue().replaceAll("-","--"));
+                    }
+                }
+            }
+        }
+        return bibliographie;
+    }
+
+    public static Bibliographie removeEntrie(Bibliographie bibliographie, Set<Keys> entries){
+        for (Keys entry : entries) {
+            for (Entry entry1 : bibliographie.getEntrieList()) {
+                if (entry1.getKeys().keySet().contains(entry.toString())){
+                    entry1.getKeys().remove(entry.toString());
+                }
+            }
+        }
+        return bibliographie;
+    }
+
+    public static Bibliographie replaceValue(Bibliographie bibliographie, Keys key, String match, String replacement){
+        for (Entry entry : bibliographie.getEntrieList()) {
+            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                if (stringStringEntry.getKey().equals(key.toString())&&stringStringEntry.getValue().equals(match)){
+                    bibliographie.getEntrieList().get(bibliographie.getEntrieList().indexOf(entry)).getKeys().replace(key.toString(),replacement);
+                }
+            }
+        }
+        return bibliographie;
+    }
+}
