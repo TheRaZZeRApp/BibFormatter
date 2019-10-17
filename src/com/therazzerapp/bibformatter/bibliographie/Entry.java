@@ -23,11 +23,11 @@ public class Entry {
         this.keys = keys;
     }
 
-    public String getRawEntry(){
+    public String getRawEntry(boolean noBracketsOnInt){
         StringBuilder sb = new StringBuilder();
         sb.append("@"+type+"{"+bibtexkey+",\n");
         for (Map.Entry<String, String> stringStringEntry : keys.entrySet()) {
-            if(stringStringEntry.getValue().matches("^[0-9]*$")){
+            if(stringStringEntry.getValue().matches("^[0-9]*$") && noBracketsOnInt){
                 sb.append(String.format("\t%-12s %s",stringStringEntry.getKey(),"= " + stringStringEntry.getValue() + ",\n"));
             } else {
                 sb.append(String.format("\t%-12s %s",stringStringEntry.getKey(),"= {" + stringStringEntry.getValue() + "},\n"));
@@ -36,6 +36,10 @@ public class Entry {
         sb.replace(sb.length()-2,sb.length()-1,"");
         sb.append("}\n");
         return sb.toString();
+    }
+
+    public String getRawEntry(){
+        return getRawEntry(true);
     }
 
     public String getValue(Keys key){

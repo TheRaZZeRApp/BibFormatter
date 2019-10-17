@@ -82,7 +82,7 @@ public class FileManager {
         return entryLinkedList;
     }
 
-    public static void printBib(Bibliographie bibliographie, String fileName){
+    public static void printBib(Bibliographie bibliographie, String fileName, boolean noBracketsOnInt){
         StringBuilder sb = new StringBuilder();
         if (bibliographie.getComments() != null){
             for (String s : bibliographie.getComments()) {
@@ -91,9 +91,13 @@ public class FileManager {
         }
         sb.append("%%Modified using BibFormatter v.1.0\n\n");
         for (Entry entry : bibliographie.getEntrieList()) {
-            sb.append(entry.getRawEntry());
+            sb.append(entry.getRawEntry(noBracketsOnInt));
         }
         exportFile(sb.toString(),fileName);
+    }
+
+    public static void printBib(Bibliographie bibliographie, String fileName){
+        printBib(bibliographie,fileName,true);
     }
 
     public static void exportFile(String text, String fileName){

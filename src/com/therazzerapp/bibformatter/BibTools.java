@@ -77,25 +77,4 @@ public class BibTools {
         return bibliographie;
     }
 
-    public static Bibliographie removeEntrie(Bibliographie bibliographie, Set<Keys> entries){
-        for (Keys entry : entries) {
-            for (Entry entry1 : bibliographie.getEntrieList()) {
-                if (entry1.getKeys().keySet().contains(entry.toString())){
-                    entry1.getKeys().remove(entry.toString());
-                }
-            }
-        }
-        return bibliographie;
-    }
-
-    public static Bibliographie replaceValue(Bibliographie bibliographie, Keys key, String match, String replacement){
-        for (Entry entry : bibliographie.getEntrieList()) {
-            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                if (stringStringEntry.getKey().equals(key.toString())&&stringStringEntry.getValue().equals(match)){
-                    bibliographie.getEntrieList().get(bibliographie.getEntrieList().indexOf(entry)).getKeys().replace(key.toString(),replacement);
-                }
-            }
-        }
-        return bibliographie;
-    }
 }

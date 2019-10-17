@@ -27,26 +27,24 @@ public class BibFormatter {
             e.printStackTrace();
         }
 
-        File file = new File("C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibZusammenfuehrung\\Test\\CecilesBibKonv.bib");
+        File file = new File("C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibFix2\\VarDefSemComFinalBib.bib");
         Bibliographie bib = FileManager.getBib(file);
 
         Set<Keys> keys = new HashSet<>();
-        keys.add(Keys.ORIGINAL);
-        keys.add(Keys.OWNER);
-        keys.add(Keys.COPY);
-        keys.add(Keys.BDSK_URL_1);
-        keys.add(Keys.BDSK_URL_2);
-        keys.add(Keys.BDSK_URL_3);
         keys.add(Keys.BDSK_FILE_1);
+        keys.add(Keys.BDSK_URL_1);
 
         bib = BibTools.formatMonth(bib);
-        bib = BibTools.removeEntrie(bib,keys);
+        bib.removeEntrie(keys);
         bib = BibTools.formatPages(bib);
         //bib = BibTools.replaceValue(bib,Keys.AUTHOR,"Repp, Sophie","Test");
         bib = BibTools.capitaliseTitles(bib);
 
-        FileManager.printBib(bib,"C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibZusammenfuehrung\\Test\\Test.bib");
-        Utils.debugEntries(bib,"C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibZusammenfuehrung\\Test\\");
+        bib.replaceKey(Keys.ADDRESS,Keys.LOCATION);
+        bib.removeEntrie(Keys.ADDRESS);
+
+        FileManager.printBib(bib,"C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibFix2\\VarDefSemComFinalBibTest.bib",false);
+        Utils.debugEntries(bib,"book", "C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibFix2\\");
 
     }
 }

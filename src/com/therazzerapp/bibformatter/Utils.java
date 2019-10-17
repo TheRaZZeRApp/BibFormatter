@@ -83,6 +83,43 @@ public class Utils {
         FileManager.writeDebug(sb.toString(),path);
     }
 
+    public static void debugEntries(Bibliographie bibliographie, String type, String path){
+        StringBuilder sb = new StringBuilder();
+
+        for (Entry entry : bibliographie.getEntrieList()) {
+            if (entry.getType().equals(type)){
+
+                sb.append(String.format("%-20s %-5s %-5s %s",entry.getBibtexkey(),entry.getValue(Keys.YEAR),entry.getValue(Keys.AUTHOR),entry.getValue(Keys.TITLE).replaceAll("}","").replaceAll("\\{","") + "\n"));
+                if (!entry.getKeys().keySet().contains("author")){
+                    sb.append("Missing Author\n");
+                }
+                if (!entry.getKeys().keySet().contains("location")){
+                    sb.append("Missing Location\n");
+                }
+                if (!entry.getKeys().keySet().contains("number")){
+                    sb.append("Missing Number\n");
+                }
+                if (!entry.getKeys().keySet().contains("publisher")){
+                    sb.append("Missing Publisher\n");
+                }
+                if (!entry.getKeys().keySet().contains("series")){
+                    sb.append("Missing Series\n");
+                }
+                if (!entry.getKeys().keySet().contains("subtitle")){
+                    sb.append("Missing Subtitle\n");
+                }
+                if (!entry.getKeys().keySet().contains("title")){
+                    sb.append("Missing Title\n");
+                }
+                if (!entry.getKeys().keySet().contains("year")){
+                    sb.append("Missing Year\n");
+                }
+                sb.append("====================================="+"\n");
+            }
+        }
+        FileManager.writeDebug(sb.toString(),path);
+    }
+
     public static String getMonth(String month){
         if (month.equals("jan")|| month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]01[.][0-9]{1,}")){
             return "1";
