@@ -77,4 +77,20 @@ public class BibTools {
         return bibliographie;
     }
 
+    /**
+     * Orders every {@code Entry} in a {@code Bibliographie} by a list.
+     * @param bibliographie
+     * @param orderList
+     * @return
+     */
+    public static Bibliographie orderEntries(Bibliographie bibliographie, String orderList){
+        LinkedList<Entry> tempEntrieList = new LinkedList<>();
+        for (Entry entry : bibliographie.getEntrieList()) {
+            tempEntrieList.add(
+                    new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(),orderList))
+            );
+        }
+        bibliographie.setEntrieList(tempEntrieList);
+        return bibliographie;
+    }
 }

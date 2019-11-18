@@ -3,6 +3,9 @@ package com.therazzerapp.bibformatter;
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * <description>
  *
@@ -120,32 +123,90 @@ public class Utils {
         FileManager.writeDebug(sb.toString(),path);
     }
 
-    public static String getMonth(String month){
-        if (month.equals("jan")|| month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]01[.][0-9]{1,}")){
-            return "1";
-        } else if (month.equals("feb") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]02[.][0-9]{1,}")){
-            return "2";
-        } else if (month.equals("mar") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]03[.][0-9]{1,}")){
-            return "3";
-        } else if (month.equals("apr") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]04[.][0-9]{1,}")){
-            return "4";
-        } else if (month.equals("may") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]05[.][0-9]{1,}")){
-            return "5";
-        } else if (month.equals("jun") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]06[.][0-9]{1,}")){
-            return "6";
-        } else if (month.equals("jul") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]07[.][0-9]{1,}")){
-            return "7";
-        } else if (month.equals("aug") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]08[.][0-9]{1,}")){
-            return "8";
-        } else if (month.equals("sep") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]09[.][0-9]{1,}")){
-            return "9";
-        } else if (month.equals("oct") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]10[.][0-9]{1,}")){
-            return "10";
-        } else if (month.equals("nov") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]11[.][0-9]{1,}")){
-            return "11";
-        } else if (month.equals("dec") || month.matches("[0-9]{0,}[.-]{0,}[0-9]{0,}[.]12[.][0-9]{1,}")){
-            return "12";
+    /**
+     * Returns month number by reading Keys.MONTH entry
+     * @param month
+     * @return
+     */
+    public static int getMonth(String month){
+        String match;
+        for (int i = 1; i < 13; i++) {
+            match = "[0-9]{0,}[.-]{0,}[0-9]{0,}[.]" +formatMonth(i) + "[.][0-9]{1,}";
+            if (month.equalsIgnoreCase(getMonthByNumber(i)) || month.matches(match)){
+                return i;
+            }
         }
-        return month;
+        return -1;
+    }
+
+    /**
+     * Formats one character month in two typ character design. i.e. 3 -> 03
+     * @param number
+     * @return
+     */
+    public static String formatMonth(int number){
+        if (number < 1 || number > 12){
+            return "null";
+        } else if (number < 10) {
+            return "0"+number;
+        } else {
+            return ""+number;
+        }
+    }
+
+    /**
+     * Returns month name by value i.e. 1 -> jan
+     * @param number
+     * @return
+     */
+    public static String getMonthByNumber(int number){
+        switch (number){
+            case 1:
+                return "jan";
+            case 2:
+                return "feb";
+            case 3:
+                return "mar";
+            case 4:
+                return "apr";
+            case 5:
+                return "may";
+            case 6:
+                return "jun";
+            case 7:
+                return "jul";
+            case 8:
+                return "aug";
+            case 9:
+                return "sep";
+            case 10:
+                return "okt";
+            case 11:
+                return "nov";
+            case 12:
+                return "dec";
+            default:
+                return "null";
+        }
+    }
+
+    /**
+     * Orders a map by a entry list
+     * @param map
+     *          The map to be ordered
+     * @param orderList
+     *          The List of keys to order after
+     * @return
+     */
+    public static LinkedHashMap<String,String> orderMapByList(Map<String,String> map, String orderList){
+        LinkedHashMap<String,String> tempMap = new LinkedHashMap<>();
+        String[] values = orderList.split(" ");
+        for (String value : values) {
+            if (map.containsKey(value)){
+                tempMap.put(value,map.get(value));
+            }
+        }
+        return tempMap;
     }
 }
+
