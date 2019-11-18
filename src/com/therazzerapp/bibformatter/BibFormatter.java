@@ -2,7 +2,9 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
+import com.therazzerapp.bibformatter.gui.StartUp;
 
+import javax.swing.*;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -14,6 +16,7 @@ import java.util.*;
  * @since <version>
  */
 public class BibFormatter {
+    public static final String version = "0.2.0";
     public static String jarPath = "";
     public static boolean debug = false;
     public static void main(String[] args) {
@@ -25,6 +28,14 @@ public class BibFormatter {
         } catch (URISyntaxException e) {
             FileManager.writeError("Error: Jar path not found!");
             e.printStackTrace();
+        }
+
+        StartUp startUp = new StartUp();
+
+        if (args.length == 0){
+            SwingUtilities.invokeLater(startUp);
+        } else {
+
         }
 
         File file = new File("C:\\Users\\Computer\\Documents\\Studium\\FrauMeier\\BibFix2\\VarDefSemComFinalBib.bib");
