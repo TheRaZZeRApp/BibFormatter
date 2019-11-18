@@ -2,11 +2,12 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
+import com.therazzerapp.bibformatter.content.ConfigType;
+import com.therazzerapp.bibformatter.manager.ConfigManager;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class BibTools {
 
-    public static Bibliographie capitaliseTitles(Bibliographie bibliographie){
+    public static Bibliographie capitalizeValue(Bibliographie bibliographie, KeyType key){
 
         final String capEx = "(?<cap>[A-Z]+(?![^\\{]*\\}))";
         final String bugEx = "(?<cap>\\{\\{[A-Z]{1,}\\}\\})";
@@ -31,7 +32,7 @@ public class BibTools {
             LinkedHashMap<String,String> keys = new LinkedHashMap<>();
             for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
                 String temp = stringStringEntry.getValue();
-                if (stringStringEntry.getKey().equalsIgnoreCase("title")){
+                if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
                     matcher = Pattern.compile(capEx).matcher(temp);
                     while (matcher.find()){
                         temp = temp.replace(matcher.group("cap"), "{" + matcher.group("cap") + "}");
@@ -78,7 +79,7 @@ public class BibTools {
     }
 
     /**
-     * Orders every {@code Entry} in a {@code Bibliographie} by a list.
+     * Orders every {@link Entry} in a {@link Bibliographie} by an entry order list specified in the config file.
      * @param bibliographie
      * @param orderList
      * @return
@@ -87,7 +88,7 @@ public class BibTools {
         LinkedList<Entry> tempEntrieList = new LinkedList<>();
         for (Entry entry : bibliographie.getEntrieList()) {
             tempEntrieList.add(
-                    new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(),orderList))
+                    new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), orderList))
             );
         }
         bibliographie.setEntrieList(tempEntrieList);

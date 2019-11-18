@@ -2,6 +2,7 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
+import com.therazzerapp.bibformatter.manager.LogManager;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +22,6 @@ public class Utils {
     }
 
     public static String trim(String text){
-
         int openCounter = 0;
         int closeCounter = 0;
         for (char c : text.toCharArray()) {
@@ -31,7 +31,6 @@ public class Utils {
                 closeCounter++;
             }
         }
-
         while (openCounter>closeCounter){
             text = text.replaceFirst("\\{","");
             openCounter--;
@@ -42,7 +41,6 @@ public class Utils {
         }
         text = text.replaceFirst("\\{","");
         text = replaceLast(text,"}","");
-
         if (text.endsWith(",")){
             text = replaceLast(text,",","");
         }
@@ -83,7 +81,7 @@ public class Utils {
                 sb.append("Missing Note \t\t" + entry.getBibtexkey()+ "\n");
             }
         }
-        FileManager.writeDebug(sb.toString(),path);
+        LogManager.writeDebug(sb.toString(),path);
     }
 
     public static void debugEntries(Bibliographie bibliographie, String type, String path){
@@ -92,7 +90,7 @@ public class Utils {
         for (Entry entry : bibliographie.getEntrieList()) {
             if (entry.getType().equals(type)){
 
-                sb.append(String.format("%-20s %-5s %-5s %s",entry.getBibtexkey(),entry.getValue(Keys.YEAR),entry.getValue(Keys.AUTHOR),entry.getValue(Keys.TITLE).replaceAll("}","").replaceAll("\\{","") + "\n"));
+                sb.append(String.format("%-20s %-5s %-5s %s",entry.getBibtexkey(),entry.getValue(KeyType.YEAR),entry.getValue(KeyType.AUTHOR),entry.getValue(KeyType.TITLE).replaceAll("}","").replaceAll("\\{","") + "\n"));
                 if (!entry.getKeys().keySet().contains("author")){
                     sb.append("Missing Author\n");
                 }
@@ -120,7 +118,7 @@ public class Utils {
                 sb.append("====================================="+"\n");
             }
         }
-        FileManager.writeDebug(sb.toString(),path);
+        LogManager.writeDebug(sb.toString(),path);
     }
 
     /**
@@ -204,7 +202,11 @@ public class Utils {
         for (String value : values) {
             if (map.containsKey(value)){
                 tempMap.put(value,map.get(value));
+                map.remove(value);
             }
+        }
+        for (String s : map.keySet()) {
+            tempMap.put(s,map.get(s));
         }
         return tempMap;
     }

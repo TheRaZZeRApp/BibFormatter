@@ -1,9 +1,8 @@
 package com.therazzerapp.bibformatter.bibliographie;
 
-import com.therazzerapp.bibformatter.Keys;
+import com.therazzerapp.bibformatter.KeyType;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -42,7 +41,7 @@ public class Entry {
         return getRawEntry(true);
     }
 
-    public String getValue(Keys key){
+    public String getValue(KeyType key){
         for (Map.Entry<String, String> stringStringEntry : keys.entrySet()) {
             if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
                 return stringStringEntry.getValue();

@@ -1,18 +1,15 @@
 package com.therazzerapp.bibformatter.gui;
 
 import com.therazzerapp.bibformatter.BibFormatter;
-import com.therazzerapp.bibformatter.FileManager;
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
+import com.therazzerapp.bibformatter.content.loader.BibLoader;
+import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.filefilter.BIBFilter;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * <description>
@@ -142,7 +139,7 @@ public class StartUp implements Runnable{
             if (bibChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
                 tabbedPane1.setEnabled(true);
                 tablePain.setEnabled(true);
-                bibliographieOld = FileManager.getBib(bibChooser.getSelectedFile());
+                bibliographieOld = BibLoader.load(bibChooser.getSelectedFile());
                 setBibliographieNew(bibliographieOld);
                 menuSave.setEnabled(true);
 
@@ -157,7 +154,7 @@ public class StartUp implements Runnable{
         });
         menuSave.addActionListener(e -> {
             if (fileSaver.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION){
-                FileManager.printBib(bibliographieNew,fileSaver.getSelectedFile().getPath()); //todo Fix correct path + file name
+                BibSaver.save(bibliographieNew,fileSaver.getSelectedFile().getPath()); //todo Fix correct path + file name
             }
         });
         tabbedPane1.addChangeListener(e -> {

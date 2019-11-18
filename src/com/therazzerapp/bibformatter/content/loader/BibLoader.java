@@ -1,5 +1,6 @@
-package com.therazzerapp.bibformatter;
+package com.therazzerapp.bibformatter.content.loader;
 
+import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 
@@ -16,8 +17,8 @@ import java.util.regex.Pattern;
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
  * @since <version>
  */
-public class FileManager {
-    public static Bibliographie getBib(File file){
+public class BibLoader {
+    public static Bibliographie load(File file){
         BufferedReader bufferedReader;
         InputStream inputStream = null;
         InputStreamReader inputStreamReader;
@@ -32,7 +33,7 @@ public class FileManager {
 
         try{
             inputStream = new FileInputStream(file);
-            inputStreamReader = new InputStreamReader(inputStream,StandardCharsets.UTF_8);
+            inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             bufferedReader = new BufferedReader(inputStreamReader);
 
             String text = bufferedReader.readLine();
@@ -53,10 +54,10 @@ public class FileManager {
             } catch (IOException ioe) {
             }
         }
-        return new Bibliographie(formatBib(entries),file.getName());
+        return new Bibliographie(formatEntries(entries),file.getName().replaceAll(".bib",""));
     }
 
-    private static LinkedList<Entry> formatBib(LinkedList<String> entries){
+    private static LinkedList<Entry> formatEntries(LinkedList<String> entries){
         LinkedList<Entry> entryLinkedList = new LinkedList<>();
         final String typKeyEx = "@(?<typ>[^{]{1,})\\{(?<bibtexkey>[^,]{1,}),";
         final String keysEx = "(?<keyName>[^ @\\t]{1,})[ ]{1,}=[ \\t]{1,}(?<keyValue>[^\\n]{1,})";
@@ -80,51 +81,5 @@ public class FileManager {
             }
         }
         return entryLinkedList;
-    }
-
-    public static void printBib(Bibliographie bibliographie, String fileName, boolean noBracketsOnInt){
-        StringBuilder sb = new StringBuilder();
-        if (bibliographie.getComments() != null){
-            for (String s : bibliographie.getComments()) {
-                sb.append(s + "\n");
-            }
-        }
-        sb.append("%%Modified using BibFormatter v.1.0\n\n");
-        for (Entry entry : bibliographie.getEntrieList()) {
-            sb.append(entry.getRawEntry(noBracketsOnInt));
-        }
-        exportFile(sb.toString(),fileName);
-    }
-
-    public static void printBib(Bibliographie bibliographie, String fileName){
-        printBib(bibliographie,fileName,true);
-    }
-
-    public static void exportFile(String text, String fileName){
-
-        File file = new File(fileName);
-        Writer writer = null;
-        try {
-            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName),StandardCharsets.UTF_8));
-        } catch (FileNotFoundException e) {
-        }
-        try {
-            file.createNewFile();
-            writer.write(text);
-        } catch (IOException ignored) {
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException ignored) {
-            }
-        }
-    }
-
-    public static void writeError(String error){
-        exportFile(error, BibFormatter.jarPath+"error.log");
-    }
-
-    public static void writeDebug(String debug, String path){
-        exportFile(debug, path+"debug.txt");
     }
 }

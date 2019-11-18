@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter.bibliographie;
 
-import com.therazzerapp.bibformatter.Keys;
+import com.therazzerapp.bibformatter.KeyType;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,8 +30,8 @@ public class Bibliographie {
         this.comments = null;
     }
 
-    public void removeEntrie(Set<Keys> entries){
-        for (Keys entry : entries) {
+    public void removeEntrie(Set<KeyType> entries){
+        for (KeyType entry : entries) {
             for (Entry entry1 : entrieList) {
                 if (entry1.getKeys().keySet().contains(entry.toString())){
                     entry1.getKeys().remove(entry.toString());
@@ -40,13 +40,13 @@ public class Bibliographie {
         }
     }
 
-    public void removeEntrie(Keys key){
-        Set<Keys> keys = new HashSet<>();
+    public void removeEntrie(KeyType key){
+        Set<KeyType> keys = new HashSet<>();
         keys.add(key);
         removeEntrie(keys);
     }
 
-    public void replaceValue(Keys key, String match, String replacement){
+    public void replaceValue(KeyType key, String match, String replacement){
         for (Entry entry : entrieList) {
             for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
                 if (stringStringEntry.getKey().equals(key.toString())&&stringStringEntry.getValue().equals(match)){
@@ -56,7 +56,7 @@ public class Bibliographie {
         }
     }
 
-    public void replaceKey(Keys key, Keys replacement, String type){
+    public void replaceKey(KeyType key, KeyType replacement, String type){
         for (Entry entry : entrieList) {
             if ((type == null || entry.getType().equalsIgnoreCase(type)) && entry.getKeys().containsKey(key.toString()) && !entry.getKeys().containsKey(replacement.toString())){
                 String temp = entry.getValue(key);
@@ -66,11 +66,11 @@ public class Bibliographie {
         }
     }
 
-    public void replaceKey(Keys key, Keys replacement){
+    public void replaceKey(KeyType key, KeyType replacement){
         replaceKey(key,replacement,null);
     }
 
-    public LinkedList<String> getValues(Keys key){
+    public LinkedList<String> getValues(KeyType key){
         LinkedList<String> linkedList = new LinkedList<>();
 
         for (Entry entry : entrieList) {

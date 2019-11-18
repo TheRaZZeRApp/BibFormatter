@@ -6,7 +6,7 @@ package com.therazzerapp.bibformatter;
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
  * @since <version>
  */
-public enum Keys {
+public enum KeyType {
     TITLE,
     SHORTTITLE,
     AUTHOR,
@@ -63,4 +63,6 @@ public enum Keys {
     public String toString() {
         return super.toString().toLowerCase().replaceAll("_","-");
     }
+
+
 }
