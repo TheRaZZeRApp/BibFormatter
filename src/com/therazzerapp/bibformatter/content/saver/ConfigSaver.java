@@ -44,6 +44,7 @@ public class ConfigSaver {
         configMap.put(ConfigType.INDENTSPACESAMOUNT,3);
         configMap.put(ConfigType.INDENTVALUECOLUMM,12);
         configMap.put(ConfigType.WRITEEMPTYENTRIES,false);
+        configMap.put(ConfigType.DEFAULTCHARACTERMAP,"unicode2latex");
         save(configMap);
     }
 }

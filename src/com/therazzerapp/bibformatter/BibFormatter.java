@@ -8,6 +8,7 @@ import com.therazzerapp.bibformatter.gui.StartUp;
 import com.therazzerapp.bibformatter.manager.ConfigManager;
 import com.therazzerapp.bibformatter.manager.FileManager;
 import com.therazzerapp.bibformatter.manager.LogManager;
+import com.therazzerapp.bibformatter.manager.SpecialCharacterManager;
 
 import javax.swing.*;
 import java.io.File;
@@ -22,13 +23,18 @@ import java.util.regex.Pattern;
  * @since <version>
  */
 public class BibFormatter {
-    public static final String version = "0.3.2";
+    public static final String version = "0.4.2";
     public static void main(String[] args) {
 
         ConfigManager.load();
+        SpecialCharacterManager.initiate();
 
         if(!new File("./run.bat").exists()){
-            createRunBat();
+            StringBuilder sb = new StringBuilder();
+            for (String s : FileManager.getFileContentJar("data/run.bat")) {
+                sb.append(s).append("\n");
+            }
+            FileManager.exportFile(sb.toString(),"./run.bat");
         }
 
         if (args.length == 0){
@@ -109,55 +115,18 @@ public class BibFormatter {
                 }
             }
         }
+        matcher = Pattern.compile("-saveSpecialCharacters (?<param1>[^-]{0,})").matcher(commands);
+        if (matcher.find()){
+            if (matcher.group("param1").equals("")){
+                LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
+                return null;
+            } else {
+                String[] values = matcher.group("param1").split(" ");
+                for (String value : values) {
+                    BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()));
+                }
+            }
+        }
         return bib;
-    }
-
-    private static void createRunBat(){
-        String content = "@echo off\n" +
-                "rem ================ Settings ================\n" +
-                "set debug=false\n" +
-                "set commands=\n" +
-                "rem ================= Readme =================\n" +
-                "rem Usage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn...\n" +
-                "rem Commands:\n" +
-                "rem -capitalizeValue (key1) [keyn]\n" +
-                "rem -orderEntries [keyn | file]\n" +
-                "rem -formatMonth (number | name)\n" +
-                "rem -formatPages (single | double)\n" +
-                "rem -removeEntry (key1) [keyn]\n" +
-                "rem Example:\n" +
-                "rem commands=-capitalizeValue title author -orderEntries issn number url author title -formatMonth number -formatPages double -removeEntry url issn doi pages\n" +
-                "rem ==========================================\n" +
-                "set a=\"Usage: <file:bibFile> <boolean:debug> -c1 -c2 -c3 ...\"\n" +
-                "if [\"%~1\"]==[\"\"] (\n" +
-                "\techo Error: No bib file specified!\n" +
-                "\techo %a%\n" +
-                "\tgoto stop\n" +
-                ") \n" +
-                "if \"%debug%\" NEQ \"true\" (\n" +
-                "\tif \"%debug%\" NEQ \"false\" (\n" +
-                "\t\techo Error: Set debug to true/false!\n" +
-                "\t\techo %a%\n" +
-                "\t\tgoto stop\n" +
-                "\t) else (\n" +
-                "\t\tgoto s2\n" +
-                "\t)\n" +
-                "\techo Error: Set debug to true/false!\n" +
-                "\techo %a%\n" +
-                "\tgoto stop\n" +
-                ")\n" +
-                ":s2\n" +
-                "if \"%commands%\"==\"\" (\n" +
-                "\techo Error: No commands found\n" +
-                "\techo %a%\n" +
-                "\tgoto stop\n" +
-                ")\n" +
-                "echo Commands: %commands%\n" +
-                "java -jar BibFormatter.jar %1 %debug% %commands%\n" +
-                "goto ende\n" +
-                ":stop\n" +
-                "pause\n" +
-                ":ende";
-        FileManager.exportFile(content,"./run.bat");
     }
 }

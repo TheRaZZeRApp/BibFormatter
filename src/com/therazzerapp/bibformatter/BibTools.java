@@ -4,6 +4,7 @@ import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.manager.ConfigManager;
+import com.therazzerapp.bibformatter.manager.SpecialCharacterManager;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 public class BibTools {
 
     /**
-     *
+     * Needs to be rewritten!
      * @param bibliographie
      * @param key
      */
@@ -104,5 +105,31 @@ public class BibTools {
             );
         }
         bibliographie.setEntrieList(tempEntrieList);
+    }
+
+    /**
+     * Needs to be rewritten!
+     * @param bibliographie
+     * @param key
+     */
+    public static void saveSpecialCharacters(Bibliographie bibliographie, KeyType key){
+        LinkedList<Entry> entrieList = new LinkedList<>();
+        for (Entry entry : bibliographie.getEntrieList()) {
+            LinkedHashMap<String,String> keys = new LinkedHashMap<>();
+            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                String temp = stringStringEntry.getValue();
+                if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
+                    for (Map.Entry<String, String> characterMap : SpecialCharacterManager.getCharacterMap().entrySet()) {
+                        Matcher m = Pattern.compile(characterMap.getKey()).matcher(stringStringEntry.getValue());
+                        while (m.find()){
+                            temp = Utils.replaceGroup(characterMap.getKey(),temp,2,characterMap.getValue());
+                        }
+                    }
+                }
+                keys.put(stringStringEntry.getKey(),temp);
+            }
+            entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keys));
+        }
+        bibliographie.setEntrieList(entrieList);
     }
 }

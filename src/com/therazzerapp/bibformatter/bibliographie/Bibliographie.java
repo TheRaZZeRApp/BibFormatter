@@ -49,7 +49,7 @@ public class Bibliographie {
     public void replaceValue(KeyType key, String match, String replacement){
         for (Entry entry : entrieList) {
             for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                if (stringStringEntry.getKey().equals(key.toString())&&stringStringEntry.getValue().equals(match)){
+                if (stringStringEntry.getKey().equals(key.toString()) && stringStringEntry.getValue().equals(match)){
                     entrieList.get(entrieList.indexOf(entry)).getKeys().replace(key.toString(),replacement);
                 }
             }

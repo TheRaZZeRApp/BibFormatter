@@ -2,6 +2,8 @@ package com.therazzerapp.bibformatter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <description>
@@ -13,6 +15,17 @@ public class Utils {
 
     public static String replaceLast(String text, String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
+    }
+
+    public static String replaceGroup(String regex, String source, int groupToReplace, String replacement) {
+        return replaceGroup(regex, source, groupToReplace, 1, replacement);
+    }
+
+    public static String replaceGroup(String regex, String source, int groupToReplace, int groupOccurrence, String replacement) {
+        Matcher m = Pattern.compile(regex).matcher(source);
+        for (int i = 0; i < groupOccurrence; i++)
+            if (!m.find()) return source;
+        return new StringBuilder(source).replace(m.start(groupToReplace), m.end(groupToReplace), replacement).toString();
     }
 
     public static String trim(String text){

@@ -12,7 +12,8 @@ public enum ConfigType {
     INDENTSTYLE("indentStyle","string"),
     INDENTSPACESAMOUNT("indentSpacesAmount","int"),
     INDENTVALUECOLUMM("indentValueColumm","int"),
-    WRITEEMPTYENTRIES("writeEmptyEntries","boolean");
+    WRITEEMPTYENTRIES("writeEmptyEntries","boolean"),
+    DEFAULTCHARACTERMAP("defaultCharacterMap","string");
 
     private final String name;
     private final String typ;
