@@ -1,6 +1,8 @@
 package com.therazzerapp.bibformatter.bibliographie;
 
 import com.therazzerapp.bibformatter.KeyType;
+import com.therazzerapp.bibformatter.content.ConfigType;
+import com.therazzerapp.bibformatter.manager.ConfigManager;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,14 +24,28 @@ public class Entry {
         this.keys = keys;
     }
 
-    public String getRawEntry(boolean noBracketsOnInt){
+    public String getRawEntry(boolean encloseNumerals){
+
+        String indent = "\t";
+        if (ConfigManager.getConfigProperty(ConfigType.INDENTSTYLE).equals("spaces")){
+            indent = "";
+            for (int i = 0; i < (int) ConfigManager.getConfigProperty(ConfigType.INDENTSPACESAMOUNT); i++) {
+                indent+=" ";
+            }
+        }
+
+        int valueColumm = (int) ConfigManager.getConfigProperty(ConfigType.INDENTVALUECOLUMM);
+
         StringBuilder sb = new StringBuilder();
         sb.append("@"+type+"{"+bibtexkey+",\n");
         for (Map.Entry<String, String> stringStringEntry : keys.entrySet()) {
-            if(stringStringEntry.getValue().matches("^[0-9]*$") && noBracketsOnInt){
-                sb.append(String.format("\t%-12s %s",stringStringEntry.getKey(),"= " + stringStringEntry.getValue() + ",\n"));
+            if (stringStringEntry.getValue().equals("") && !(boolean) ConfigManager.getConfigProperty(ConfigType.WRITEEMPTYENTRIES)){
+                continue;
+            }
+            if(stringStringEntry.getValue().matches("^[0-9]*$") && encloseNumerals){
+                sb.append(String.format(indent+"%-" + valueColumm +"s %s",stringStringEntry.getKey(),"= " + stringStringEntry.getValue() + ",\n"));
             } else {
-                sb.append(String.format("\t%-12s %s",stringStringEntry.getKey(),"= {" + stringStringEntry.getValue() + "},\n"));
+                sb.append(String.format(indent+"%-" + valueColumm +"s %s",stringStringEntry.getKey(),"= {" + stringStringEntry.getValue() + "},\n"));
             }
         }
         sb.replace(sb.length()-2,sb.length()-1,"");

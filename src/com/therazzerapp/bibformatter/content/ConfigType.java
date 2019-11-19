@@ -7,7 +7,13 @@ package com.therazzerapp.bibformatter.content;
  * @since <version>
  */
 public enum ConfigType {
-    ENTRYORDER("entryOrder", "string");
+    ENTRYORDER("entryOrder", "string"),
+    ENCLOSENUMERICS("encloseNumerals", "boolean"),
+    INDENTSTYLE("indentStyle","string"),
+    INDENTSPACESAMOUNT("indentSpacesAmount","int"),
+    INDENTVALUECOLUMM("indentValueColumm","int"),
+    WRITEEMPTYENTRIES("writeEmptyEntries","boolean");
+
 
     private final String name;
     private final String typ;

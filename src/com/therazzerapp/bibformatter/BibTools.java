@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class BibTools {
 
-    public static Bibliographie capitalizeValue(Bibliographie bibliographie, KeyType key){
+    public static void capitalizeValue(Bibliographie bibliographie, KeyType key){
 
         final String capEx = "(?<cap>[A-Z]+(?![^\\{]*\\}))";
         final String bugEx = "(?<cap>\\{\\{[A-Z]{1,}\\}\\})";
@@ -47,35 +47,32 @@ public class BibTools {
             entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keys));
         }
         bibliographie.setEntrieList(entrieList);
-        return bibliographie;
     }
 
-    public static Bibliographie formatMonth(Bibliographie bibliographie){
-
-        for (Entry entry : bibliographie.getEntrieList()) {
-            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                if (stringStringEntry.getKey().equals("month")){
-                    if (!stringStringEntry.getValue().matches("^[0-9]*$")){
-                        stringStringEntry.setValue(""+Utils.getMonth(stringStringEntry.getValue()));
-                    }
+    public static void formatMonth(Bibliographie bibliographie, boolean name){
+        for (int i = 0; i < bibliographie.getEntrieList().size(); i++) {
+            if (bibliographie.getEntrieList().get(i).getKeys().containsKey("month")){
+                int month = Utils.getMonth(bibliographie.getEntrieList().get(i).getKeys().get("month"));
+                if(name){
+                    bibliographie.getEntrieList().get(i).getKeys().replace("month",Utils.getMonthByNumber(month));
+                } else {
+                    bibliographie.getEntrieList().get(i).getKeys().replace("month",Utils.formatMonth(month));
                 }
             }
         }
-
-        return bibliographie;
     }
 
-    public static Bibliographie formatPages(Bibliographie bibliographie){
-        for (Entry entry : bibliographie.getEntrieList()) {
-            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                if (stringStringEntry.getKey().equals("pages")){
-                    if (stringStringEntry.getValue().matches("[0-9]{1,}-[0-9]{1,}")){
-                        stringStringEntry.setValue(stringStringEntry.getValue().replaceAll("-","--"));
-                    }
+    public static void formatPages(Bibliographie bibliographie, boolean singleLine){
+        for (int i = 0; i < bibliographie.getEntrieList().size(); i++) {
+            if (bibliographie.getEntrieList().get(i).getKeys().containsKey("pages")){
+                String page = bibliographie.getEntrieList().get(i).getKeys().get("pages").replaceAll("–","-");;
+                if(singleLine && page.matches("[0-9]{1,}--[0-9]{1,}")){
+                    bibliographie.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("--","-"));
+                } else if (!singleLine && page.matches("[0-9]{1,}-[0-9]{1,}")){
+                    bibliographie.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("-","--"));
                 }
             }
         }
-        return bibliographie;
     }
 
     /**
@@ -84,7 +81,7 @@ public class BibTools {
      * @param orderList
      * @return
      */
-    public static Bibliographie orderEntries(Bibliographie bibliographie, String orderList){
+    public static void orderEntries(Bibliographie bibliographie, String orderList){
         LinkedList<Entry> tempEntrieList = new LinkedList<>();
         for (Entry entry : bibliographie.getEntrieList()) {
             tempEntrieList.add(
@@ -92,6 +89,5 @@ public class BibTools {
             );
         }
         bibliographie.setEntrieList(tempEntrieList);
-        return bibliographie;
     }
 }

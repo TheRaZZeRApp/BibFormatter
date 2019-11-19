@@ -130,7 +130,7 @@ public class Utils {
         String match;
         for (int i = 1; i < 13; i++) {
             match = "[0-9]{0,}[.-]{0,}[0-9]{0,}[.]" +formatMonth(i) + "[.][0-9]{1,}";
-            if (month.equalsIgnoreCase(getMonthByNumber(i)) || month.matches(match)){
+            if (month.equalsIgnoreCase(getMonthByNumber(i)) || month.matches(match) || month.equals(formatMonth(i))){
                 return i;
             }
         }
