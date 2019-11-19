@@ -1,9 +1,5 @@
 package com.therazzerapp.bibformatter;
 
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
-import com.therazzerapp.bibformatter.bibliographie.Entry;
-import com.therazzerapp.bibformatter.manager.LogManager;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,8 +10,6 @@ import java.util.Map;
  * @since <version>
  */
 public class Utils {
-
-    public static final String entryOrder = "title shorttitle author year month day journal booktitle location on publisher address series volume number pages doi isbn issn url urldate copyright category note metadata";
 
     public static String replaceLast(String text, String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
@@ -45,80 +39,6 @@ public class Utils {
             text = replaceLast(text,",","");
         }
         return text;
-    }
-
-    public static void debugEntries(Bibliographie bibliographie, String path){
-        StringBuilder sb = new StringBuilder();
-        for (Entry entry : bibliographie.getEntrieList()) {
-            if (!entry.getKeys().keySet().contains("title")){
-                sb.append("Missing Title \t\t" + entry.getBibtexkey() + "\n");
-            }
-            if (!entry.getKeys().keySet().contains("author")){
-                sb.append("Missing Author \t\t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("year")){
-                sb.append("Missing Year \t\t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("journal") && entry.getType().equals("article")){
-                sb.append("Missing Journal \t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("publisher") && entry.getType().equals("book")){
-                sb.append("Missing Publisher \t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("chapter") && entry.getType().equals("inbook")){
-                sb.append("Missing Chapter \t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("booktitle") && (entry.getType().equals("incollection") || entry.getType().equals("inproceedings"))){
-                sb.append("Missing Book Title \t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("school") && entry.getType().equals("mastersthesis")){
-                sb.append("Missing School \t\t" + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("institution") && entry.getType().equals("techreport")){
-                sb.append("Missing Institution " + entry.getBibtexkey()+ "\n");
-            }
-            if (!entry.getKeys().keySet().contains("note") && entry.getType().equals("unpublished")){
-                sb.append("Missing Note \t\t" + entry.getBibtexkey()+ "\n");
-            }
-        }
-        LogManager.writeDebug(sb.toString(),path);
-    }
-
-    public static void debugEntries(Bibliographie bibliographie, String type, String path){
-        StringBuilder sb = new StringBuilder();
-
-        for (Entry entry : bibliographie.getEntrieList()) {
-            if (entry.getType().equals(type)){
-
-                sb.append(String.format("%-20s %-5s %-5s %s",entry.getBibtexkey(),entry.getValue(KeyType.YEAR),entry.getValue(KeyType.AUTHOR),entry.getValue(KeyType.TITLE).replaceAll("}","").replaceAll("\\{","") + "\n"));
-                if (!entry.getKeys().keySet().contains("author")){
-                    sb.append("Missing Author\n");
-                }
-                if (!entry.getKeys().keySet().contains("location")){
-                    sb.append("Missing Location\n");
-                }
-                if (!entry.getKeys().keySet().contains("number")){
-                    sb.append("Missing Number\n");
-                }
-                if (!entry.getKeys().keySet().contains("publisher")){
-                    sb.append("Missing Publisher\n");
-                }
-                if (!entry.getKeys().keySet().contains("series")){
-                    sb.append("Missing Series\n");
-                }
-                if (!entry.getKeys().keySet().contains("subtitle")){
-                    sb.append("Missing Subtitle\n");
-                }
-                if (!entry.getKeys().keySet().contains("title")){
-                    sb.append("Missing Title\n");
-                }
-                if (!entry.getKeys().keySet().contains("year")){
-                    sb.append("Missing Year\n");
-                }
-                sb.append("====================================="+"\n");
-            }
-        }
-        LogManager.writeDebug(sb.toString(),path);
     }
 
     /**
@@ -211,4 +131,3 @@ public class Utils {
         return tempMap;
     }
 }
-

@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * @since <version>
  */
 public class BibFormatter {
-    public static final String version = "0.3.1";
+    public static final String version = "0.3.2";
     public static void main(String[] args) {
 
         ConfigManager.load();
@@ -31,14 +31,13 @@ public class BibFormatter {
             createRunBat();
         }
 
-        StartUp startUp = new StartUp();
-
         if (args.length == 0){
+            StartUp startUp = new StartUp();
             SwingUtilities.invokeLater(startUp);
         } else if (args.length == 1){
-            LogManager.writeError("Error: Set debug to true/false!\nUsage: <file:bibFile> <boolean:debug> -c1 -c2 -c3 ...");
+            LogManager.writeError("Error: Set debug to true/false!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
         } else if (args.length == 2){
-            LogManager.writeError("Error: No commands found!\nUsage: <file:bibFile> <boolean:debug> -c1 -c2 -c3 ...");
+            LogManager.writeError("Error: No commands found!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
         } else {
             Bibliographie bib = BibLoader.load(new File(args[0]));
             StringBuilder temp = new StringBuilder();
@@ -119,9 +118,15 @@ public class BibFormatter {
                 "set debug=false\n" +
                 "set commands=\n" +
                 "rem ================= Readme =================\n" +
-                "rem Usage: <file:bibFile> <boolean:debug> -c1 -c2 -c3 ...\n" +
+                "rem Usage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn...\n" +
                 "rem Commands:\n" +
-                "rem capitaliseTitles: surrounds every uppercase character in the title entry with {}\n" +
+                "rem -capitalizeValue (key1) [keyn]\n" +
+                "rem -orderEntries [keyn | file]\n" +
+                "rem -formatMonth (number | name)\n" +
+                "rem -formatPages (single | double)\n" +
+                "rem -removeEntry (key1) [keyn]\n" +
+                "rem Example:\n" +
+                "rem commands=-capitalizeValue title author -orderEntries issn number url author title -formatMonth number -formatPages double -removeEntry url issn doi pages\n" +
                 "rem ==========================================\n" +
                 "set a=\"Usage: <file:bibFile> <boolean:debug> -c1 -c2 -c3 ...\"\n" +
                 "if [\"%~1\"]==[\"\"] (\n" +
@@ -143,14 +148,16 @@ public class BibFormatter {
                 ")\n" +
                 ":s2\n" +
                 "if \"%commands%\"==\"\" (\n" +
-                "\techo Error: No commands found!\n" +
+                "\techo Error: No commands found\n" +
                 "\techo %a%\n" +
                 "\tgoto stop\n" +
                 ")\n" +
                 "echo Commands: %commands%\n" +
                 "java -jar BibFormatter.jar %1 %debug% %commands%\n" +
+                "goto ende\n" +
                 ":stop\n" +
-                "pause";
+                "pause\n" +
+                ":ende";
         FileManager.exportFile(content,"./run.bat");
     }
 }

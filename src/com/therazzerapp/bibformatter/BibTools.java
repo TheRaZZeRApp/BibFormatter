@@ -19,6 +19,11 @@ import java.util.regex.Pattern;
  */
 public class BibTools {
 
+    /**
+     *
+     * @param bibliographie
+     * @param key
+     */
     public static void capitalizeValue(Bibliographie bibliographie, KeyType key){
 
         final String capEx = "(?<cap>[A-Z]+(?![^\\{]*\\}))";
@@ -49,6 +54,11 @@ public class BibTools {
         bibliographie.setEntrieList(entrieList);
     }
 
+    /**
+     *
+     * @param bibliographie
+     * @param name
+     */
     public static void formatMonth(Bibliographie bibliographie, boolean name){
         for (int i = 0; i < bibliographie.getEntrieList().size(); i++) {
             if (bibliographie.getEntrieList().get(i).getKeys().containsKey("month")){
@@ -62,6 +72,11 @@ public class BibTools {
         }
     }
 
+    /**
+     *
+     * @param bibliographie
+     * @param singleLine
+     */
     public static void formatPages(Bibliographie bibliographie, boolean singleLine){
         for (int i = 0; i < bibliographie.getEntrieList().size(); i++) {
             if (bibliographie.getEntrieList().get(i).getKeys().containsKey("pages")){
@@ -76,7 +91,7 @@ public class BibTools {
     }
 
     /**
-     * Orders every {@link Entry} in a {@link Bibliographie} by an entry order list specified in the config file.
+     * Orders every {@link Entry} in a {@link Bibliographie} by an entry order list specified in a String.
      * @param bibliographie
      * @param orderList
      * @return

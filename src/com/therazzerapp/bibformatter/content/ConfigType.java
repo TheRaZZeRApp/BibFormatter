@@ -14,7 +14,6 @@ public enum ConfigType {
     INDENTVALUECOLUMM("indentValueColumm","int"),
     WRITEEMPTYENTRIES("writeEmptyEntries","boolean");
 
-
     private final String name;
     private final String typ;
 

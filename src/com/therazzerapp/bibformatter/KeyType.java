@@ -63,6 +63,4 @@ public enum KeyType {
     public String toString() {
         return super.toString().toLowerCase().replaceAll("_","-");
     }
-
-
 }

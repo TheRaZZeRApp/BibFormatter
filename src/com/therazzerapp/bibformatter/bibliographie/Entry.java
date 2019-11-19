@@ -24,7 +24,7 @@ public class Entry {
         this.keys = keys;
     }
 
-    public String getRawEntry(boolean encloseNumerals){
+    public String getRawEntry(){
 
         String indent = "\t";
         if (ConfigManager.getConfigProperty(ConfigType.INDENTSTYLE).equals("spaces")){
@@ -42,7 +42,7 @@ public class Entry {
             if (stringStringEntry.getValue().equals("") && !(boolean) ConfigManager.getConfigProperty(ConfigType.WRITEEMPTYENTRIES)){
                 continue;
             }
-            if(stringStringEntry.getValue().matches("^[0-9]*$") && encloseNumerals){
+            if(stringStringEntry.getValue().matches("^[0-9]*$") && Boolean.getBoolean((String) ConfigManager.getConfigProperty(ConfigType.ENTRYORDER))){
                 sb.append(String.format(indent+"%-" + valueColumm +"s %s",stringStringEntry.getKey(),"= " + stringStringEntry.getValue() + ",\n"));
             } else {
                 sb.append(String.format(indent+"%-" + valueColumm +"s %s",stringStringEntry.getKey(),"= {" + stringStringEntry.getValue() + "},\n"));
@@ -51,10 +51,6 @@ public class Entry {
         sb.replace(sb.length()-2,sb.length()-1,"");
         sb.append("}\n");
         return sb.toString();
-    }
-
-    public String getRawEntry(){
-        return getRawEntry(true);
     }
 
     public String getValue(KeyType key){
