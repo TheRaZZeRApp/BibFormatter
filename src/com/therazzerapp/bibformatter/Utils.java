@@ -1,6 +1,7 @@
 package com.therazzerapp.bibformatter;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,5 +143,18 @@ public class Utils {
             tempMap.put(s,map.get(s));
         }
         return tempMap;
+    }
+
+    /**
+     * Convert any list object to a String array.
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T> String[] listToArray(List<T> list) {
+        String [] array = new String[list.size()];
+        for (int i = 0; i < array.length; i++)
+            array[i] = list.get(i).toString();
+        return array;
     }
 }

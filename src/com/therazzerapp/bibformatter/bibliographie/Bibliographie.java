@@ -32,18 +32,23 @@ public class Bibliographie {
 
     public void removeEntrie(Set<KeyType> entries){
         for (KeyType entry : entries) {
-            for (Entry entry1 : entrieList) {
-                if (entry1.getKeys().keySet().contains(entry.toString())){
-                    entry1.getKeys().remove(entry.toString());
-                }
-            }
+            removeEntrie(entry);
         }
     }
 
     public void removeEntrie(KeyType key){
-        Set<KeyType> keys = new HashSet<>();
-        keys.add(key);
-        removeEntrie(keys);
+        for (Entry entry1 : entrieList) {
+            if (entry1.getKeys().keySet().contains(key.toString())){
+                entry1.getKeys().remove(key.toString());
+            }
+        }
+    }
+
+    public void removeEntrie(String keys){
+        String[] values = keys.split(" ");
+        for (String value : values) {
+            removeEntrie(KeyType.valueOf(value.toUpperCase()));
+        }
     }
 
     public void replaceValue(KeyType key, String match, String replacement){

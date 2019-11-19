@@ -5,14 +5,14 @@ import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.gui.StartUp;
-import com.therazzerapp.bibformatter.manager.ConfigManager;
-import com.therazzerapp.bibformatter.manager.FileManager;
-import com.therazzerapp.bibformatter.manager.LogManager;
-import com.therazzerapp.bibformatter.manager.SpecialCharacterManager;
+import com.therazzerapp.bibformatter.manager.*;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,11 +23,12 @@ import java.util.regex.Pattern;
  * @since <version>
  */
 public class BibFormatter {
-    public static final String version = "0.4.2";
+    public static final String version = "0.4.3";
     public static void main(String[] args) {
 
         ConfigManager.load();
         SpecialCharacterManager.initiate();
+        RequiredFieldsManager.load();
 
         if(!new File("./run.bat").exists()){
             StringBuilder sb = new StringBuilder();
@@ -38,8 +39,8 @@ public class BibFormatter {
         }
 
         if (args.length == 0){
-            StartUp startUp = new StartUp();
-            SwingUtilities.invokeLater(startUp);
+            //StartUp startUp = new StartUp();
+            //SwingUtilities.invokeLater(startUp);
         } else if (args.length == 1){
             LogManager.writeError("Error: Set debug to true/false!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
         } else if (args.length == 2){
@@ -62,9 +63,14 @@ public class BibFormatter {
         matcher = Pattern.compile("-capitalizeValue (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             try {
-                String[] values = matcher.group("param1").split(" ");
-                for (String value : values) {
-                    BibTools.capitalizeValue(bib, KeyType.valueOf(value.toUpperCase()));
+                if (new File(matcher.group("param1")).exists()){
+                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
+                        BibTools.capitalizeValue(bib, KeyType.valueOf(param1.toUpperCase()));
+                    }
+                } else {
+                    for (String value : matcher.group("param1").split(" ")) {
+                        BibTools.capitalizeValue(bib, KeyType.valueOf(value.toUpperCase()));
+                    }
                 }
             } catch (IllegalArgumentException ex){
                 LogManager.writeError("Error: \"" + matcher.group("param1") + "\" is not a valid capitalization parameter!",bib.getName()+"_");
@@ -109,9 +115,12 @@ public class BibFormatter {
                 LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
                 return null;
             } else {
-                String[] values = matcher.group("param1").split(" ");
-                for (String value : values) {
-                    bib.removeEntrie(KeyType.valueOf(value.toUpperCase()));
+                if (new File(matcher.group("param1")).exists()){
+                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
+                        bib.removeEntrie(param1);
+                    }
+                } else {
+                    bib.removeEntrie(matcher.group("param1"));
                 }
             }
         }
@@ -121,9 +130,14 @@ public class BibFormatter {
                 LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
                 return null;
             } else {
-                String[] values = matcher.group("param1").split(" ");
-                for (String value : values) {
-                    BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()));
+                if (new File(matcher.group("param1")).exists()){
+                    for (String value : FileManager.getFileContent(new File(matcher.group("param1")))) {
+                        BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()));
+                    }
+                } else {
+                    for (String value : matcher.group("param1").split(" ")) {
+                        BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()));
+                    }
                 }
             }
         }
