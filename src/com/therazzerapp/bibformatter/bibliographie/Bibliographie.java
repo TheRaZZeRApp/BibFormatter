@@ -2,7 +2,9 @@ package com.therazzerapp.bibformatter.bibliographie;
 
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
+import com.therazzerapp.bibformatter.Utils;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -55,14 +57,44 @@ public class Bibliographie {
      * //todo test
      * @param key
      * @param match
-     * @param replacement
+     * @param value
      */
-    public void replaceValue(KeyType key, String match, String replacement){
+    public void replaceValue(TypeType type, KeyType key, String match, String value){
+
+    }
+
+    /**
+     *
+     * @param types
+     * @param keys
+     * @param match
+     * @param value
+     */
+    public void replaceValue(Set<TypeType> types, Set<KeyType> keys, String match, String value){
+        match = Utils.replaceLast(match," ","");
+        value = Utils.replaceLast(value," ", "");
         for (Entry entry : entrieList) {
-            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                if (stringStringEntry.getKey().equals(key.toString()) && stringStringEntry.getValue().equals(match)){
-                    entrieList.get(entrieList.indexOf(entry)).getKeys().replace(key.toString(),replacement);
+            if (types.isEmpty() || types.contains(TypeType.valueOf(entry.getType().toUpperCase()))){
+                for (String s : entry.getKeys().keySet()) {
+                    if (keys.isEmpty() || keys.contains(KeyType.valueOf(s.toUpperCase()))){
+                        if (match.isEmpty()|| entry.getKeys().get(s).matches(match)){
+                            entrieList.get(entrieList.indexOf(entry)).getKeys().replace(s,value);
+                        }
+                    }
                 }
+            }
+        }
+    }
+
+    /**
+     * Overrides every value in every key of every type
+     * @param value
+     */
+    public void setAllValues(String value){
+        value = Utils.replaceLast(value," ", "");
+        for (Entry entry : entrieList) {
+            for (String s : entry.getKeys().keySet()) {
+                entrieList.get(entrieList.indexOf(entry)).getKeys().replace(s,value);
             }
         }
     }

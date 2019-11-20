@@ -11,10 +11,7 @@ import javafx.util.Pair;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -98,6 +95,82 @@ public class BibFormatter {
                         bib.replaceKey(KeyType.valueOf(commandLines[i].toUpperCase()),KeyType.valueOf(commandLines[i+1].toUpperCase()));
                     } else {
                         bib.replaceKey(KeyType.valueOf(commandLines[i].toUpperCase()),KeyType.valueOf(commandLines[i+1].toUpperCase()),currentType);
+                    }
+                }
+            }
+        }
+        matcher = Pattern.compile("(-setValue|-sv) (?<param1>[^-]{0,})").matcher(commands);
+        if (matcher.find()){
+            if (matcher.group("param1").equals("") || !matcher.group("param1").contains("+value")){
+                LogManager.writeError("Error: No parameters specified!",bib.getName()+"_");
+                return null;
+            } else {
+                String parameters;
+                if (new File(matcher.group("param1")).exists()){
+                    StringBuilder sb = new StringBuilder();
+                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
+                        sb.append(param1).append(" ");
+                    }
+                    parameters = sb.toString();
+                } else {
+                    parameters = matcher.group("param1");
+                }
+
+                Set<TypeType> currentTypes = new HashSet<>();           //0
+                Set<KeyType> currentKeys = new HashSet<>();             //1
+                StringBuilder currentMatch = new StringBuilder();       //2
+                StringBuilder currentReplacement = new StringBuilder(); //3
+
+                String[] commandLines = parameters.split(" ");
+
+                int currentPosition = 0;
+
+                for (int i = 0; i < commandLines.length; i++) {
+
+                    switch (commandLines[i]){
+                        case "+type":
+                            currentPosition = 0;
+                            currentTypes.clear();
+                            break;
+                        case "+key":
+                            currentPosition = 1;
+                            currentKeys.clear();
+                            break;
+                        case "+match":
+                            currentPosition = 2;
+                            currentMatch = new StringBuilder();
+                            break;
+                        case "+value":
+                            currentPosition = 3;
+                            currentReplacement = new StringBuilder();
+                            break;
+                        default:
+                            switch (currentPosition){
+                                case 0:
+                                    currentTypes.add(TypeType.valueOf(commandLines[i].toUpperCase()));
+                                    break;
+                                case 1:
+                                    currentKeys.add(KeyType.valueOf(commandLines[i].toUpperCase()));
+                                    break;
+                                case 2:
+                                    if(new File(commandLines[i]).exists()){
+                                        currentMatch.append(FileManager.getFileContent(new File(commandLines[i])).get(0));
+                                        currentMatch.append(" ");
+                                        break;
+                                    } else {
+                                        currentMatch.append(commandLines[i]);
+                                        currentMatch.append(" ");
+                                        break;
+                                    }
+                                case 3:
+                                    currentReplacement.append(commandLines[i]);
+                                    currentReplacement.append(" ");
+                                    break;
+                            }
+                    }
+                    if (i == commandLines.length-1 || (currentPosition == 3 && commandLines[i+1].startsWith("+"))){
+                        bib.replaceValue(currentTypes,currentKeys,currentMatch.toString(),currentReplacement.toString());
+
                     }
                 }
             }

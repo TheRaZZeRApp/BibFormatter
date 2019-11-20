@@ -11,12 +11,13 @@
 <li>Save Special Characters</li>
 <li>Multi special character map support</li>
 <li>Replace Key</li>
+<li>Replace Value/Set Value</li>
 
 ## Planned Features
 
+<li>Create Key+Value</li>
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
-<li>Replace Value</li>
 <li>Format URLs</li>
 <li>Check for required fields</li>
 <li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
@@ -30,6 +31,8 @@
 <li>Format DOI</li>
 <li>RIS to BibTeX</li>
 <li>HTML to BibTeX</li>
+<li>Format into a canonical form</li>
+
 
 ## Requirements
 
@@ -122,6 +125,20 @@ Example:
 First it will replace every location key in any type with an adress key and than
 replaces every subtitle key inside a book type with a title key.
 It also replaces every issn key in an article with an isbn key. 
+```
+```sh
+--setValue {<file>|[+type {t1} ... [tn]] [+key {k1} ... [kn]] [+match {<file>|{match}}] +value {value}}
+-sv
+You can specifiy a file which contains a list of commands or add them directly.
+If no type (i.e. book) is specified the changes will affect every type (until a type has specified).
+If no key (i.e. author) is specified the changes will affect every key (until a type has specified).  
+You can list unlimited types/keys.
+If no matching string is specified the changes will effect every value.
+Info: if you want to escape characters when using regex matchin, use a file (i.e. +match C:/regexcode.txt)
+Set the specified value of a specified key in a specified typ to new value. 
+Example:
+-sv +type book article +key author +match Noam Chomsky +value Chomsky, N.
+
 ```
 
 ## Release History
