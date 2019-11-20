@@ -13,7 +13,6 @@
 
 ## Planned Features
 
-<li>Character Map Config File</li>
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
 <li>Replace Value</li>
@@ -113,6 +112,9 @@ Replaces every special character with the correct latex code.
 
 ## Release History
 
+* 0.6.5
+    * Add: Moved special character regEx to file
+    * Fix: Special character map mismatch
 * 0.6.4
     * Add: Multi special character map support
     * Fix: Error if no bib file found

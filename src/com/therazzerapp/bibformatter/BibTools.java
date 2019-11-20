@@ -108,7 +108,7 @@ public class BibTools {
     }
 
     /**
-     * Needs to be rewritten!
+     * Replaces every special character in a specified key by another symbol linked in the character map specified.
      * @param bibliographie
      * @param key
      */
@@ -120,9 +120,10 @@ public class BibTools {
                 String temp = stringStringEntry.getValue();
                 if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
                     for (Map.Entry<String, String> characterMapEntry : SpecialCharacterManager.getCharacterMap(characterMap).getCharacterMap().entrySet()) {
-                        Matcher m = Pattern.compile(characterMapEntry.getKey()).matcher(stringStringEntry.getValue());
+                        String pattern = SpecialCharacterManager.getCharacterMap(characterMap).getRegExPattern().replaceAll("%VALUE%",characterMapEntry.getKey());
+                        Matcher m = Pattern.compile(pattern).matcher(stringStringEntry.getValue());
                         while (m.find()){
-                            temp = Utils.replaceGroup(characterMapEntry.getKey(),temp,2,characterMapEntry.getValue());
+                            temp = Utils.replaceGroup(pattern,temp,2,characterMapEntry.getValue());
                         }
                     }
                 }

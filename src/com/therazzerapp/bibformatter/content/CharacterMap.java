@@ -15,17 +15,20 @@ import java.util.Map;
 public class CharacterMap {
     private File file;
     private String name;
+    private String regExPattern;
     private Map<String, String> characterMap;
 
     public CharacterMap(File file) {
         characterMap = SpecialCharacterLoader.load(file);
         name = file.getName().replaceAll(".txt","").toLowerCase();
+        regExPattern = SpecialCharacterLoader.loadRegExPatten(file);
     }
 
-    public CharacterMap(String name, Map<String, String> characterMap) {
+    public CharacterMap(String name, Map<String, String> characterMap, String regExPattern) {
         this.name = name;
         this.characterMap = characterMap;
         this.file = null;
+        this.regExPattern = regExPattern;
     }
 
     /**
@@ -52,5 +55,14 @@ public class CharacterMap {
      */
     public Map<String, String> getCharacterMap() {
         return characterMap;
+    }
+
+    /**
+     * Returns the regEx pattern.
+     * %VALUE% inside the pattern will be replaced with the special character.
+     * @return
+     */
+    public String getRegExPattern() {
+        return regExPattern;
     }
 }
