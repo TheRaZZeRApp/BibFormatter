@@ -8,10 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * <description>
+ * Represents the entry of a bib file. Containing the type (i.e. book), the BibKey (i.e. chomsky:1990a)
+ * and every entry (i.e. title/author/year)
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since 0.0.0
  */
 public class Entry {
     private String type;
@@ -24,6 +25,10 @@ public class Entry {
         this.keys = keys;
     }
 
+    /**
+     * Returns an entry formatted in the way its saved in a bib file.
+     * @return
+     */
     public String getRawEntry(){
 
         String indent = "\t";
@@ -53,6 +58,11 @@ public class Entry {
         return sb.toString();
     }
 
+    /**
+     * Returns the value of a {@link KeyType} in the current entry.
+     * @param key
+     * @return
+     */
     public String getValue(KeyType key){
         for (Map.Entry<String, String> stringStringEntry : keys.entrySet()) {
             if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
@@ -62,14 +72,26 @@ public class Entry {
         return "null";
     }
 
+    /**
+     * Returns the type of the current Entry i.e. article
+     * @return
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Returns the BibKey of the current entry i.e. chomsky:1990a
+     * @return
+     */
     public String getBibtexkey() {
         return bibtexkey;
     }
 
+    /**
+     * Returns every key.
+     * @return
+     */
     public LinkedHashMap<String,String> getKeys() {
         return keys;
     }

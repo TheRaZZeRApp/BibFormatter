@@ -3,7 +3,6 @@ package com.therazzerapp.bibformatter.content.saver;
 import com.therazzerapp.bibformatter.content.CharacterMap;
 import com.therazzerapp.bibformatter.manager.FileManager;
 
-import java.util.Map;
 
 /**
  * <description>

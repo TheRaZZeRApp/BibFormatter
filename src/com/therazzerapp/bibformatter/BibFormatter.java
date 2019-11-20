@@ -10,10 +10,7 @@ import com.therazzerapp.bibformatter.manager.*;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +18,7 @@ import java.util.regex.Pattern;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since 0.0.0
  */
 public class BibFormatter {
     public static final String version = "0.6.4";

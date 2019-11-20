@@ -2,7 +2,6 @@ package com.therazzerapp.bibformatter.bibliographie;
 
 import com.therazzerapp.bibformatter.KeyType;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +50,12 @@ public class Bibliographie {
         }
     }
 
+    /**
+     * //todo test
+     * @param key
+     * @param match
+     * @param replacement
+     */
     public void replaceValue(KeyType key, String match, String replacement){
         for (Entry entry : entrieList) {
             for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
@@ -61,6 +66,12 @@ public class Bibliographie {
         }
     }
 
+    /**
+     * //todo Test
+     * @param key
+     * @param replacement
+     * @param type
+     */
     public void replaceKey(KeyType key, KeyType replacement, String type){
         for (Entry entry : entrieList) {
             if ((type == null || entry.getType().equalsIgnoreCase(type)) && entry.getKeys().containsKey(key.toString()) && !entry.getKeys().containsKey(replacement.toString())){
@@ -71,6 +82,11 @@ public class Bibliographie {
         }
     }
 
+    /**
+     * //todo test
+     * @param key
+     * @param replacement
+     */
     public void replaceKey(KeyType key, KeyType replacement){
         replaceKey(key,replacement,null);
     }

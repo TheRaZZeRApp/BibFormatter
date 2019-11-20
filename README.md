@@ -102,10 +102,11 @@ You can specifiy a file which contains a list of fields or list every field as p
 Removes every entry specified
 ```
 ```sh
---saveSpecialCharacters {[+characterMap] <file>|{key1} <key2> <keyn>} ...
+--saveSpecialCharacters {[+characterMap <characterMap>] <file>|{key1} <key2> <keyn>} ...
 -ss
 You can specifiy a file which contains a list of fields or list every field as parameter.
 If no special character map is specified the standart one is picked (see config).
+Character map needs to be in the Data folder saved as txt (UTF-8)
 Replaces every special character with the correct latex code.
 ```
 
