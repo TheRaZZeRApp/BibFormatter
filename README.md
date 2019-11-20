@@ -10,6 +10,27 @@
 <li>Remove Entries</li>
 <li>Save Special Characters</li>
 
+## Planned Features
+
+<li>Complete Debug</li>
+<li>Info/Error Message System</li>
+<li>Replace Value</li>
+<li>Replace Key</li>
+<li>Format URLs</li>
+<li>Check for required fields</li>
+<li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
+<li>Create bib from aux file</li>
+<li>Create bib from bcf file</li>
+<li>Bib comment section</li>
+<li>Multi special character map support</li>
+<li>Generate HTML info file</li>
+<li>Format Date</li>
+<li>Format Authors</li>
+<li>Ordinals to LaTeX superscript</li>
+<li>Format DOI</li>
+<li>RIS to BibTeX</li>
+<li>HTML to BibTeX</li>
+
 ## Requirements
 
 You need Java to run this program.
@@ -36,42 +57,53 @@ edit run.bat
 ```
 
 Required Parameters:
-<li>bibFile: Specifie a .bib file path. i.e. "C:\Users\Computer\Documents\test.bib"</li>
-<li>debug: Set to true or false if you want to debug the output</li>
-<br>
+```sh
+<bibFile>
+Specifie a .bib file path. i.e. "C:\Users\Computer\Documents\test.bib"
+```
+```sh
+{true|false}
+Set to true or false if you want to debug the output
+```
 
 Optional Parameters:
 ```sh
--capitalizeValue [<file>|{key1} <key2> <keyn>] ...
+--capitalizeValue [<file>|{key1} <key2> <keyn>] ...
+-cv
 You can specifiy a file which contains a list of fields or list every field as parameter.
 Parameter represent fields i.e. title author book ...
 Encloses every uppercase letter in the specified fields (This i A test -> {T}his is {A} test). 
 ```
 ```sh
--orderEntries [<file>|{key1} <key2> <keyn>] ...
-If no parameter is specified the standart order listed in the config file is use.
+--orderEntries [<file>|{key1} <key2> <keyn>] ...
+-oe
+If no parameter is specified the standart order listed in the config file is used.
 You can specifiy a file which contains a list of fields or list every field as parameter.
 Orders every entry in a bib file by a given list of fields.
 ```
 ```sh
--formatMonth [number|name]
+--formatMonth [number|name]
+-fm
 If no parameter is specified the standart format is by name.
 You can specifiy the format style i.e. 07 or jul
 Formats every month value into the described format.
 ```
 ```sh
--formatPages [single|double]
+--formatPages [single|double]
+-fp
 If no parameter is specified the standart format is double.
 You can specifiy the format style i.e. - or -- between page numbers
 Formats every page value into the described format.
 ```
 ```sh
--removeEntry [<file>|{key1} <key2> <keyn>] ...
+--removeEntry [<file>|{key1} <key2> <keyn>] ...
+-re
 You can specifiy a file which contains a list of fields or list every field as parameter.
 Removes every entry specified
 ```
 ```sh
--saveSpecialCharacters {[+characterMap] <file>|{key1} <key2> <keyn>} ...
+--saveSpecialCharacters {[+characterMap] <file>|{key1} <key2> <keyn>} ...
+-ss
 You can specifiy a file which contains a list of fields or list every field as parameter.
 If no special character map is specified the standart one is picked (see config).
 Replaces every special character with the correct latex code.

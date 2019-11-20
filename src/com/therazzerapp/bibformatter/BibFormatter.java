@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * @since <version>
  */
 public class BibFormatter {
-    public static final String version = "0.4.3";
+    public static final String version = "0.5.3";
     public static void main(String[] args) {
 
         ConfigManager.load();
@@ -60,7 +60,7 @@ public class BibFormatter {
 
     private static Bibliographie runCommands(Bibliographie bib, String commands){
         Matcher matcher;
-        matcher = Pattern.compile("-capitalizeValue (?<param1>[^-]{0,})").matcher(commands);
+        matcher = Pattern.compile("(-capitalizeValue|-cv) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             try {
                 if (new File(matcher.group("param1")).exists()){
@@ -77,7 +77,7 @@ public class BibFormatter {
                 return null;
             }
         }
-        matcher = Pattern.compile("-orderEntries (?<param1>[^-]{0,})").matcher(commands);
+        matcher = Pattern.compile("(-orderEntries|-oe) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("")){
                 BibTools.orderEntries(bib, ConfigManager.getConfigProperty(ConfigType.ENTRYORDER).toString());
@@ -93,7 +93,7 @@ public class BibFormatter {
                 }
             }
         }
-        matcher = Pattern.compile("-formatMonth (?<param1>[^ ]{0,})").matcher(commands);
+        matcher = Pattern.compile("(-formatMonth|-fm) (?<param1>[^ ]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("number")){
                 BibTools.formatMonth(bib, false);
@@ -101,7 +101,7 @@ public class BibFormatter {
                 BibTools.formatMonth(bib, true);
             }
         }
-        matcher = Pattern.compile("-formatPages (?<param1>[^ ]{0,})").matcher(commands);
+        matcher = Pattern.compile("(-formatPages|-fp) (?<param1>[^ ]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("single")){
                 BibTools.formatPages(bib, true);
@@ -109,7 +109,7 @@ public class BibFormatter {
                 BibTools.formatPages(bib, false);
             }
         }
-        matcher = Pattern.compile("-removeEntry (?<param1>[^-]{0,})").matcher(commands);
+        matcher = Pattern.compile("(-removeEntry|-re) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("")){
                 LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
@@ -124,7 +124,7 @@ public class BibFormatter {
                 }
             }
         }
-        matcher = Pattern.compile("-saveSpecialCharacters (?<param1>[^-]{0,})").matcher(commands);
+        matcher = Pattern.compile("(-saveSpecialCharacters|-ss) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("")){
                 LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
