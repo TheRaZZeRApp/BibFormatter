@@ -9,6 +9,7 @@
 <li>Format Pages</li>
 <li>Remove Entries</li>
 <li>Save Special Characters</li>
+<li>Multi special character map support</li>
 
 ## Planned Features
 
@@ -22,7 +23,6 @@
 <li>Create bib from aux file</li>
 <li>Create bib from bcf file</li>
 <li>Bib comment section</li>
-<li>Multi special character map support</li>
 <li>Generate HTML info file</li>
 <li>Format Date</li>
 <li>Format Authors</li>
@@ -111,6 +111,9 @@ Replaces every special character with the correct latex code.
 
 ## Release History
 
+* 0.6.4
+    * Add: Multi special character map support
+    * Fix: Error if no bib file found
 * 0.4.3
     * Add: Required Fields generator
 * 0.4.2

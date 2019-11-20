@@ -1,6 +1,7 @@
 package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.content.CharacterMap;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
  * @since <version>
  */
 public class BibFormatter {
-    public static final String version = "0.5.3";
+    public static final String version = "0.6.4";
     public static void main(String[] args) {
 
         ConfigManager.load();
@@ -46,6 +47,11 @@ public class BibFormatter {
         } else if (args.length == 2){
             LogManager.writeError("Error: No commands found!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
         } else {
+            File file = new File(args[0]);
+            if(!file.exists()){
+                LogManager.writeError("Error: Bib file not found!");
+                System.exit(0);
+            }
             Bibliographie bib = BibLoader.load(new File(args[0]));
             StringBuilder temp = new StringBuilder();
             for (String s : Arrays.copyOfRange(args, 2, args.length)) {
@@ -56,6 +62,10 @@ public class BibFormatter {
                 BibSaver.save(bib,"./" + bib.getName() + "_formatted.bib");
             }
         }
+        for (CharacterMap characterMap : SpecialCharacterManager.getCharacterMaps()) {
+            System.out.println(characterMap.getName());
+        }
+
     }
 
     private static Bibliographie runCommands(Bibliographie bib, String commands){
@@ -126,17 +136,25 @@ public class BibFormatter {
         }
         matcher = Pattern.compile("(-saveSpecialCharacters|-ss) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
-            if (matcher.group("param1").equals("")){
+            String characterMap = (String) ConfigManager.getConfigProperty(ConfigType.DEFAULTCHARACTERMAP);
+            String parameter = matcher.group("param1");
+            Matcher cmatch = Pattern.compile("\\+characterMap (?<map>[^ ]*)").matcher(parameter);
+            if (cmatch.find()){
+                characterMap = cmatch.group("map");
+                SpecialCharacterManager.load(new File("./Data/" + characterMap +".txt"));
+                parameter = parameter.replaceAll("\\+characterMap [^ ]* ","");
+            }
+            if (parameter.equals("")){
                 LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
                 return null;
             } else {
-                if (new File(matcher.group("param1")).exists()){
-                    for (String value : FileManager.getFileContent(new File(matcher.group("param1")))) {
-                        BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()));
+                if (new File(parameter).exists()){
+                    for (String value : FileManager.getFileContent(new File(parameter))) {
+                        BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()),characterMap);
                     }
                 } else {
-                    for (String value : matcher.group("param1").split(" ")) {
-                        BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()));
+                    for (String value : parameter.split(" ")) {
+                        BibTools.saveSpecialCharacters(bib,KeyType.valueOf(value.toUpperCase()),characterMap);
                     }
                 }
             }

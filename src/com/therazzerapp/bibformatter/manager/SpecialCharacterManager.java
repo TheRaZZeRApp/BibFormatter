@@ -1,5 +1,6 @@
 package com.therazzerapp.bibformatter.manager;
 
+import com.therazzerapp.bibformatter.content.CharacterMap;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.content.ContentObserver;
 import com.therazzerapp.bibformatter.content.loader.SpecialCharacterLoader;
@@ -7,7 +8,9 @@ import com.therazzerapp.bibformatter.content.saver.SpecialCharacterSaver;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <description>
@@ -16,15 +19,19 @@ import java.util.Map;
  * @since <version>
  */
 public class SpecialCharacterManager {
-    private static Map<String, String> characterMap = new HashMap<>();
+    private static Set<CharacterMap> characterMaps = new HashSet<>();
 
     public static void load(File file){
-        characterMap = SpecialCharacterLoader.load(file);
+        characterMaps.add(new CharacterMap(file));
         ContentObserver.update(2);
     }
 
-    public static void save(String filename){
-        SpecialCharacterSaver.save(characterMap, filename);
+    public static void save(String filename, String characterMapName){
+        for (CharacterMap map : characterMaps) {
+            if (map.getName().equalsIgnoreCase(characterMapName)){
+                SpecialCharacterSaver.save(map,filename);
+            }
+        }
         ContentObserver.update(2);
     }
 
@@ -41,16 +48,16 @@ public class SpecialCharacterManager {
         }
     }
 
-    public static Map<String, String> getCharacterMap() {
-        return characterMap;
+    public static CharacterMap getCharacterMap(String characterMapName) {
+        for (CharacterMap map : characterMaps) {
+            if (map.getName().equalsIgnoreCase(characterMapName)){
+                return map;
+            }
+        }
+        return null;
     }
 
-    public static Object getConfigProperty(String specialCharacter){
-        return characterMap.get(specialCharacter);
-    }
-
-    public static void setConfigProperty(String specialCharacter, String replacement, String filename){
-        characterMap.put(specialCharacter,replacement);
-        save(filename);
+    public static Set<CharacterMap> getCharacterMaps() {
+        return characterMaps;
     }
 }

@@ -112,17 +112,17 @@ public class BibTools {
      * @param bibliographie
      * @param key
      */
-    public static void saveSpecialCharacters(Bibliographie bibliographie, KeyType key){
+    public static void saveSpecialCharacters(Bibliographie bibliographie, KeyType key, String characterMap){
         LinkedList<Entry> entrieList = new LinkedList<>();
         for (Entry entry : bibliographie.getEntrieList()) {
             LinkedHashMap<String,String> keys = new LinkedHashMap<>();
             for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
                 String temp = stringStringEntry.getValue();
                 if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
-                    for (Map.Entry<String, String> characterMap : SpecialCharacterManager.getCharacterMap().entrySet()) {
-                        Matcher m = Pattern.compile(characterMap.getKey()).matcher(stringStringEntry.getValue());
+                    for (Map.Entry<String, String> characterMapEntry : SpecialCharacterManager.getCharacterMap(characterMap).getCharacterMap().entrySet()) {
+                        Matcher m = Pattern.compile(characterMapEntry.getKey()).matcher(stringStringEntry.getValue());
                         while (m.find()){
-                            temp = Utils.replaceGroup(characterMap.getKey(),temp,2,characterMap.getValue());
+                            temp = Utils.replaceGroup(characterMapEntry.getKey(),temp,2,characterMapEntry.getValue());
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.therazzerapp.bibformatter.content.saver;
 
+import com.therazzerapp.bibformatter.content.CharacterMap;
 import com.therazzerapp.bibformatter.manager.FileManager;
 
 import java.util.Map;
@@ -11,10 +12,10 @@ import java.util.Map;
  * @since <version>
  */
 public class SpecialCharacterSaver {
-    public static void save(Map<String, String> characterMap, String filename){
+    public static void save(CharacterMap characterMap, String filename){
         StringBuilder sb = new StringBuilder();
-        for (String s : characterMap.keySet()) {
-            sb.append(s).append("\n").append(characterMap.get(s)).append("\n");
+        for (String s : characterMap.getCharacterMap().keySet()) {
+            sb.append(s).append("\n").append(characterMap.getCharacterMap().get(s)).append("\n");
         }
         FileManager.exportFile(sb.toString(),"./Data/"+filename);
     }
