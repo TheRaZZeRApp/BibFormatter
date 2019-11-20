@@ -13,7 +13,7 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class ConfigSaver {
     public static void save(Map<ConfigType, Object> configMap){

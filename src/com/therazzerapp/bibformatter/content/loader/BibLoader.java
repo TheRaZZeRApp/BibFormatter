@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class BibLoader {
     public static Bibliographie load(File file){

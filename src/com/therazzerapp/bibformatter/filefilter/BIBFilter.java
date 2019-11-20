@@ -7,7 +7,7 @@ import java.io.File;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class BIBFilter extends FileFilter {
     @Override

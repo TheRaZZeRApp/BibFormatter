@@ -12,7 +12,7 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class ConfigManager {
     private static Map<ConfigType, Object> configMap = new HashMap<>();

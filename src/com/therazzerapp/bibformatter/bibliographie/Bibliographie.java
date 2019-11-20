@@ -10,7 +10,7 @@ import java.util.Set;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class Bibliographie {
     private LinkedList<Entry> entrieList;

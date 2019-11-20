@@ -8,7 +8,7 @@ import com.therazzerapp.bibformatter.manager.FileManager;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class SpecialCharacterSaver {
     public static void save(CharacterMap characterMap, String filename){

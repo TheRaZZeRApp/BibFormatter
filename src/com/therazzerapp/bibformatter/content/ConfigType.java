@@ -4,7 +4,7 @@ package com.therazzerapp.bibformatter.content;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public enum ConfigType {
     ENTRYORDER("entryOrder", "string"),

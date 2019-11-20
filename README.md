@@ -13,6 +13,7 @@
 
 ## Planned Features
 
+<li>Character Map Config File</li>
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
 <li>Replace Value</li>

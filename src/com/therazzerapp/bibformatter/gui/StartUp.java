@@ -15,7 +15,7 @@ import javax.swing.event.ListSelectionListener;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class StartUp implements Runnable{
     private JPanel mainPanel;
@@ -83,7 +83,7 @@ public class StartUp implements Runnable{
         frame.setResizable(true);
         frame.setContentPane(mainPanel);
         frame.setSize(900,600);
-        frame.setTitle("BibFormatter " + BibFormatter.version);
+        frame.setTitle("BibFormatter " + BibFormatter.VERSION);
         frame.setLocationRelativeTo(null);
 
         tabbedPane2.setEnabled(false);

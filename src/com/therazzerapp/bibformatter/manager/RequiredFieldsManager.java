@@ -13,7 +13,7 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since <VERSION>
  */
 public class RequiredFieldsManager {
     private static Map<String, ArrayList<KeyType>> requiredFieldsMap = new HashMap<>();
