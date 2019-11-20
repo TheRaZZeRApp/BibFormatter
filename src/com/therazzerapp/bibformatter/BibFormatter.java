@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * @since 0.0.0
  */
 public class BibFormatter {
-    public static final String VERSION = "0.6.5";
+    public static final String VERSION = "0.7.6";
     public static void main(String[] args) {
 
         ConfigManager.load();
@@ -99,6 +99,7 @@ public class BibFormatter {
                 }
             }
         }
+        //Extreme messy! Need to clean this up and make standart for every command in this style.
         matcher = Pattern.compile("(-setValue|-sv) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("") || !matcher.group("param1").contains("+value")){
@@ -147,14 +148,30 @@ public class BibFormatter {
                         default:
                             switch (currentPosition){
                                 case 0:
-                                    currentTypes.add(TypeType.valueOf(commandLines[i].toUpperCase()));
+                                    if(new File(commandLines[i]).exists()){
+                                        for (String s : FileManager.getFileContent(new File(commandLines[1]))) {
+                                            for (String s1 : s.split(" ")) {
+                                                currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
+                                            }
+                                        }
+                                    } else {
+                                        currentTypes.add(TypeType.valueOf(commandLines[i].toUpperCase()));
+                                    }
                                     break;
                                 case 1:
-                                    currentKeys.add(KeyType.valueOf(commandLines[i].toUpperCase()));
+                                    if(new File(commandLines[i]).exists()){
+                                        for (String s : FileManager.getFileContent(new File(commandLines[1]))) {
+                                            for (String s1 : s.split(" ")) {
+                                                currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
+                                            }
+                                        }
+                                    } else {
+                                        currentKeys.add(KeyType.valueOf(commandLines[i].toUpperCase()));
+                                    }
                                     break;
                                 case 2:
                                     if(new File(commandLines[i]).exists()){
-                                        currentMatch.append(FileManager.getFileContent(new File(commandLines[i])).get(0));
+                                        currentMatch.append(Utils.getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
                                         currentMatch.append(" ");
                                         break;
                                     } else {
@@ -163,9 +180,16 @@ public class BibFormatter {
                                         break;
                                     }
                                 case 3:
-                                    currentReplacement.append(commandLines[i]);
-                                    currentReplacement.append(" ");
-                                    break;
+                                    if(new File(commandLines[i]).exists()){
+                                        currentReplacement.append(Utils.getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
+                                        currentReplacement.append(" ");
+                                        break;
+                                    } else {
+                                        currentReplacement.append(commandLines[i]);
+                                        currentReplacement.append(" ");
+                                        break;
+                                    }
+
                             }
                     }
                     if (i == commandLines.length-1 || (currentPosition == 3 && commandLines[i+1].startsWith("+"))){

@@ -127,14 +127,15 @@ replaces every subtitle key inside a book type with a title key.
 It also replaces every issn key in an article with an isbn key. 
 ```
 ```sh
---setValue {<file>|[+type {t1} ... [tn]] [+key {k1} ... [kn]] [+match {<file>|{match}}] +value {value}}
+--setValue {<file>|[+type {<file>|{t1} ... [tn]}] [+key {<file>|{k1} ... [kn]}] [+match {<file>|{match}}] +value {<file>|{value}}}
 -sv
 You can specifiy a file which contains a list of commands or add them directly.
 If no type (i.e. book) is specified the changes will affect every type (until a type has specified).
 If no key (i.e. author) is specified the changes will affect every key (until a type has specified).  
-You can list unlimited types/keys.
+You can list unlimited types/keys. 
 If no matching string is specified the changes will effect every value.
-Info: if you want to escape characters when using regex matchin, use a file (i.e. +match C:/regexcode.txt)
+Info: if you want to escape special characters when using regex matching, use a file (i.e. +match C:/regexcode.txt)
+match and value arguements can contain spaces.
 Set the specified value of a specified key in a specified typ to new value. 
 Example:
 -sv +type book article +key author +match Noam Chomsky +value Chomsky, N.
@@ -143,6 +144,8 @@ Example:
 
 ## Release History
 
+* 0.7.6
+    * Add: Replace value option
 * 0.7.5
     * Add: Replace key option
 * 0.6.5

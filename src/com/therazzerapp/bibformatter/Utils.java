@@ -1,8 +1,6 @@
 package com.therazzerapp.bibformatter;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,6 +141,20 @@ public class Utils {
             tempMap.put(s,map.get(s));
         }
         return tempMap;
+    }
+
+    /**
+     * Returns a Collection as a String with a space between every appended String.
+     * @param set
+     * @return
+     */
+    public static String getCollectionAsString(Collection<String> set){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : set) {
+            stringBuilder.append(s);
+            stringBuilder.append(" ");
+        }
+        return stringBuilder.toString();
     }
 
     /**
