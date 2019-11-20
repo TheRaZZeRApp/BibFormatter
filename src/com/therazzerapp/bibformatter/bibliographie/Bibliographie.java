@@ -1,6 +1,7 @@
 package com.therazzerapp.bibformatter.bibliographie;
 
 import com.therazzerapp.bibformatter.KeyType;
+import com.therazzerapp.bibformatter.TypeType;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class Bibliographie {
 
     public void removeEntrie(KeyType key){
         for (Entry entry1 : entrieList) {
-            if (entry1.getKeys().keySet().contains(key.toString())){
+            if (entry1.getKeys().containsKey(key.toString())){
                 entry1.getKeys().remove(key.toString());
             }
         }
@@ -67,23 +68,23 @@ public class Bibliographie {
     }
 
     /**
-     * //todo Test
+     * Copies the value of the specified key in a specified type to the new replacement key and delete the original key.
      * @param key
      * @param replacement
      * @param type
      */
-    public void replaceKey(KeyType key, KeyType replacement, String type){
+    public void replaceKey(KeyType key, KeyType replacement, TypeType type){
         for (Entry entry : entrieList) {
-            if ((type == null || entry.getType().equalsIgnoreCase(type)) && entry.getKeys().containsKey(key.toString()) && !entry.getKeys().containsKey(replacement.toString())){
+            if ((type == null || entry.getType().equalsIgnoreCase(type.toString())) && entry.getKeys().containsKey(key.toString()) && !entry.getKeys().containsKey(replacement.toString())){
                 String temp = entry.getValue(key);
-                entry.getKeys().remove(key);
-                entry.getKeys().put(replacement.toString(),temp);
+                entrieList.get(entrieList.indexOf(entry)).getKeys().remove(key.toString());
+                entrieList.get(entrieList.indexOf(entry)).getKeys().put(replacement.toString(),temp);
             }
         }
     }
 
     /**
-     * //todo test
+     * Copies the value of the specified key to the new replacement key and delete the original key.
      * @param key
      * @param replacement
      */

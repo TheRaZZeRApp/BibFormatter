@@ -7,10 +7,14 @@ import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.gui.StartUp;
 import com.therazzerapp.bibformatter.manager.*;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +67,56 @@ public class BibFormatter {
 
     private static Bibliographie runCommands(Bibliographie bib, String commands){
         Matcher matcher;
+        matcher = Pattern.compile("(-replaceKey|-rk) (?<param1>[^-]{0,})").matcher(commands);
+        if (matcher.find()){
+            if (matcher.group("param1").equals("")){
+                LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
+                return null;
+            } else {
+                String replaceCommand;
+                if (new File(matcher.group("param1")).exists()){
+                    StringBuilder sb = new StringBuilder();
+                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
+                        sb.append(param1).append(" ");
+                    }
+                    replaceCommand = sb.toString();
+                } else {
+                    replaceCommand = matcher.group("param1");
+                }
+                if (replaceCommand.split(" ").length%2 != 0){
+                    LogManager.writeError("Error: Wrong amount of arguments",bib.getName()+"_");
+                    return null;
+                }
+                TypeType currentType = null;
+                String[] commandLines = replaceCommand.split(" ");
+                for (int i = 0; i < commandLines.length; i+=2) {
+                    if (commandLines[i].equals("+type")){
+                        currentType = TypeType.valueOf(commandLines[i+1].toUpperCase());
+                        continue;
+                    }
+                    if (currentType == null){
+                        bib.replaceKey(KeyType.valueOf(commandLines[i].toUpperCase()),KeyType.valueOf(commandLines[i+1].toUpperCase()));
+                    } else {
+                        bib.replaceKey(KeyType.valueOf(commandLines[i].toUpperCase()),KeyType.valueOf(commandLines[i+1].toUpperCase()),currentType);
+                    }
+                }
+            }
+        }
+        matcher = Pattern.compile("(-removeEntry|-re) (?<param1>[^-]{0,})").matcher(commands);
+        if (matcher.find()){
+            if (matcher.group("param1").equals("")){
+                LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
+                return null;
+            } else {
+                if (new File(matcher.group("param1")).exists()){
+                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
+                        bib.removeEntrie(param1);
+                    }
+                } else {
+                    bib.removeEntrie(matcher.group("param1"));
+                }
+            }
+        }
         matcher = Pattern.compile("(-capitalizeValue|-cv) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             try {
@@ -110,21 +164,6 @@ public class BibFormatter {
                 BibTools.formatPages(bib, true);
             } else {
                 BibTools.formatPages(bib, false);
-            }
-        }
-        matcher = Pattern.compile("(-removeEntry|-re) (?<param1>[^-]{0,})").matcher(commands);
-        if (matcher.find()){
-            if (matcher.group("param1").equals("")){
-                LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
-                return null;
-            } else {
-                if (new File(matcher.group("param1")).exists()){
-                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
-                        bib.removeEntrie(param1);
-                    }
-                } else {
-                    bib.removeEntrie(matcher.group("param1"));
-                }
             }
         }
         matcher = Pattern.compile("(-saveSpecialCharacters|-ss) (?<param1>[^-]{0,})").matcher(commands);

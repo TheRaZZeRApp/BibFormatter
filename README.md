@@ -10,13 +10,13 @@
 <li>Remove Entries</li>
 <li>Save Special Characters</li>
 <li>Multi special character map support</li>
+<li>Replace Key</li>
 
 ## Planned Features
 
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
 <li>Replace Value</li>
-<li>Replace Key</li>
 <li>Format URLs</li>
 <li>Check for required fields</li>
 <li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
@@ -109,9 +109,25 @@ If no special character map is specified the standart one is picked (see config)
 Character map needs to be in the Data folder saved as txt (UTF-8)
 Replaces every special character with the correct latex code.
 ```
+```sh
+--replaceKey {<file>|[+type {articleType}] {key} {replacementKey} ... } ...
+-rk
+You can specifiy a file which contains a list of commands or add them directly.
+If no type (i.e. book) is specified the changes will affect every type (until a type has specified). 
+You have to specifie a key (i.e. location) and a replacement key (i.e. adress).
+You can list as many replacement pairs as you want.
+Replaces a key with a new key.
+Example:
+-rk location adress +type book subtitle title +type article issn isbn 
+First it will replace every location key in any type with an adress key and than
+replaces every subtitle key inside a book type with a title key.
+It also replaces every issn key in an article with an isbn key. 
+```
 
 ## Release History
 
+* 0.7.5
+    * Add: Replace key option
 * 0.6.5
     * Add: Moved special character regEx to file
     * Fix: Special character map mismatch
