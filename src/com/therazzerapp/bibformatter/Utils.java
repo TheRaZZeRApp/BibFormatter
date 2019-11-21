@@ -202,15 +202,72 @@ public class Utils {
         }
     }
 
-    public static void getCommandTypes(String[] commandLines, Set<TypeType> currentTypes, int i) {
-        if(new File(commandLines[i]).exists()){
-            for (String s : FileManager.getFileContent(new File(commandLines[1]))) {
+    public static void getCommandTypes(String commandLines, Collection<TypeType> currentTypes) {
+        if(new File(commandLines).exists()){
+            for (String s : FileManager.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
                     currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
                 }
             }
         } else {
-            currentTypes.add(TypeType.valueOf(commandLines[i].toUpperCase()));
+            currentTypes.add(TypeType.valueOf(commandLines.toUpperCase()));
         }
+    }
+
+    public static void getCommandKeys(String commandLines, Collection<KeyType> currentKeys) {
+        if(new File(commandLines).exists()){
+            for (String s : FileManager.getFileContent(new File(commandLines))) {
+                for (String s1 : s.split(" ")) {
+                    currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
+                }
+            }
+        } else {
+            currentKeys.add(KeyType.valueOf(commandLines.toUpperCase()));
+        }
+    }
+
+    public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentValue, StringBuilder currentReplacement){
+        switch (commandLines[i]){
+            case "+t":
+            case "+type":
+                currentPosition = 0;
+                currentTypes.clear();
+                break;
+            case "+k":
+            case "+key":
+                currentPosition = 1;
+                currentKeys.clear();
+                break;
+            case "+m":
+            case "+match":
+                currentPosition = 2;
+                currentValue.setLength(0);
+                break;
+            case "+v":
+            case "+value":
+                currentPosition = 3;
+                currentReplacement.setLength(0);
+                break;
+            default:
+                switch (currentPosition){
+                    case 0:
+                        Utils.getCommandTypes(commandLines[i], currentTypes);
+                        break;
+                    case 1:
+                        Utils.getCommandKeys(commandLines[i], currentKeys);
+                        break;
+                    case 2:
+                        Utils.getCommandArguments(currentValue, commandLines, i);
+                        break;
+                    case 3:
+                        Utils.getCommandArguments(currentReplacement, commandLines, i);
+                        break;
+                }
+        }
+        return currentPosition;
+    }
+
+    public static boolean isCommandEndReached(String[] commandLines, int i, int end, int currentPosition){
+        return i == commandLines.length - 1 || ((currentPosition) == end && commandLines[i + 1].startsWith("+"));
     }
 }

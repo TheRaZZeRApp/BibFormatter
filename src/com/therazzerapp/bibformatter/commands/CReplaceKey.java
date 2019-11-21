@@ -4,61 +4,37 @@ import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
-import javafx.util.Pair;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since 0.7.7
  */
 public class CReplaceKey {
     public static final String COMMANDPATTERN = "(-replaceKey|-rk) (?<par>[^-]{0,})";
     public static final String ARGUMENTPATTERN = "";
+
     public static void run(Bibliographie bibliographie, String parameter){
         if (Utils.isCommandCorrect(ARGUMENTPATTERN,parameter,COMMANDPATTERN)){
             String[] commandLines = Utils.getCommand(parameter).split(" ");
+            int currentPosition = 0;
 
             Set<TypeType> currentTypes = new HashSet<>();           //0
-            Set<Pair<KeyType,KeyType>> currentKeys = new HashSet<>();             //1
+            LinkedList<KeyType> currentKeys = new LinkedList<>();   //1
             StringBuilder currentMatch = new StringBuilder();       //2
+            StringBuilder currentValue = new StringBuilder();       //3
 
-            int currentPosition = 0;
             for (int i = 0; i < commandLines.length; i++) {
-                switch (commandLines[i]){
-                    case "+type":
-                        currentPosition = 0;
-                        currentTypes.clear();
-                        break;
-                    case "+key":
-                        currentPosition = 1;
-                        currentKeys.clear();
-                        break;
-                    case "+match":
-                        currentPosition = 2;
-                        currentMatch = new StringBuilder();
-                        break;
-                    default:
-                        switch (currentPosition){
-                            case 0:
-                                Utils.getCommandTypes(commandLines, currentTypes, i);
-                                break;
-                            case 1:
-                                //todo Pair richtig erstellen und in currentKeys hinzugügen.
-                                break;
-                            case 2:
-                                Utils.getCommandArguments(currentMatch, commandLines, i);
-                                break;
-                        }
-                }
-                if (i == commandLines.length-1 || (currentPosition == 2 && commandLines[i+1].startsWith("+"))){
-                    bibliographie.replaceKey(currentTypes,currentKeys,currentMatch.toString());
+                currentPosition = Utils.getCommandValues(commandLines,currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
+                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
+                    bibliographie.replaceKey(currentTypes,currentKeys,currentMatch.toString(),currentValue.toString().matches("(yes|y) *"));
                 }
             }
         }
     }
-
 }

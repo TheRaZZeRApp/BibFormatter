@@ -100,27 +100,44 @@ public class Bibliographie {
         }
     }
 
-    public void replaceKey(Set<TypeType> types, Set<Pair<KeyType,KeyType>> currentKeys, String match){
-        match = Utils.replaceLast(match," ","");
-        for (Entry entry : entrieList) {
-            if (types.isEmpty() || types.contains(TypeType.valueOf(entry.getType().toUpperCase()))){
-                //todo
+    public void replaceKey(Set<TypeType> types, LinkedList<KeyType> keys, String match, boolean override){
+        if (keys.size()%2 == 0){
+            for (Entry entry : entrieList) {
+                if (types.isEmpty() || types.contains(TypeType.valueOf(entry.getType().toUpperCase()))){
+                    for (int i = 0; i < keys.size(); i+=2) {
+                         replaceKey(TypeType.valueOf(entry.getType().toUpperCase()),keys.get(i),keys.get(i+1),match,override);
+                    }
+                }
             }
         }
     }
 
     /**
      * Copies the value of the specified key in a specified type to the new replacement key and delete the original key.
+     * @param type
      * @param key
      * @param replacement
-     * @param type
      */
-    public void replaceKey(KeyType key, KeyType replacement, TypeType type){
+    public void replaceKey(TypeType type, KeyType key, KeyType replacement){
+        replaceKey(type,key,replacement,null, false);
+    }
+
+    /**
+     * Copies the value of the specified key in a specified type to the new replacement key and delete the original key.
+     * @param type
+     * @param key
+     * @param replacement
+     */
+    public void replaceKey(TypeType type, KeyType key, KeyType replacement, String match, boolean override){
         for (Entry entry : entrieList) {
-            if ((type == null || entry.getType().equalsIgnoreCase(type.toString())) && entry.getKeys().containsKey(key.toString()) && !entry.getKeys().containsKey(replacement.toString())){
-                String temp = entry.getValue(key);
-                entrieList.get(entrieList.indexOf(entry)).getKeys().remove(key.toString());
-                entrieList.get(entrieList.indexOf(entry)).getKeys().put(replacement.toString(),temp);
+            if ((type == null || entry.getType().equalsIgnoreCase(type.toString())) && entry.getKeys().containsKey(key.toString())){
+                if (override || !entry.getKeys().containsKey(replacement.toString())){
+                    if (match == null || match.isEmpty() || entry.getKeys().get(key).matches(Utils.replaceLast(match," ",""))){
+                        String temp = entry.getValue(key);
+                        entrieList.get(entrieList.indexOf(entry)).getKeys().remove(key.toString());
+                        entrieList.get(entrieList.indexOf(entry)).getKeys().put(replacement.toString(),temp);
+                    }
+                }
             }
         }
     }
@@ -131,7 +148,7 @@ public class Bibliographie {
      * @param replacement
      */
     public void replaceKey(KeyType key, KeyType replacement){
-        replaceKey(key,replacement,null);
+        replaceKey(null,key,replacement,null, false);
     }
 
     public LinkedList<String> getValues(KeyType key){
