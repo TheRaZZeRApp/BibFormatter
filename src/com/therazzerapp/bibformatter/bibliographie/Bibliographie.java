@@ -33,25 +33,52 @@ public class Bibliographie {
         this.comments = null;
     }
 
-    public void removeEntrie(Set<KeyType> entries){
-        for (KeyType entry : entries) {
-            removeEntrie(entry);
-        }
-    }
-
-    public void removeEntrie(KeyType key){
-        for (Entry entry1 : entrieList) {
-            if (entry1.getKeys().containsKey(key.toString())){
-                entry1.getKeys().remove(key.toString());
+    /**
+     * Removes and entry specified by the type of article it is inside and the value it contains.
+     * Set inverse to true if you want to delete every entry except the specified.
+     * @param types
+     * @param entries
+     * @param match
+     * @param inverse
+     */
+    public void removeEntrie(Set<TypeType> types, Set<KeyType> entries, String match, boolean inverse){
+        LinkedList<Entry> tempEentrieList = new LinkedList<>(entrieList);
+        for (Entry entry : entrieList) {
+            if ((!types.contains(entry.getTypeType()) && inverse && entries.isEmpty()) || types.isEmpty() || types.contains(entry.getTypeType())){
+                if (entries.isEmpty()){
+                    if (match == null || match.isEmpty()){
+                        if (inverse){
+                            if (!types.contains(entry.getTypeType())){
+                                tempEentrieList.remove(entry);
+                            }
+                        } else {
+                            tempEentrieList.remove(entry);
+                        }
+                    } else {
+                        for (KeyType type : KeyType.values()) {
+                            if (entry.getKeys().containsKey(type.toString()) && entry.getKeys().get(type.toString()).matches(Utils.replaceLast(match," ",""))){
+                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
+                            }
+                        }
+                    }
+                } else {
+                    if (inverse){
+                        for (KeyType type : KeyType.values()) {
+                            if (!entries.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(Utils.replaceLast(match," ","")))){
+                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
+                            }
+                        }
+                    } else {
+                        for (KeyType keyType : entries) {
+                            if (entry.getKeys().containsKey(keyType.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(keyType.toString()).matches(Utils.replaceLast(match," ","")))){
+                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(keyType.toString());
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
-
-    public void removeEntrie(String keys){
-        String[] values = keys.split(" ");
-        for (String value : values) {
-            removeEntrie(KeyType.valueOf(value.toUpperCase()));
-        }
+        entrieList = tempEentrieList;
     }
 
     /**

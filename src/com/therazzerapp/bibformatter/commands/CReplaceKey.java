@@ -16,7 +16,8 @@ import java.util.Set;
  * @since 0.7.7
  */
 public class CReplaceKey {
-    public static final String COMMANDPATTERN = "(-replaceKey|-rk) (?<par>[^-]{0,})";
+    public static final String PATTERNGROUP1 = "par1";
+    public static final String COMMANDPATTERN = "(-replaceKey|-rk) (?<" + PATTERNGROUP1 + ">[^-]{0,})";
     public static final String ARGUMENTPATTERN = "";
 
     public static void run(Bibliographie bibliographie, String parameter){

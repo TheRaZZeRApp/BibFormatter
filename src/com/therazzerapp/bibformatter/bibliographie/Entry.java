@@ -1,6 +1,7 @@
 package com.therazzerapp.bibformatter.bibliographie;
 
 import com.therazzerapp.bibformatter.KeyType;
+import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.manager.ConfigManager;
 
@@ -16,6 +17,7 @@ import java.util.Map;
  */
 public class Entry {
     private String type;
+    private TypeType typeType;
     private String bibtexkey;
     private LinkedHashMap<String,String> keys;
 
@@ -23,6 +25,7 @@ public class Entry {
         this.type = type;
         this.bibtexkey = bibtexkey;
         this.keys = keys;
+        this.typeType = TypeType.valueOf(type.toUpperCase());
     }
 
     /**
@@ -94,5 +97,13 @@ public class Entry {
      */
     public LinkedHashMap<String,String> getKeys() {
         return keys;
+    }
+
+    /**
+     * Returns the TypeType
+     * @return
+     */
+    public TypeType getTypeType() {
+        return typeType;
     }
 }

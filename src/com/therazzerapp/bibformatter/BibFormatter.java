@@ -1,6 +1,7 @@
 package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.commands.CRemoveEntry;
 import com.therazzerapp.bibformatter.commands.CReplaceKey;
 import com.therazzerapp.bibformatter.commands.CSetValue;
 import com.therazzerapp.bibformatter.content.ConfigType;
@@ -65,26 +66,15 @@ public class BibFormatter {
         Matcher matcher;
         matcher = Pattern.compile(CReplaceKey.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
-            CReplaceKey.run(bib,matcher.group("par"));
+            CReplaceKey.run(bib,matcher.group(CReplaceKey.PATTERNGROUP1));
         }
         matcher = Pattern.compile(CSetValue.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
-            CSetValue.run(bib,matcher.group("par"));
+            CSetValue.run(bib,matcher.group(CSetValue.PATTERNGROUP1));
         }
-        matcher = Pattern.compile("(-removeEntry|-re) (?<param1>[^-]{0,})").matcher(commands);
+        matcher = Pattern.compile(CRemoveEntry.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
-            if (matcher.group("param1").equals("")){
-                LogManager.writeError("Error: No entry specified!",bib.getName()+"_");
-                return null;
-            } else {
-                if (new File(matcher.group("param1")).exists()){
-                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
-                        bib.removeEntrie(param1);
-                    }
-                } else {
-                    bib.removeEntrie(matcher.group("param1"));
-                }
-            }
+            CRemoveEntry.run(bib,matcher.group(CRemoveEntry.PATTERNGROUP1));
         }
         matcher = Pattern.compile("(-capitalizeValue|-cv) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){

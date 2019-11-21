@@ -226,7 +226,7 @@ public class Utils {
         }
     }
 
-    public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentValue, StringBuilder currentReplacement){
+    public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue){
         switch (commandLines[i]){
             case "+t":
             case "+type":
@@ -241,12 +241,12 @@ public class Utils {
             case "+m":
             case "+match":
                 currentPosition = 2;
-                currentValue.setLength(0);
+                currentMatch.setLength(0);
                 break;
             case "+v":
             case "+value":
                 currentPosition = 3;
-                currentReplacement.setLength(0);
+                currentMatch.setLength(0);
                 break;
             default:
                 switch (currentPosition){
@@ -257,10 +257,10 @@ public class Utils {
                         Utils.getCommandKeys(commandLines[i], currentKeys);
                         break;
                     case 2:
-                        Utils.getCommandArguments(currentValue, commandLines, i);
+                        Utils.getCommandArguments(currentMatch, commandLines, i);
                         break;
                     case 3:
-                        Utils.getCommandArguments(currentReplacement, commandLines, i);
+                        Utils.getCommandArguments(currentValue, commandLines, i);
                         break;
                 }
         }
