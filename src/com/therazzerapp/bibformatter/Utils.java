@@ -51,7 +51,7 @@ public class Utils {
         text = text.replaceFirst("\\{","");
         text = replaceLast(text,"}","");
         if (text.endsWith(",")){
-            text = replaceLast(text,",","");
+            text = text.trim();
         }
         return text;
     }
@@ -161,6 +161,20 @@ public class Utils {
     }
 
     /**
+     * Returns a Collection as a String with a space between every appended String.
+     * @return
+     */
+    public static String getObjectAsString(Object[] a){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object o : a) {
+            stringBuilder.append(o.toString());
+            stringBuilder.append(" ");
+
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
      * Convert any list object to a String array.
      * @param list
      * @param <T>
@@ -194,11 +208,9 @@ public class Utils {
         if(new File(commandLines[i]).exists()){
             currentMatch.append(getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
             currentMatch.append(" ");
-            return;
         } else {
             currentMatch.append(commandLines[i]);
             currentMatch.append(" ");
-            return;
         }
     }
 
@@ -262,12 +274,36 @@ public class Utils {
                     case 3:
                         Utils.getCommandArguments(currentValue, commandLines, i);
                         break;
+                    default:
+                        return -1;
                 }
         }
         return currentPosition;
     }
 
+    public static int getPosition(String arg, int position){
+        switch (arg){
+            case "+t":
+            case "+type":
+                return 0;
+            case "+k":
+            case "+key":
+                return 1;
+            case "+m":
+            case "+match":
+                return 2;
+            case "+v":
+            case "+value":
+                return 3;
+            default:
+                return position;
+        }
+    }
+
     public static boolean isCommandEndReached(String[] commandLines, int i, int end, int currentPosition){
-        return i == commandLines.length - 1 || ((currentPosition) == end && commandLines[i + 1].startsWith("+"));
+        //Removed ((currentPosition) == end && commandLines[i + 1].startsWith("+"))
+        // (commandLines[i+1].matches("(\\+type|\\+t)") ||
+        //
+        return i == commandLines.length - 1 || (getPosition(commandLines[i+1],currentPosition) < currentPosition) || (getPosition(commandLines[i+1],currentPosition) == currentPosition && commandLines[i+1].startsWith("+"));
     }
 }

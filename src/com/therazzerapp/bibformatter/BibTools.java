@@ -2,13 +2,9 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
-import com.therazzerapp.bibformatter.content.ConfigType;
-import com.therazzerapp.bibformatter.manager.ConfigManager;
 import com.therazzerapp.bibformatter.manager.SpecialCharacterManager;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,38 +17,41 @@ import java.util.regex.Pattern;
 public class BibTools {
 
     /**
-     * Needs to be rewritten!
+     * Encloses every char listed in characters with {} in all the specified types and keys
      * @param bibliographie
-     * @param key
+     * @param types
+     * @param keys
+     * @param characters
      */
-    public static void capitalizeValue(Bibliographie bibliographie, KeyType key){
+    public static void capitalizeValue(Bibliographie bibliographie, Set<TypeType> types, Set<KeyType> keys, String characters){
 
-        final String capEx = "(?<cap>[A-Z]+(?![^\\{]*\\}))";
-        final String bugEx = "(?<cap>\\{\\{[A-Z]{1,}\\}\\})";
-        LinkedList<Entry> entrieList = new LinkedList<>();
+        String regEx;
+        if (characters.isEmpty()){
+            regEx = "([A-Z]+(?![^\\{]*\\}))";
+        } else {
+            regEx  = "([" + characters + "]+(?![^\\{]*\\}))";
+        }
 
-        Matcher matcher;
-        Matcher matcher2;
+        Bibliographie tempBib = new Bibliographie(bibliographie.getEntrieList(),bibliographie.getName(),bibliographie.getComments());
 
         for (Entry entry : bibliographie.getEntrieList()) {
-            LinkedHashMap<String,String> keys = new LinkedHashMap<>();
-            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                String temp = stringStringEntry.getValue();
-                if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
-                    matcher = Pattern.compile(capEx).matcher(temp);
-                    while (matcher.find()){
-                        temp = temp.replace(matcher.group("cap"), "{" + matcher.group("cap") + "}");
-                    }
-                    matcher2 = Pattern.compile(bugEx).matcher(temp);
-                    while (matcher2.find()){
-                        temp = temp.replace(matcher2.group("cap"),matcher2.group("cap").replaceAll("\\{\\{","{").replaceAll("}}","}"));
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                for (KeyType keyType : KeyType.values()) {
+                    if (keys.isEmpty() || keys.contains(keyType)){
+                        String temp = entry.getKeys().get(keyType.toString());
+                        Matcher matcher = Pattern.compile(regEx).matcher(temp);
+                        while (matcher.find()){
+                            temp = temp.replaceFirst(regEx,"{"+matcher.group(1)+"}");
+                        }
+                        System.out.println(temp);
+                        tempBib.getEntrieList().get(tempBib.getEntrieList().indexOf(entry)).getKeys().remove(keyType.toString());
+                        tempBib.getEntrieList().get(tempBib.getEntrieList().indexOf(entry)).getKeys().put(keyType.toString(),temp);
                     }
                 }
-                keys.put(stringStringEntry.getKey(),temp);
             }
-            entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keys));
         }
-        bibliographie.setEntrieList(entrieList);
+
+        bibliographie.setEntrieList(tempBib.getEntrieList());
     }
 
     /**
@@ -89,6 +88,25 @@ public class BibTools {
                 }
             }
         }
+    }
+
+    /**
+     * Orders every {@link Entry} in a {@link Bibliographie} by an entry order list specified in a String.
+     * @param bibliographie
+     * @return
+     */
+    public static void orderEntries(Bibliographie bibliographie, Set<TypeType> types, ArrayList<KeyType> keys){
+        LinkedList<Entry> tempEntrieList = new LinkedList<>();
+        for (Entry entry : bibliographie.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                tempEntrieList.add(
+                        new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), Utils.getObjectAsString(keys.toArray())))
+                );
+            } else {
+                tempEntrieList.add(entry);
+            }
+        }
+        bibliographie.setEntrieList(tempEntrieList);
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.Set;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <version>
+ * @since 0.7.7
  */
 public class CRemoveEntry {
     public static final String PATTERNGROUP1 = "par1";
@@ -32,7 +32,7 @@ public class CRemoveEntry {
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliographie.removeEntrie(currentTypes,currentKeys,currentMatch.toString(),currentValue.toString().matches("(yes|y) *"));
+                    bibliographie.removeEntrie(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim().matches("(yes|y) *"));
                 }
             }
         }

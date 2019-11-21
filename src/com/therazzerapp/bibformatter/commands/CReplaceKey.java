@@ -33,7 +33,7 @@ public class CReplaceKey {
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines,currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliographie.replaceKey(currentTypes,currentKeys,currentMatch.toString(),currentValue.toString().matches("(yes|y) *"));
+                    bibliographie.replaceKey(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim().matches("(yes|y) *"));
                 }
             }
         }

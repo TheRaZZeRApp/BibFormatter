@@ -1,9 +1,7 @@
 package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
-import com.therazzerapp.bibformatter.commands.CRemoveEntry;
-import com.therazzerapp.bibformatter.commands.CReplaceKey;
-import com.therazzerapp.bibformatter.commands.CSetValue;
+import com.therazzerapp.bibformatter.commands.*;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
@@ -21,7 +19,7 @@ import java.util.regex.Pattern;
  * @since 0.0.0
  */
 public class BibFormatter {
-    public static final String VERSION = "0.7.7";
+    public static final String VERSION = "0.7.8";
 
     public static void main(String[] args) {
 
@@ -64,51 +62,32 @@ public class BibFormatter {
 
     private static Bibliographie runCommands(Bibliographie bib, final String commands){
         Matcher matcher;
+
         matcher = Pattern.compile(CReplaceKey.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
             CReplaceKey.run(bib,matcher.group(CReplaceKey.PATTERNGROUP1));
         }
+
         matcher = Pattern.compile(CSetValue.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
             CSetValue.run(bib,matcher.group(CSetValue.PATTERNGROUP1));
         }
+
         matcher = Pattern.compile(CRemoveEntry.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
             CRemoveEntry.run(bib,matcher.group(CRemoveEntry.PATTERNGROUP1));
         }
-        matcher = Pattern.compile("(-capitalizeValue|-cv) (?<param1>[^-]{0,})").matcher(commands);
+
+        matcher = Pattern.compile(CSaveCapitals.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
-            try {
-                if (new File(matcher.group("param1")).exists()){
-                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
-                        BibTools.capitalizeValue(bib, KeyType.valueOf(param1.toUpperCase()));
-                    }
-                } else {
-                    for (String value : matcher.group("param1").split(" ")) {
-                        BibTools.capitalizeValue(bib, KeyType.valueOf(value.toUpperCase()));
-                    }
-                }
-            } catch (IllegalArgumentException ex){
-                LogManager.writeError("Error: \"" + matcher.group("param1") + "\" is not a valid capitalization parameter!",bib.getName()+"_");
-                return null;
-            }
+            CSaveCapitals.run(bib,matcher.group(CSaveCapitals.PATTERNGROUP1));
         }
-        matcher = Pattern.compile("(-orderEntries|-oe) (?<param1>[^-]{0,})").matcher(commands);
+
+        matcher = Pattern.compile(COrderEntries.COMMANDPATTERN).matcher(commands);
         if (matcher.find()){
-            if (matcher.group("param1").equals("")){
-                BibTools.orderEntries(bib, ConfigManager.getConfigProperty(ConfigType.ENTRYORDER).toString());
-            } else {
-                if (new File(matcher.group("param1")).exists()){
-                    StringBuilder sb = new StringBuilder();
-                    for (String param1 : FileManager.getFileContent(new File(matcher.group("param1")))) {
-                        sb.append(param1).append(" ");
-                    }
-                    BibTools.orderEntries(bib, sb.toString());
-                } else {
-                    BibTools.orderEntries(bib, matcher.group("param1"));
-                }
-            }
+            COrderEntries.run(bib,matcher.group(COrderEntries.PATTERNGROUP1));
         }
+
         matcher = Pattern.compile("(-formatMonth|-fm) (?<param1>[^ ]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("number")){
@@ -117,6 +96,7 @@ public class BibFormatter {
                 BibTools.formatMonth(bib, true);
             }
         }
+
         matcher = Pattern.compile("(-formatPages|-fp) (?<param1>[^ ]{0,})").matcher(commands);
         if (matcher.find()){
             if (matcher.group("param1").equals("single")){
@@ -125,6 +105,7 @@ public class BibFormatter {
                 BibTools.formatPages(bib, false);
             }
         }
+
         matcher = Pattern.compile("(-saveSpecialCharacters|-ss) (?<param1>[^-]{0,})").matcher(commands);
         if (matcher.find()){
             String characterMap = (String) ConfigManager.getConfigProperty(ConfigType.DEFAULTCHARACTERMAP);

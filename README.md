@@ -144,6 +144,8 @@ Example:
 
 ## Release History
 
+* 0.7.7
+    * Edit: Rewriting Command System
 * 0.7.6
     * Add: Replace value option
 * 0.7.5

@@ -56,7 +56,7 @@ public class Bibliographie {
                         }
                     } else {
                         for (KeyType type : KeyType.values()) {
-                            if (entry.getKeys().containsKey(type.toString()) && entry.getKeys().get(type.toString()).matches(Utils.replaceLast(match," ",""))){
+                            if (entry.getKeys().containsKey(type.toString()) && entry.getKeys().get(type.toString()).matches(match)){
                                 tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
                             }
                         }
@@ -64,13 +64,13 @@ public class Bibliographie {
                 } else {
                     if (inverse){
                         for (KeyType type : KeyType.values()) {
-                            if (!entries.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(Utils.replaceLast(match," ","")))){
+                            if (!entries.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(match))){
                                 tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
                             }
                         }
                     } else {
                         for (KeyType keyType : entries) {
-                            if (entry.getKeys().containsKey(keyType.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(keyType.toString()).matches(Utils.replaceLast(match," ","")))){
+                            if (entry.getKeys().containsKey(keyType.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(keyType.toString()).matches(match))){
                                 tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(keyType.toString());
                             }
                         }
@@ -82,16 +82,6 @@ public class Bibliographie {
     }
 
     /**
-     * //todo test
-     * @param key
-     * @param match
-     * @param value
-     */
-    public void replaceValue(TypeType type, KeyType key, String match, String value){
-
-    }
-
-    /**
      *
      * @param types
      * @param keys
@@ -99,8 +89,6 @@ public class Bibliographie {
      * @param value
      */
     public void replaceValue(Set<TypeType> types, Set<KeyType> keys, String match, String value){
-        match = Utils.replaceLast(match," ","");
-        value = Utils.replaceLast(value," ", "");
         for (Entry entry : entrieList) {
             if (types.isEmpty() || types.contains(TypeType.valueOf(entry.getType().toUpperCase()))){
                 for (String s : entry.getKeys().keySet()) {
@@ -119,7 +107,6 @@ public class Bibliographie {
      * @param value
      */
     public void setAllValues(String value){
-        value = Utils.replaceLast(value," ", "");
         for (Entry entry : entrieList) {
             for (String s : entry.getKeys().keySet()) {
                 entrieList.get(entrieList.indexOf(entry)).getKeys().replace(s,value);
@@ -159,7 +146,7 @@ public class Bibliographie {
         for (Entry entry : entrieList) {
             if ((type == null || entry.getType().equalsIgnoreCase(type.toString())) && entry.getKeys().containsKey(key.toString())){
                 if (override || !entry.getKeys().containsKey(replacement.toString())){
-                    if (match == null || match.isEmpty() || entry.getKeys().get(key).matches(Utils.replaceLast(match," ",""))){
+                    if (match == null || match.isEmpty() || entry.getKeys().get(key).matches(match)){
                         String temp = entry.getValue(key);
                         entrieList.get(entrieList.indexOf(entry)).getKeys().remove(key.toString());
                         entrieList.get(entrieList.indexOf(entry)).getKeys().put(replacement.toString(),temp);
