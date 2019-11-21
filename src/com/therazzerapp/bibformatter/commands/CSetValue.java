@@ -50,15 +50,7 @@ public final class CSetValue {
                     default:
                         switch (currentPosition){
                             case 0:
-                                if(new File(commandLines[i]).exists()){
-                                    for (String s : FileManager.getFileContent(new File(commandLines[1]))) {
-                                        for (String s1 : s.split(" ")) {
-                                            currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
-                                        }
-                                    }
-                                } else {
-                                    currentTypes.add(TypeType.valueOf(commandLines[i].toUpperCase()));
-                                }
+                                Utils.getCommandTypes(commandLines, currentTypes, i);
                                 break;
                             case 1:
                                 if(new File(commandLines[i]).exists()){

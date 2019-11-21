@@ -22,9 +22,9 @@ public class CReplaceKey {
         if (Utils.isCommandCorrect(ARGUMENTPATTERN,parameter,COMMANDPATTERN)){
             String[] commandLines = Utils.getCommand(parameter).split(" ");
 
-            Set<TypeType> currentTypes = new HashSet<>();               //0
-            Set<Pair<KeyType,KeyType>> currentKeys = new HashSet<>();   //1
-            StringBuilder currentMatch = new StringBuilder();           //2
+            Set<TypeType> currentTypes = new HashSet<>();           //0
+            Set<Pair<KeyType,KeyType>> currentKeys = new HashSet<>();             //1
+            StringBuilder currentMatch = new StringBuilder();       //2
 
             int currentPosition = 0;
             for (int i = 0; i < commandLines.length; i++) {
@@ -44,10 +44,10 @@ public class CReplaceKey {
                     default:
                         switch (currentPosition){
                             case 0:
-                                //todo
+                                Utils.getCommandTypes(commandLines, currentTypes, i);
                                 break;
                             case 1:
-                                //todo
+                                //todo Pair richtig erstellen und in currentKeys hinzugügen.
                                 break;
                             case 2:
                                 Utils.getCommandArguments(currentMatch, commandLines, i);
@@ -60,4 +60,5 @@ public class CReplaceKey {
             }
         }
     }
+
 }

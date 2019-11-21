@@ -201,4 +201,16 @@ public class Utils {
             return;
         }
     }
+
+    public static void getCommandTypes(String[] commandLines, Set<TypeType> currentTypes, int i) {
+        if(new File(commandLines[i]).exists()){
+            for (String s : FileManager.getFileContent(new File(commandLines[1]))) {
+                for (String s1 : s.split(" ")) {
+                    currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
+                }
+            }
+        } else {
+            currentTypes.add(TypeType.valueOf(commandLines[i].toUpperCase()));
+        }
+    }
 }
