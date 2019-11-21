@@ -3,6 +3,7 @@ package com.therazzerapp.bibformatter.bibliographie;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
+import javafx.util.Pair;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -95,6 +96,15 @@ public class Bibliographie {
         for (Entry entry : entrieList) {
             for (String s : entry.getKeys().keySet()) {
                 entrieList.get(entrieList.indexOf(entry)).getKeys().replace(s,value);
+            }
+        }
+    }
+
+    public void replaceKey(Set<TypeType> types, Set<Pair<KeyType,KeyType>> currentKeys, String match){
+        match = Utils.replaceLast(match," ","");
+        for (Entry entry : entrieList) {
+            if (types.isEmpty() || types.contains(TypeType.valueOf(entry.getType().toUpperCase()))){
+                //todo
             }
         }
     }

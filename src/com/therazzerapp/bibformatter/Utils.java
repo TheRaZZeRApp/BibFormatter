@@ -1,5 +1,8 @@
 package com.therazzerapp.bibformatter;
 
+import com.therazzerapp.bibformatter.manager.FileManager;
+
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,5 +171,34 @@ public class Utils {
         for (int i = 0; i < array.length; i++)
             array[i] = list.get(i).toString();
         return array;
+    }
+
+    public static String getCommand(String rawCommand){
+        if (new File(rawCommand).exists()){
+            StringBuilder sb = new StringBuilder();
+            for (String c : FileManager.getFileContent(new File(rawCommand))) {
+                sb.append(c).append(" ");
+            }
+            return sb.toString();
+        } else {
+            return rawCommand;
+        }
+    }
+
+    public static boolean isCommandCorrect(String regEx, String command, String commandRegEx){
+        return true;
+    }
+
+
+    public static void getCommandArguments(StringBuilder currentMatch, String[] commandLines, int i) {
+        if(new File(commandLines[i]).exists()){
+            currentMatch.append(getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
+            currentMatch.append(" ");
+            return;
+        } else {
+            currentMatch.append(commandLines[i]);
+            currentMatch.append(" ");
+            return;
+        }
     }
 }
