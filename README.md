@@ -144,6 +144,10 @@ Example:
 
 ## Release History
 
+* 0.10.9
+    * Add: Option to specify a save location
+    * Add: Option to run multiple commands on multiple bib files
+    * Fix: Various little things
 * 0.9.8
     * Add: Command to export flawed entries as txt
 * 0.8.8

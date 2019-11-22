@@ -24,6 +24,9 @@ public class BibSaver {
         for (Entry entry : bibliographie.getEntrieList()) {
             sb.append(entry.getRawEntry());
         }
+        if (!fileName.endsWith(".bib")){
+            fileName+=".bib";
+        }
         FileManager.exportFile(sb.toString(),fileName);
     }
 }

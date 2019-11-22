@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * @since <VERSION>
  */
 public class BibLoader {
-    public static Bibliographie load(File file){
+    public static Bibliographie load(File file, String saveLocation){
         BufferedReader bufferedReader;
         InputStream inputStream = null;
         InputStreamReader inputStreamReader;
@@ -54,7 +54,7 @@ public class BibLoader {
             } catch (IOException ioe) {
             }
         }
-        return new Bibliographie(formatEntries(entries),file.getName().replaceAll(".bib",""));
+        return new Bibliographie(formatEntries(entries),file.getName().replaceAll(".bib",""),saveLocation);
     }
 
     private static LinkedList<Entry> formatEntries(LinkedList<String> entries){

@@ -44,7 +44,7 @@ public class Utils {
                 sb.append(keyType);
             }
         }
-        FileManager.exportFile(sb.toString(),"./" + bib.getName() + "_flaws.txt");
+        FileManager.exportFile(sb.toString(),Utils.replaceLast(bib.getSaveLocation(),"(\\.bib|\\_formatted\\.bib)","")+"_check");
     }
 
     /**
@@ -67,7 +67,7 @@ public class Utils {
                 }
             }
         }
-        FileManager.exportJSONFile(root,"./" + bib.getName() + "_flaws");
+        FileManager.exportJSONFile(root,Utils.replaceLast(bib.getSaveLocation(),"(\\.bib|\\_formatted\\.bib)","")+"_check");
     }
 
     /**

@@ -20,17 +20,34 @@ public class Bibliographie {
     private LinkedList<Entry> entrieList;
     private String name;
     private LinkedList<String> comments;
+    private String saveLocation;
+
+    public Bibliographie(LinkedList<Entry> entrieList, String name, LinkedList<String> comments, String saveLocation) {
+        this.entrieList = entrieList;
+        this.name = name;
+        this.comments = comments;
+        this.saveLocation = saveLocation;
+    }
 
     public Bibliographie(LinkedList<Entry> entrieList, String name, LinkedList<String> comments) {
         this.entrieList = entrieList;
         this.name = name;
         this.comments = comments;
+        this.saveLocation = "./" + Utils.replaceLast(name,".bib","") + "_formatted.bib";
+    }
+
+    public Bibliographie(LinkedList<Entry> entrieList, String name, String saveLocation) {
+        this.entrieList = entrieList;
+        this.name = name;
+        this.comments = null;
+        this.saveLocation = saveLocation;
     }
 
     public Bibliographie(LinkedList<Entry> entrieList, String name) {
         this.entrieList = entrieList;
         this.name = name;
         this.comments = null;
+        this.saveLocation = "./" + Utils.replaceLast(name,".bib","") + "_formatted.bib";
     }
 
     /**
@@ -189,5 +206,13 @@ public class Bibliographie {
 
     public void setEntrieList(LinkedList<Entry> entrieList) {
         this.entrieList = entrieList;
+    }
+
+    /**
+     * Returns the location where this bib files wants to be saved at.
+     * @return
+     */
+    public String getSaveLocation() {
+        return saveLocation;
     }
 }

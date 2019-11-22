@@ -7,7 +7,6 @@ import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.manager.*;
 
 import java.io.File;
-import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,26 +36,48 @@ public class BibFormatter {
         if (args.length == 0){
             //StartUp startUp = new StartUp();
             //SwingUtilities.invokeLater(startUp);
-        } else if (args.length == 1){
-            LogManager.writeError("Error: Set debug to true/false!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
         } else if (args.length == 2){
             LogManager.writeError("Error: No commands found!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
         } else {
-            File file = new File(args[0]);
-            if(!file.exists()){
-                LogManager.writeError("Error: Bib file not found!");
-                System.exit(0);
-            }
-            Bibliographie bib = BibLoader.load(new File(args[0]));
+            File file;
+            Bibliographie bib = null;
             StringBuilder temp = new StringBuilder();
-            for (String s : Arrays.copyOfRange(args, 2, args.length)) {
-                temp.append(s).append(" ");
+            String saveLocation = "";
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("-b")){
+                    if (bib != null){
+                        Matcher matcher = Pattern.compile("(-[a-zA-Z0-9]*([^-]{0,}))").matcher(temp.toString());
+                        while (matcher.find()){
+                            runCommands(bib, matcher.group(1).trim(), matcher.group(2).trim());
+                        }
+                        BibSaver.save(bib,saveLocation);
+                    }
+                    file = new File(args[i+1]);
+                    if(!file.exists()){
+                        LogManager.writeError("Error: Bib file not found!");
+                        System.exit(0);
+                    }
+                    temp = new StringBuilder();
+                    if (!args[i+2].startsWith("-")){
+                        saveLocation = args[i+2];
+                        bib = BibLoader.load(new File(args[i+1]),saveLocation);
+                        i++;
+                    } else {
+                        saveLocation = "./" + Utils.replaceLast(file.getName(),".bib","") + "_formatted.bib";
+                        bib = BibLoader.load(new File(args[i+1]),saveLocation);
+                    }
+                    System.out.println();
+                    i++;
+                } else {
+                    temp.append(args[i]);
+                    temp.append(" ");
+                }
             }
-            Matcher matcher = Pattern.compile("(-[a-zA-Z0-9]*([^-]{0,}))").matcher(temp);
+            Matcher matcher = Pattern.compile("(-[a-zA-Z0-9]*([^-]{0,}))").matcher(temp.toString());
             while (matcher.find()){
                 runCommands(bib, matcher.group(1).trim(), matcher.group(2).trim());
             }
-            BibSaver.save(bib,"./" + bib.getName() + "_formatted.bib");
+            BibSaver.save(bib,saveLocation);
         }
     }
 

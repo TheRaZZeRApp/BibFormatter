@@ -139,7 +139,7 @@ public class StartUp implements Runnable{
             if (bibChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
                 tabbedPane1.setEnabled(true);
                 tablePain.setEnabled(true);
-                bibliographieOld = BibLoader.load(bibChooser.getSelectedFile());
+                //bibliographieOld = BibLoader.load(bibChooser.getSelectedFile());
                 setBibliographieNew(bibliographieOld);
                 menuSave.setEnabled(true);
 
