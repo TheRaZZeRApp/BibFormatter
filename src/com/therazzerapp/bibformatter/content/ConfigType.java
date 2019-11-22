@@ -8,6 +8,8 @@ package com.therazzerapp.bibformatter.content;
  */
 public enum ConfigType {
     ENTRYORDER("entryOrder", "string"),
+    DEFAULTMONTHFORMAT("defaultMonthFormat", "string"),
+    DEFAULTPAGESFORMAT("defaultPagesFormat", "string"),
     ENCLOSENUMERICS("encloseNumerals", "boolean"),
     INDENTSTYLE("indentStyle","string"),
     INDENTSPACESAMOUNT("indentSpacesAmount","int"),

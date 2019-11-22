@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.0.0
  */
 public class Utils {
 
@@ -51,7 +51,7 @@ public class Utils {
         text = text.replaceFirst("\\{","");
         text = replaceLast(text,"}","");
         if (text.endsWith(",")){
-            text = text.trim();
+            text = replaceLast(text,",","");
         }
         return text;
     }
@@ -199,7 +199,7 @@ public class Utils {
         }
     }
 
-    public static boolean isCommandCorrect(String regEx, String command, String commandRegEx){
+    public static boolean isArgumentsValid(String regEx, String arguments){
         return true;
     }
 
@@ -258,7 +258,7 @@ public class Utils {
             case "+v":
             case "+value":
                 currentPosition = 3;
-                currentMatch.setLength(0);
+                currentValue.setLength(0);
                 break;
             default:
                 switch (currentPosition){
@@ -304,6 +304,6 @@ public class Utils {
         //Removed ((currentPosition) == end && commandLines[i + 1].startsWith("+"))
         // (commandLines[i+1].matches("(\\+type|\\+t)") ||
         //
-        return i == commandLines.length - 1 || (getPosition(commandLines[i+1],currentPosition) < currentPosition) || (getPosition(commandLines[i+1],currentPosition) == currentPosition && commandLines[i+1].startsWith("+"));
+        return currentPosition == -1 || i == commandLines.length - 1 || (getPosition(commandLines[i+1],currentPosition) < currentPosition) || (getPosition(commandLines[i+1],currentPosition) == currentPosition && commandLines[i+1].startsWith("+"));
     }
 }

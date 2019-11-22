@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.1.0
  */
 public class BibTools {
 
@@ -43,7 +43,6 @@ public class BibTools {
                         while (matcher.find()){
                             temp = temp.replaceFirst(regEx,"{"+matcher.group(1)+"}");
                         }
-                        System.out.println(temp);
                         tempBib.getEntrieList().get(tempBib.getEntrieList().indexOf(entry)).getKeys().remove(keyType.toString());
                         tempBib.getEntrieList().get(tempBib.getEntrieList().indexOf(entry)).getKeys().put(keyType.toString(),temp);
                     }
@@ -57,16 +56,21 @@ public class BibTools {
     /**
      *
      * @param bibliographie
-     * @param name
      */
-    public static void formatMonth(Bibliographie bibliographie, boolean name){
-        for (int i = 0; i < bibliographie.getEntrieList().size(); i++) {
-            if (bibliographie.getEntrieList().get(i).getKeys().containsKey("month")){
-                int month = Utils.getMonth(bibliographie.getEntrieList().get(i).getKeys().get("month"));
-                if(name){
-                    bibliographie.getEntrieList().get(i).getKeys().replace("month",Utils.getMonthByNumber(month));
-                } else {
-                    bibliographie.getEntrieList().get(i).getKeys().replace("month",Utils.formatMonth(month));
+    public static void formatMonth(Bibliographie bibliographie, Set<TypeType> types, String style){
+        for (Entry entry : bibliographie.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                if (entry.getKeys().containsKey("month")){
+                    int i = bibliographie.getEntrieList().indexOf(entry);
+                    int month = Utils.getMonth(bibliographie.getEntrieList().get(i).getKeys().get("month"));
+                    switch (style){
+                        case "name":
+                            bibliographie.getEntrieList().get(i).getKeys().replace("month",Utils.getMonthByNumber(month));
+                            break;
+                        case "number":
+                            bibliographie.getEntrieList().get(i).getKeys().replace("month",Utils.formatMonth(month));
+                            break;
+                    }
                 }
             }
         }
@@ -75,16 +79,20 @@ public class BibTools {
     /**
      *
      * @param bibliographie
-     * @param singleLine
+     * @param types
+     * @param style
      */
-    public static void formatPages(Bibliographie bibliographie, boolean singleLine){
-        for (int i = 0; i < bibliographie.getEntrieList().size(); i++) {
-            if (bibliographie.getEntrieList().get(i).getKeys().containsKey("pages")){
-                String page = bibliographie.getEntrieList().get(i).getKeys().get("pages").replaceAll("–","-");;
-                if(singleLine && page.matches("[0-9]{1,}--[0-9]{1,}")){
-                    bibliographie.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("--","-"));
-                } else if (!singleLine && page.matches("[0-9]{1,}-[0-9]{1,}")){
-                    bibliographie.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("-","--"));
+    public static void formatPages(Bibliographie bibliographie, Set<TypeType> types, String style){
+        for (Entry entry : bibliographie.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                if (entry.getKeys().containsKey("pages")){
+                    int i = bibliographie.getEntrieList().indexOf(entry);
+                    String page = bibliographie.getEntrieList().get(i).getKeys().get("pages").replaceAll("–","-");;
+                    if(style.matches("single") && page.matches("[0-9]{1,}--[0-9]{1,}")){
+                        bibliographie.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("--","-"));
+                    } else if (style.matches("double") && page.matches("[0-9]{1,}-[0-9]{1,}")){
+                        bibliographie.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("-","--"));
+                    }
                 }
             }
         }
@@ -128,26 +136,32 @@ public class BibTools {
     /**
      * Replaces every special character in a specified key by another symbol linked in the character map specified.
      * @param bibliographie
-     * @param key
+     * @param types
+     * @param keys
+     * @param characterMap
      */
-    public static void saveSpecialCharacters(Bibliographie bibliographie, KeyType key, String characterMap){
+    public static void saveSpecialCharacters(Bibliographie bibliographie, Set<TypeType> types, Set<KeyType> keys, String characterMap){
         LinkedList<Entry> entrieList = new LinkedList<>();
         for (Entry entry : bibliographie.getEntrieList()) {
-            LinkedHashMap<String,String> keys = new LinkedHashMap<>();
-            for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
-                String temp = stringStringEntry.getValue();
-                if (stringStringEntry.getKey().equalsIgnoreCase(key.toString())){
-                    for (Map.Entry<String, String> characterMapEntry : SpecialCharacterManager.getCharacterMap(characterMap).getCharacterMap().entrySet()) {
-                        String pattern = SpecialCharacterManager.getCharacterMap(characterMap).getRegExPattern().replaceAll("%VALUE%",characterMapEntry.getKey());
-                        Matcher m = Pattern.compile(pattern).matcher(stringStringEntry.getValue());
-                        while (m.find()){
-                            temp = Utils.replaceGroup(pattern,temp,2,characterMapEntry.getValue());
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                LinkedHashMap<String,String> keyMap = new LinkedHashMap<>();
+                for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                    String temp = stringStringEntry.getValue();
+                    if (keys.isEmpty() || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))){
+                        for (Map.Entry<String, String> characterMapEntry : SpecialCharacterManager.getCharacterMap(characterMap).getCharacterMap().entrySet()) {
+                            String pattern = SpecialCharacterManager.getCharacterMap(characterMap).getRegExPattern().replaceAll("%VALUE%",characterMapEntry.getKey());
+                            Matcher m = Pattern.compile(pattern).matcher(stringStringEntry.getValue());
+                            while (m.find()){
+                                temp = Utils.replaceGroup(pattern,temp,2,characterMapEntry.getValue());
+                            }
                         }
                     }
+                    keyMap.put(stringStringEntry.getKey(),temp);
                 }
-                keys.put(stringStringEntry.getKey(),temp);
+                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keyMap));
+            } else {
+                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
             }
-            entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keys));
         }
         bibliographie.setEntrieList(entrieList);
     }

@@ -14,7 +14,7 @@ import java.util.Set;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.0.0
  */
 public class Bibliographie {
     private LinkedList<Entry> entrieList;

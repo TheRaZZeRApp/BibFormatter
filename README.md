@@ -71,41 +71,41 @@ Set to true or false if you want to debug the output
 
 Optional Parameters:
 ```sh
---capitalizeValue [<file>|{key1} <key2> <keyn>] ...
--cv
+--saveCapitals
+-sv
 You can specifiy a file which contains a list of fields or list every field as parameter.
 Parameter represent fields i.e. title author book ...
 Encloses every uppercase letter in the specified fields (This i A test -> {T}his is {A} test). 
 ```
 ```sh
---orderEntries [<file>|{key1} <key2> <keyn>] ...
+--orderEntries
 -oe
 If no parameter is specified the standart order listed in the config file is used.
 You can specifiy a file which contains a list of fields or list every field as parameter.
 Orders every entry in a bib file by a given list of fields.
 ```
 ```sh
---formatMonth [number|name]
+--formatMonth
 -fm
 If no parameter is specified the standart format is by name.
 You can specifiy the format style i.e. 07 or jul
 Formats every month value into the described format.
 ```
 ```sh
---formatPages [single|double]
+--formatPages
 -fp
 If no parameter is specified the standart format is double.
 You can specifiy the format style i.e. - or -- between page numbers
 Formats every page value into the described format.
 ```
 ```sh
---removeEntry [<file>|{key1} <key2> <keyn>] ...
+--removeEntry
 -re
 You can specifiy a file which contains a list of fields or list every field as parameter.
 Removes every entry specified
 ```
 ```sh
---saveSpecialCharacters {[+characterMap <characterMap>] <file>|{key1} <key2> <keyn>} ...
+--saveSymbols
 -ss
 You can specifiy a file which contains a list of fields or list every field as parameter.
 If no special character map is specified the standart one is picked (see config).
@@ -113,7 +113,7 @@ Character map needs to be in the Data folder saved as txt (UTF-8)
 Replaces every special character with the correct latex code.
 ```
 ```sh
---replaceKey {<file>|[+type {articleType}] {key} {replacementKey} ... } ...
+--replaceKey 
 -rk
 You can specifiy a file which contains a list of commands or add them directly.
 If no type (i.e. book) is specified the changes will affect every type (until a type has specified). 
@@ -127,7 +127,7 @@ replaces every subtitle key inside a book type with a title key.
 It also replaces every issn key in an article with an isbn key. 
 ```
 ```sh
---setValue {<file>|[+type {<file>|{t1} ... [tn]}] [+key {<file>|{k1} ... [kn]}] [+match {<file>|{match}}] +value {<file>|{value}}}
+--setValue 
 -sv
 You can specifiy a file which contains a list of commands or add them directly.
 If no type (i.e. book) is specified the changes will affect every type (until a type has specified).
@@ -144,6 +144,8 @@ Example:
 
 ## Release History
 
+* 0.8.8
+    * Add: More powerful command system
 * 0.7.7
     * Edit: Rewriting Command System
 * 0.7.6

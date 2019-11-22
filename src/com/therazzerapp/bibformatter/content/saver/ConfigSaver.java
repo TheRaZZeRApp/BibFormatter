@@ -39,6 +39,8 @@ public class ConfigSaver {
     public static void createDefaultConfig(){
         Map<ConfigType, Object> configMap = new HashMap<>();
         configMap.put(ConfigType.ENTRYORDER,"title shorttitle author year month day journal booktitle location on publisher address series volume number pages doi isbn issn url urldate copyright category note metadata");
+        configMap.put(ConfigType.DEFAULTMONTHFORMAT,"name");
+        configMap.put(ConfigType.DEFAULTPAGESFORMAT,"double");
         configMap.put(ConfigType.ENCLOSENUMERICS,false);
         configMap.put(ConfigType.INDENTSTYLE,"tabs");
         configMap.put(ConfigType.INDENTSPACESAMOUNT,3);

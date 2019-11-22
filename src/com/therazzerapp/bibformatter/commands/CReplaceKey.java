@@ -16,14 +16,13 @@ import java.util.Set;
  * @since 0.7.7
  */
 public class CReplaceKey {
-    public static final String PATTERNGROUP1 = "par1";
-    public static final String COMMANDPATTERN = "(-replaceKey|-rk) (?<" + PATTERNGROUP1 + ">[^-]{0,})";
     public static final String ARGUMENTPATTERN = "";
+    public static final String COMMANDPATTERN = "(-replaceKey|-rk) (?<arg>[^-]{0,})";
 
-    public static void run(Bibliographie bibliographie, String parameter){
-        if (Utils.isCommandCorrect(ARGUMENTPATTERN,parameter,COMMANDPATTERN)){
-            String[] commandLines = Utils.getCommand(parameter).split(" ");
-            int currentPosition = 0;
+    public static void run(Bibliographie bibliographie, String arguments){
+        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
+            String[] commandLines = Utils.getCommand(arguments).split(" ");
+            int currentPosition = -1;
 
             Set<TypeType> currentTypes = new HashSet<>();           //0
             LinkedList<KeyType> currentKeys = new LinkedList<>();   //1
