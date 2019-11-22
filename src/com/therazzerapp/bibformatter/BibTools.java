@@ -2,7 +2,10 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
+import com.therazzerapp.bibformatter.content.FlawerdEntry;
+import com.therazzerapp.bibformatter.content.RequiredFields;
 import com.therazzerapp.bibformatter.manager.SpecialCharacterManager;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -15,6 +18,42 @@ import java.util.regex.Pattern;
  * @since 0.1.0
  */
 public class BibTools {
+
+    /**
+     * Checks if an {@link Entry} is missing keys.
+     * @param bibliographie
+     * @param types
+     * @param requiredFields
+     * @param args
+     * @param print
+     * @return
+     */
+    public static Set<FlawerdEntry> checkType(Bibliographie bibliographie, Set<TypeType> types, RequiredFields requiredFields, String args, boolean print){
+        Set<FlawerdEntry> flawerdEntries = new HashSet<>();
+        for (Entry entry : bibliographie.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                FlawerdEntry flawerdEntry = new FlawerdEntry(entry.getBibtexkey(),entry.getTypeType());
+                for (KeyType requiredField : requiredFields.getRequiredFields(entry.getTypeType())) {
+                    if (!entry.getKeys().containsKey(requiredField.toString())){
+                        flawerdEntry.addKey(requiredField);
+                    }
+                }
+                if (!flawerdEntry.getKeyTypes().isEmpty()){
+                    flawerdEntries.add(flawerdEntry);
+                }
+            }
+        }
+        if (print){
+            if (args.isEmpty() || args.equals("html")){
+                Utils.exportFlawedEntryAsHTML(bibliographie, flawerdEntries);
+            } else if (args.equals("txt")){
+                Utils.exportFlawedEntryAsTXT(bibliographie, flawerdEntries);
+            }else if (args.equals("json")){
+                Utils.exportFlawedEntryAsJSON(bibliographie, flawerdEntries);
+            }
+        }
+        return flawerdEntries;
+    }
 
     /**
      * Encloses every char listed in characters with {} in all the specified types and keys
@@ -113,22 +152,6 @@ public class BibTools {
             } else {
                 tempEntrieList.add(entry);
             }
-        }
-        bibliographie.setEntrieList(tempEntrieList);
-    }
-
-    /**
-     * Orders every {@link Entry} in a {@link Bibliographie} by an entry order list specified in a String.
-     * @param bibliographie
-     * @param orderList
-     * @return
-     */
-    public static void orderEntries(Bibliographie bibliographie, String orderList){
-        LinkedList<Entry> tempEntrieList = new LinkedList<>();
-        for (Entry entry : bibliographie.getEntrieList()) {
-            tempEntrieList.add(
-                    new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), orderList))
-            );
         }
         bibliographie.setEntrieList(tempEntrieList);
     }

@@ -1,5 +1,7 @@
 package com.therazzerapp.bibformatter;
 
+import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.content.FlawerdEntry;
 import com.therazzerapp.bibformatter.manager.FileManager;
 
 import java.io.File;
@@ -15,6 +17,50 @@ import java.util.regex.Pattern;
  */
 public class Utils {
 
+    /**
+     * Exports the content of every {@link FlawerdEntry} in a {@link Set} as a formatted HTML file.
+     * @param bib
+     * @param flawedEntries
+     */
+    public static void exportFlawedEntryAsHTML(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
+
+    }
+
+    /**
+     * Exports the content of every {@link FlawerdEntry} in a {@link Set} as a plain text file.
+     * @param bib
+     * @param flawedEntries
+     */
+    public static void exportFlawedEntryAsTXT(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
+        StringBuilder sb = new StringBuilder();
+        for (FlawerdEntry flawerdEntry : flawedEntries) {
+            sb.append(flawerdEntry.getTypeType().toString());
+            sb.append("@");
+            sb.append(flawerdEntry.getBibTexKey());
+            for (KeyType keyType : flawerdEntry.getKeyTypes()) {
+                sb.append("\n");
+                sb.append(keyType);
+            }
+        }
+        FileManager.exportFile(sb.toString(),"./" + bib.getName() + "_flaws.txt");
+    }
+
+    /**
+     * Exports the content of every {@link FlawerdEntry} in a {@link Set} as a JSON file.
+     * @param bib
+     * @param flawedEntries
+     */
+    public static void exportFlawedEntryAsJSON(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
+
+    }
+
+    /**
+     * Replaces the last match of a String by a given String
+     * @param text
+     * @param regex
+     * @param replacement
+     * @return
+     */
     public static String replaceLast(String text, String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
@@ -30,6 +76,11 @@ public class Utils {
         return new StringBuilder(source).replace(m.start(groupToReplace), m.end(groupToReplace), replacement).toString();
     }
 
+    /**
+     * Trims a String, removes last "," and {}
+     * @param text
+     * @return
+     */
     public static String trim(String text){
         int openCounter = 0;
         int closeCounter = 0;
@@ -187,6 +238,11 @@ public class Utils {
         return array;
     }
 
+    /**
+     * Checks if argument represents a file of arguments.
+     * @param rawCommand
+     * @return
+     */
     public static String getCommand(String rawCommand){
         if (new File(rawCommand).exists()){
             StringBuilder sb = new StringBuilder();
@@ -199,22 +255,43 @@ public class Utils {
         }
     }
 
+    /**
+     * Checks if the given arguments are correct formatted.
+     * @param regEx
+     * @param arguments
+     * @return
+     */
     public static boolean isArgumentsValid(String regEx, String arguments){
-        return true;
+        if (regEx.isEmpty()){
+            return true;
+        }
+        return arguments.matches(regEx);
     }
 
 
+    /**
+     * Adds every argument found in a file or String to a given {@link StringBuilder}.
+     * @param currentMatch
+     * @param commandLines
+     * @param i
+     */
     public static void getCommandArguments(StringBuilder currentMatch, String[] commandLines, int i) {
-        if(new File(commandLines[i]).exists()){
+        if(new File(commandLines[i].trim()).exists()){
             currentMatch.append(getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
             currentMatch.append(" ");
         } else {
-            currentMatch.append(commandLines[i]);
+            currentMatch.append(commandLines[i].trim());
             currentMatch.append(" ");
         }
     }
 
+    /**
+     * Adds every {@link TypeType} found in a file or String and adds it to a {@link Collection<TypeType>} of types.
+     * @param commandLines
+     * @param currentTypes
+     */
     public static void getCommandTypes(String commandLines, Collection<TypeType> currentTypes) {
+        if (currentTypes != null)
         if(new File(commandLines).exists()){
             for (String s : FileManager.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
@@ -226,7 +303,13 @@ public class Utils {
         }
     }
 
+    /**
+     * Adds every {@link KeyType} found in a file or String and adds it to a {@link Collection<KeyType>} of keys.
+     * @param commandLines
+     * @param currentKeys
+     */
     public static void getCommandKeys(String commandLines, Collection<KeyType> currentKeys) {
+        if (currentKeys != null)
         if(new File(commandLines).exists()){
             for (String s : FileManager.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
@@ -238,17 +321,29 @@ public class Utils {
         }
     }
 
+
+    /**
+     * Analyses a argument of command and interpret its values.
+     * @param commandLines
+     * @param currentPosition
+     * @param i
+     * @param currentTypes
+     * @param currentKeys
+     * @param currentMatch
+     * @param currentValue
+     * @return
+     */
     public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue){
         switch (commandLines[i]){
             case "+t":
             case "+type":
                 currentPosition = 0;
-                currentTypes.clear();
+                if (currentTypes != null) currentTypes.clear();
                 break;
             case "+k":
             case "+key":
                 currentPosition = 1;
-                currentKeys.clear();
+                if (currentKeys != null) currentKeys.clear();
                 break;
             case "+m":
             case "+match":
@@ -281,6 +376,12 @@ public class Utils {
         return currentPosition;
     }
 
+    /**
+     * Returns the position of the argument.
+     * @param arg
+     * @param position
+     * @return
+     */
     public static int getPosition(String arg, int position){
         switch (arg){
             case "+t":
@@ -300,10 +401,15 @@ public class Utils {
         }
     }
 
+    /**
+     * Checks if the command end is reached or if a new argument section of a command starts.
+     * @param commandLines
+     * @param i
+     * @param end
+     * @param currentPosition
+     * @return
+     */
     public static boolean isCommandEndReached(String[] commandLines, int i, int end, int currentPosition){
-        //Removed ((currentPosition) == end && commandLines[i + 1].startsWith("+"))
-        // (commandLines[i+1].matches("(\\+type|\\+t)") ||
-        //
         return currentPosition == -1 || i == commandLines.length - 1 || (getPosition(commandLines[i+1],currentPosition) < currentPosition) || (getPosition(commandLines[i+1],currentPosition) == currentPosition && commandLines[i+1].startsWith("+"));
     }
 }

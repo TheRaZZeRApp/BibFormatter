@@ -1,5 +1,8 @@
 package com.therazzerapp.bibformatter.manager;
 
+import com.therazzerapp.bibformatter.config.JSONConfig;
+import com.therazzerapp.bibformatter.config.JSONConfigSection;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +16,23 @@ import java.util.ArrayList;
  */
 public class FileManager {
 
+    /**
+     * Export a {@link JSONConfigSection} as file to a give path
+     * @param jsonConfigSection
+     * @param path
+     */
+    public static void exportJSONFile(JSONConfigSection jsonConfigSection, String path){
+        File file = new File(path);
+        JSONConfig config = new JSONConfig();
+        config.save(jsonConfigSection,file);
+    }
+
+    /**
+     * Export the content of a {@link String} to a file.
+     * path needs to contain an extension.
+     * @param text
+     * @param path
+     */
     public static void exportFile(String text, String path){
         File file = new File(path);
         Writer writer = null;
@@ -52,6 +72,12 @@ public class FileManager {
         return text;
     }
 
+    /**
+     * Get the content of a file as an {@link ArrayList<String>}.
+     * Each line in the file represents a new {@link String} in the array.
+     * @param file
+     * @return
+     */
     public static ArrayList<String> getFileContent(File file){
         ArrayList<String> text = new ArrayList<>();
         BufferedReader br;

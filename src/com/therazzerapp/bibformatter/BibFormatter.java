@@ -2,7 +2,6 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
 import com.therazzerapp.bibformatter.commands.*;
-import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.manager.*;
@@ -25,7 +24,7 @@ public class BibFormatter {
 
         ConfigManager.load();
         SpecialCharacterManager.initiate();
-        RequiredFieldsManager.load();
+        RequiredFieldsManager.init();
 
         if(!new File("./run.bat").exists()){
             StringBuilder sb = new StringBuilder();
@@ -78,6 +77,8 @@ public class BibFormatter {
             CFormatPages.run(bib,arguments);
         } else if (command.matches(CSaveSymbols.COMMANDPATTERN)){
             CSaveSymbols.run(bib,arguments);
+        } else if (command.matches(CCheckType.COMMANDPATTERN)){
+            CCheckType.run(bib,arguments);
         }
     }
 }

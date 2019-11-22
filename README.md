@@ -144,6 +144,8 @@ Example:
 
 ## Release History
 
+* 0.9.8
+    * Add: Command to export flawed entries as txt
 * 0.8.8
     * Add: More powerful command system
 * 0.7.7

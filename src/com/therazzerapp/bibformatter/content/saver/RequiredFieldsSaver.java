@@ -1,11 +1,13 @@
 package com.therazzerapp.bibformatter.content.saver;
 
 import com.therazzerapp.bibformatter.KeyType;
+import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.config.JSONConfig;
 import com.therazzerapp.bibformatter.config.JSONConfigSection;
+import com.therazzerapp.bibformatter.content.RequiredFields;
+import com.therazzerapp.bibformatter.manager.FileManager;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -15,91 +17,90 @@ import java.util.*;
  * @since <VERSION>
  */
 public class RequiredFieldsSaver {
-    public static void save(Map<String, ArrayList<KeyType>> reqFields){
-        File file = new File("./Data/valRequiredFields.json");
-        JSONConfig config = new JSONConfig();
-        JSONConfigSection root = config.newRootSection();
+    public static void save(RequiredFields requiredFields){
+        String path = "./Data/CheckFiles/" + requiredFields.getName()+".json";
+        JSONConfigSection root = new JSONConfig().newRootSection();
 
-        for (Map.Entry<String, ArrayList<KeyType>> stringArrayListEntry : reqFields.entrySet()) {
+        for (Map.Entry<TypeType, ArrayList<KeyType>> stringArrayListEntry : requiredFields.getRequiredFieldsMap().entrySet()) {
             String[] temp = Utils.listToArray(stringArrayListEntry.getValue());
-            root.setStringArray(stringArrayListEntry.getKey(),temp);
+            root.setStringArray(stringArrayListEntry.getKey().toString(),temp);
         }
 
-        config.save(root,file);
+        FileManager.exportJSONFile(root,path);
     }
 
     public static void createDefaultRequiredFields(){
-        Map<String, ArrayList<KeyType>> reqFieldsMap = new HashMap<>();
+        Map<TypeType, ArrayList<KeyType>> reqFieldsMap = new HashMap<>();
         ArrayList<KeyType> temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
-        temp.add(KeyType.BOOKTITLE);
-        temp.add(KeyType.PAGES);
-        temp.add(KeyType.PUBLISHER);
         temp.add(KeyType.TITLE);
+        temp.add(KeyType.PAGES);
         temp.add(KeyType.YEAR);
-        reqFieldsMap.put("inproceedings",temp);
+        temp.add(KeyType.BOOKTITLE);
+        temp.add(KeyType.PUBLISHER);
+        reqFieldsMap.put(TypeType.INPROCEEDINGS,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
+        temp.add(KeyType.TITLE);
+        temp.add(KeyType.PAGES);
+        temp.add(KeyType.YEAR);
         temp.add(KeyType.JOURNAL);
         temp.add(KeyType.NUMBER);
-        temp.add(KeyType.PAGES);
-        temp.add(KeyType.TITLE);
         temp.add(KeyType.VOLUME);
-        temp.add(KeyType.YEAR);
-        reqFieldsMap.put("article",temp);
+        reqFieldsMap.put(TypeType.ARTICLE,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
+        temp.add(KeyType.TITLE);
         temp.add(KeyType.INSTITUTION);
-        temp.add(KeyType.TITLE);
         temp.add(KeyType.YEAR);
-        reqFieldsMap.put("techreport",temp);
+        reqFieldsMap.put(TypeType.TECHREPORT,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
-        temp.add(KeyType.BOOKTITLE);
+        temp.add(KeyType.TITLE);
         temp.add(KeyType.PAGES);
-        temp.add(KeyType.PUBLISHER);
-        temp.add(KeyType.TITLE);
         temp.add(KeyType.YEAR);
-        reqFieldsMap.put("incollection",temp);
-        temp = new ArrayList<>();
-        temp.add(KeyType.AUTHOR);
-        temp.add(KeyType.PUBLISHER);
-        temp.add(KeyType.TITLE);
-        temp.add(KeyType.YEAR);
-        reqFieldsMap.put("book",temp);
-        temp = new ArrayList<>();
-        temp.add(KeyType.AUTHOR);
         temp.add(KeyType.BOOKTITLE);
-        temp.add(KeyType.PAGES);
         temp.add(KeyType.PUBLISHER);
+        reqFieldsMap.put(TypeType.INCOLLECTION,temp);
+        temp = new ArrayList<>();
+        temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
         temp.add(KeyType.YEAR);
-        reqFieldsMap.put("inbook",temp);
+        temp.add(KeyType.PUBLISHER);
+        reqFieldsMap.put(TypeType.BOOK,temp);
         temp = new ArrayList<>();
+        temp.add(KeyType.AUTHOR);
+        temp.add(KeyType.TITLE);
+        temp.add(KeyType.PAGES);
+        temp.add(KeyType.YEAR);
+        temp.add(KeyType.BOOKTITLE);
+        temp.add(KeyType.PUBLISHER);
+        reqFieldsMap.put(TypeType.INBOOK,temp);
+        temp = new ArrayList<>();
+        temp.add(KeyType.TITLE);
+        temp.add(KeyType.YEAR);
         temp.add(KeyType.EDITOR);
         temp.add(KeyType.PUBLISHER);
-        temp.add(KeyType.TITLE);
-        temp.add(KeyType.YEAR);
-        reqFieldsMap.put("proceedings",temp);
+        reqFieldsMap.put(TypeType.PROCEEDINGS,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
+        temp.add(KeyType.TITLE);
+        temp.add(KeyType.YEAR);
         temp.add(KeyType.SCHOOL);
-        temp.add(KeyType.TITLE);
-        temp.add(KeyType.YEAR);
-        reqFieldsMap.put("phdthesis",temp);
-        reqFieldsMap.put("mastersthesis",temp);
+        reqFieldsMap.put(TypeType.PHDTHESIS,temp);
+        reqFieldsMap.put(TypeType.MASTERSTHESIS,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
+        temp.add(KeyType.YEAR);
         temp.add(KeyType.URL);
-        temp.add(KeyType.YEAR);
-        reqFieldsMap.put("electronic",temp);
+        reqFieldsMap.put(TypeType.ELECTRONIC,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
-        temp.add(KeyType.HOWPUBLISHED);
         temp.add(KeyType.TITLE);
         temp.add(KeyType.YEAR);
-        reqFieldsMap.put("misc",temp);
-        save(reqFieldsMap);
+        temp.add(KeyType.HOWPUBLISHED);
+        reqFieldsMap.put(TypeType.MISC,temp);
+        save(new RequiredFields(reqFieldsMap,"valRequiredFields"));
     }
 }
