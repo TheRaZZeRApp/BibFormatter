@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class RequiredFieldsSaver {
     public static void save(RequiredFields requiredFields){
-        String path = "./Data/CheckFiles/" + requiredFields.getName()+".json";
+        String path = "./Data/CheckFiles/" + requiredFields.getName();
         JSONConfigSection root = new JSONConfig().newRootSection();
 
         for (Map.Entry<TypeType, ArrayList<KeyType>> stringArrayListEntry : requiredFields.getRequiredFieldsMap().entrySet()) {
@@ -101,6 +101,11 @@ public class RequiredFieldsSaver {
         temp.add(KeyType.YEAR);
         temp.add(KeyType.HOWPUBLISHED);
         reqFieldsMap.put(TypeType.MISC,temp);
+        temp = new ArrayList<>();
+        temp.add(KeyType.AUTHOR);
+        temp.add(KeyType.TITLE);
+        temp.add(KeyType.YEAR);
+        reqFieldsMap.put(TypeType.DEFAULT,temp);
         save(new RequiredFields(reqFieldsMap,"valRequiredFields"));
     }
 }

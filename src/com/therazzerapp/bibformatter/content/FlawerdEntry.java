@@ -55,4 +55,14 @@ public class FlawerdEntry {
     public Set<KeyType> getKeyTypes() {
         return keyTypes;
     }
+
+    public String[] getKeyTypesAsArray(){
+        String[] temp = new String[keyTypes.size()];
+        int i = 0;
+        for (KeyType keyType : keyTypes) {
+            temp[i] = keyType.toString();
+            i++;
+        }
+        return temp;
+    }
 }

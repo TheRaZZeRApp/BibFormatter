@@ -7,16 +7,24 @@ package com.therazzerapp.bibformatter;
  * @since <version>
  */
 public enum TypeType {
+    DEFAULT,
     INPROCEEDINGS,
     ARTICLE,
     TECHREPORT,
     INCOLLECTION,
+    COLLECTION,
     BOOK,
     INBOOK,
     PROCEEDINGS,
     PHDTHESIS,
     MASTERSTHESIS,
     ELECTRONIC,
+    THESIS,
+    ONLINE,
+    UNPUBLISHED,
+    CONFERENCE,
+    MANUAL,
+    BOOKLET,
     MISC;
 
     @Override

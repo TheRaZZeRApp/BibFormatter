@@ -31,7 +31,7 @@ public class RequiredFields {
     }
 
     public ArrayList<KeyType> getRequiredFields (TypeType type){
-        return requiredFieldsMap.get(type);
+        return requiredFieldsMap.get(type) != null ? requiredFieldsMap.get(type) : requiredFieldsMap.get(TypeType.DEFAULT);
     }
 
     public Map<TypeType, ArrayList<KeyType>> getRequiredFieldsMap() {

@@ -38,6 +38,8 @@ public enum KeyType {
     MAINTITLE,
     SUBTITLE,
     COLLECTION,
+    CROSSREF,
+    KEY,
     PLACE,
     CHAPTER,
     EDITOR,

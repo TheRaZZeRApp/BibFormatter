@@ -18,6 +18,7 @@ import java.util.Map;
 public class JSONConfigSection {
     private final JsonObject object;
 
+
     public JSONConfigSection(JsonObject object) {
         this.object = object;
     }
@@ -370,6 +371,8 @@ public class JSONConfigSection {
     }
 
 
+
+
     public void setIntArray(String name, int[] values) {
         JsonArray array = new JsonArray();
         for (int value : values) {
@@ -444,6 +447,21 @@ public class JSONConfigSection {
         JsonObject jsonObject = new JsonObject();
         array.add(jsonObject);
         return new JSONConfigSection(jsonObject);
+    }
+
+    public JSONConfigSection addConfigSectionEntry(String name){
+        JsonObject obj;
+        if (object.has(name)){
+            if (object.get(name).isJsonObject()){
+                obj = object.getAsJsonObject(name);
+            } else {
+                return null;
+            }
+        } else {
+            obj = new JsonObject();
+            object.add(name,obj);
+        }
+        return new JSONConfigSection(obj);
     }
 
 

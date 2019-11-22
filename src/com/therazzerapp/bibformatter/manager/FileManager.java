@@ -22,7 +22,7 @@ public class FileManager {
      * @param path
      */
     public static void exportJSONFile(JSONConfigSection jsonConfigSection, String path){
-        File file = new File(path);
+        File file = new File(path+ ".json");
         JSONConfig config = new JSONConfig();
         config.save(jsonConfigSection,file);
     }

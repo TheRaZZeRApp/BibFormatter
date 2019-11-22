@@ -1,6 +1,8 @@
 package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.config.JSONConfig;
+import com.therazzerapp.bibformatter.config.JSONConfigSection;
 import com.therazzerapp.bibformatter.content.FlawerdEntry;
 import com.therazzerapp.bibformatter.manager.FileManager;
 
@@ -51,7 +53,21 @@ public class Utils {
      * @param flawedEntries
      */
     public static void exportFlawedEntryAsJSON(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
-
+        JSONConfigSection root = new JSONConfig().newRootSection();
+        Set<TypeType> types = new HashSet<>();
+        for (FlawerdEntry flawedEntry : flawedEntries) {
+            types.add(flawedEntry.getTypeType());
+        }
+        for (TypeType type : types) {
+            JSONConfigSection rType = root.addConfigSectionEntry(type.toString());
+            for (FlawerdEntry flawedEntry : flawedEntries) {
+                if (flawedEntry.getTypeType() == type){
+                    JSONConfigSection eType = rType.addConfigSectionEntry(flawedEntry.getBibTexKey());
+                    eType.setStringArray("missing",flawedEntry.getKeyTypesAsArray());
+                }
+            }
+        }
+        FileManager.exportJSONFile(root,"./" + bib.getName() + "_flaws");
     }
 
     /**
@@ -82,6 +98,7 @@ public class Utils {
      * @return
      */
     public static String trim(String text){
+        //todo rewrite, code is half false and complete trash
         int openCounter = 0;
         int closeCounter = 0;
         for (char c : text.toCharArray()) {
