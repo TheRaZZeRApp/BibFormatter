@@ -3,23 +3,23 @@
 
 ## Features
 
-<li>Save Capitalize Symbols</li>
-<li>Order Entries</li>
-<li>Format Month</li>
-<li>Format Pages</li>
-<li>Remove Entries</li>
-<li>Save Special Characters</li>
+<li>Save capitals</li>
+<li>Order keys</li>
+<li>Format month</li>
+<li>Format pages</li>
+<li>Remove keys</li>
+<li>Save special characters</li>
 <li>Multi special character map support</li>
-<li>Replace Key</li>
-<li>Replace Value/Set Value</li>
+<li>Replace key</li>
+<li>Replace value/Set value</li>
+<li>Check for required keys</li>
+<li>Create Key+Value</li>
 
 ## Planned Features
 
-<li>Create Key+Value</li>
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
 <li>Format URLs</li>
-<li>Check for required fields</li>
 <li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
 <li>Create bib from aux file</li>
 <li>Create bib from bcf file</li>
@@ -144,6 +144,8 @@ Example:
 
 ## Release History
 
+* 0.11.9
+    * Add: Option to create new keys and add a value
 * 0.10.9
     * Add: Option to specify a save location
     * Add: Option to run multiple commands on multiple bib files

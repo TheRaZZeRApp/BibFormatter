@@ -51,6 +51,24 @@ public class Bibliographie {
     }
 
     /**
+     *
+     * @param types
+     * @param entries
+     * @param value
+     */
+    public void createKey(Set<TypeType> types, Set<KeyType> entries, String value){
+        for (Entry entry : entrieList) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                for (KeyType keyType : entries) {
+                    if (!entry.getKeys().containsKey(keyType.toString())){
+                        entry.getKeys().put(keyType.toString(),value);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Removes and entry specified by the type of article it is inside and the value it contains.
      * Set inverse to true if you want to delete every entry except the specified.
      * @param types

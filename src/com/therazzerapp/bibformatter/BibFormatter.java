@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @since 0.0.0
  */
 public class BibFormatter {
-    public static final String VERSION = "0.8.8";
+    public static final String VERSION = "0.11.9";
 
     public static void main(String[] args) {
 
@@ -37,7 +37,7 @@ public class BibFormatter {
             //StartUp startUp = new StartUp();
             //SwingUtilities.invokeLater(startUp);
         } else if (args.length == 2){
-            LogManager.writeError("Error: No commands found!\nUsage: <file:bibFile> <boolean:debug> -c1 pn -c2 pn -cn pn ...");
+            LogManager.writeError("Error: No commands found!\nUsage: ");
         } else {
             File file;
             Bibliographie bib = null;
@@ -66,7 +66,6 @@ public class BibFormatter {
                         saveLocation = "./" + Utils.replaceLast(file.getName(),".bib","") + "_formatted.bib";
                         bib = BibLoader.load(new File(args[i+1]),saveLocation);
                     }
-                    System.out.println();
                     i++;
                 } else {
                     temp.append(args[i]);
@@ -100,6 +99,8 @@ public class BibFormatter {
             CSaveSymbols.run(bib,arguments);
         } else if (command.matches(CCheckType.COMMANDPATTERN)){
             CCheckType.run(bib,arguments);
+        } else if (command.matches(CCreateKey.COMMANDPATTERN)){
+            CCreateKey.run(bib,arguments);
         }
     }
 }
