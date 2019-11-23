@@ -3,7 +3,7 @@ package com.therazzerapp.bibformatter.commands;
 import com.therazzerapp.bibformatter.BibTools;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.manager.ConfigManager;
 
@@ -20,7 +20,7 @@ public class CFormatMonth {
     public static final String ARGUMENTPATTERN = "";
     public static final String COMMANDPATTERN = "(-formatMonth|-fm)(?<arg>[^-]{0,})";
 
-    public static void run(Bibliographie bibliographie, String arguments){
+    public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
@@ -35,7 +35,7 @@ public class CFormatMonth {
                     if (style.isEmpty()){
                         style = (String) ConfigManager.getConfigProperty(ConfigType.DEFAULTMONTHFORMAT);
                     }
-                    BibTools.formatMonth(bibliographie,currentTypes,style);
+                    BibTools.formatMonth(bibliography,currentTypes,style);
                 }
             }
         }

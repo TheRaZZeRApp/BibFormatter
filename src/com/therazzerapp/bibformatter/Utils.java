@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter;
 
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.config.JSONConfig;
 import com.therazzerapp.bibformatter.config.JSONConfigSection;
 import com.therazzerapp.bibformatter.content.FlawerdEntry;
@@ -24,7 +24,7 @@ public class Utils {
      * @param bib
      * @param flawedEntries
      */
-    public static void exportFlawedEntryAsHTML(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
+    public static void exportFlawedEntryAsHTML(Bibliography bib, Set<FlawerdEntry> flawedEntries){
 
     }
 
@@ -33,7 +33,7 @@ public class Utils {
      * @param bib
      * @param flawedEntries
      */
-    public static void exportFlawedEntryAsTXT(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
+    public static void exportFlawedEntryAsTXT(Bibliography bib, Set<FlawerdEntry> flawedEntries){
         StringBuilder sb = new StringBuilder();
         for (FlawerdEntry flawerdEntry : flawedEntries) {
             sb.append(flawerdEntry.getTypeType().toString());
@@ -52,7 +52,7 @@ public class Utils {
      * @param bib
      * @param flawedEntries
      */
-    public static void exportFlawedEntryAsJSON(Bibliographie bib, Set<FlawerdEntry> flawedEntries){
+    public static void exportFlawedEntryAsJSON(Bibliography bib, Set<FlawerdEntry> flawedEntries){
         JSONConfigSection root = new JSONConfig().newRootSection();
         Set<TypeType> types = new HashSet<>();
         for (FlawerdEntry flawedEntry : flawedEntries) {
@@ -292,8 +292,8 @@ public class Utils {
      * @param commandLines
      * @param i
      */
-    public static void getCommandArguments(StringBuilder currentMatch, String[] commandLines, int i) {
-        if(new File(commandLines[i].trim()).exists()){
+    public static void getCommandArguments(StringBuilder currentMatch, String[] commandLines, int i, boolean readFiles) {
+        if(new File(commandLines[i].trim()).exists() && readFiles){
             currentMatch.append(getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
             currentMatch.append(" ");
         } else {
@@ -338,6 +338,10 @@ public class Utils {
         }
     }
 
+    public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue){
+        return getCommandValues(commandLines,currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue,true);
+    }
+
 
     /**
      * Analyses a argument of command and interpret its values.
@@ -348,9 +352,10 @@ public class Utils {
      * @param currentKeys
      * @param currentMatch
      * @param currentValue
+     * @param readFile
      * @return
      */
-    public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue){
+    public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue, boolean readFile){
         switch (commandLines[i]){
             case "+t":
             case "+type":
@@ -381,10 +386,10 @@ public class Utils {
                         Utils.getCommandKeys(commandLines[i], currentKeys);
                         break;
                     case 2:
-                        Utils.getCommandArguments(currentMatch, commandLines, i);
+                        Utils.getCommandArguments(currentMatch, commandLines, i,readFile);
                         break;
                     case 3:
-                        Utils.getCommandArguments(currentValue, commandLines, i);
+                        Utils.getCommandArguments(currentValue, commandLines, i,readFile);
                         break;
                     default:
                         return -1;

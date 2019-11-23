@@ -4,7 +4,7 @@ import com.therazzerapp.bibformatter.BibTools;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +20,7 @@ public class COrderEntries {
     public static final String ARGUMENTPATTERN = "";
     public static final String COMMANDPATTERN = "(-orderEntries|-oe) (?<arg>[^-]{0,})";
 
-    public static void run(Bibliographie bibliographie, String arguments){
+    public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
@@ -33,7 +33,7 @@ public class COrderEntries {
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    BibTools.orderEntries(bibliographie,currentTypes,currentKeys);
+                    BibTools.orderEntries(bibliography,currentTypes,currentKeys);
                 }
             }
         }

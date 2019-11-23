@@ -3,7 +3,7 @@ package com.therazzerapp.bibformatter.commands;
 import com.therazzerapp.bibformatter.BibTools;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.content.RequiredFields;
 import com.therazzerapp.bibformatter.manager.RequiredFieldsManager;
 
@@ -21,7 +21,7 @@ public class CCheckType {
     public static final String ARGUMENTPATTERN = "";
     public static final String COMMANDPATTERN = "(-checkType|-ct) (?<arg>[^-]{0,})";
 
-    public static void run(Bibliographie bibliographie, String arguments){
+    public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
@@ -45,7 +45,7 @@ public class CCheckType {
                             requiredFields = RequiredFieldsManager.getRequiredFieldsMap(currentMatch.toString());
                         }
                     }
-                    BibTools.checkType(bibliographie,currentTypes,requiredFields,currentValue.toString().trim(),true);
+                    BibTools.checkType(bibliography,currentTypes,requiredFields,currentValue.toString().trim(),true);
                 }
             }
         }

@@ -3,7 +3,7 @@ package com.therazzerapp.bibformatter.commands;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,7 @@ public class CCreateKey {
     public static final String ARGUMENTPATTERN = "";
     public static final String COMMANDPATTERN = "(-createKey|-ck) (?<arg>[^-]{0,})";
 
-    public static void run(Bibliographie bibliographie, String arguments){
+    public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
@@ -30,7 +30,7 @@ public class CCreateKey {
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,null,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliographie.createKey(currentTypes,currentKeys,currentValue.toString().trim());
+                    bibliography.createKey(currentTypes,currentKeys,currentValue.toString().trim());
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter;
 
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.commands.*;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @since 0.0.0
  */
 public class BibFormatter {
-    public static final String VERSION = "0.11.9";
+    public static final String VERSION = "0.12.9";
 
     public static void main(String[] args) {
 
@@ -40,7 +40,7 @@ public class BibFormatter {
             LogManager.writeError("Error: No commands found!\nUsage: ");
         } else {
             File file;
-            Bibliographie bib = null;
+            Bibliography bib = null;
             StringBuilder temp = new StringBuilder();
             String saveLocation = "";
             for (int i = 0; i < args.length; i++) {
@@ -80,7 +80,7 @@ public class BibFormatter {
         }
     }
 
-    private static void runCommands(Bibliographie bib, final String command, String arguments){
+    private static void runCommands(Bibliography bib, final String command, String arguments){
         if (command.matches(CReplaceKey.COMMANDPATTERN)){
             CReplaceKey.run(bib,arguments);
         } else if (command.matches(CSetValue.COMMANDPATTERN)){
@@ -101,6 +101,10 @@ public class BibFormatter {
             CCheckType.run(bib,arguments);
         } else if (command.matches(CCreateKey.COMMANDPATTERN)){
             CCreateKey.run(bib,arguments);
+        } else if (command.matches(CFromAux.COMMANDPATTERN)){
+            CFromAux.run(bib,arguments);
+        } else if (command.matches(CAddEntry.COMMANDPATTERN)){
+            CAddEntry.run(bib,arguments);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.therazzerapp.bibformatter.content.loader;
 
 import com.therazzerapp.bibformatter.Utils;
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 
 import java.io.*;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * @since <VERSION>
  */
 public class BibLoader {
-    public static Bibliographie load(File file, String saveLocation){
+    public static Bibliography load(File file, String saveLocation){
         BufferedReader bufferedReader;
         InputStream inputStream = null;
         InputStreamReader inputStreamReader;
@@ -54,7 +54,7 @@ public class BibLoader {
             } catch (IOException ioe) {
             }
         }
-        return new Bibliographie(formatEntries(entries),file.getName().replaceAll(".bib",""),saveLocation);
+        return new Bibliography(formatEntries(entries),file.getName().replaceAll(".bib",""),saveLocation);
     }
 
     private static LinkedList<Entry> formatEntries(LinkedList<String> entries){

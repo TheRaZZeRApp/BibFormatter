@@ -16,34 +16,34 @@ import java.util.Set;
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
  * @since 0.0.0
  */
-public class Bibliographie {
+public class Bibliography {
     private LinkedList<Entry> entrieList;
     private String name;
     private LinkedList<String> comments;
     private String saveLocation;
 
-    public Bibliographie(LinkedList<Entry> entrieList, String name, LinkedList<String> comments, String saveLocation) {
+    public Bibliography(LinkedList<Entry> entrieList, String name, LinkedList<String> comments, String saveLocation) {
         this.entrieList = entrieList;
         this.name = name;
         this.comments = comments;
         this.saveLocation = saveLocation;
     }
 
-    public Bibliographie(LinkedList<Entry> entrieList, String name, LinkedList<String> comments) {
+    public Bibliography(LinkedList<Entry> entrieList, String name, LinkedList<String> comments) {
         this.entrieList = entrieList;
         this.name = name;
         this.comments = comments;
         this.saveLocation = "./" + Utils.replaceLast(name,".bib","") + "_formatted.bib";
     }
 
-    public Bibliographie(LinkedList<Entry> entrieList, String name, String saveLocation) {
+    public Bibliography(LinkedList<Entry> entrieList, String name, String saveLocation) {
         this.entrieList = entrieList;
         this.name = name;
         this.comments = null;
         this.saveLocation = saveLocation;
     }
 
-    public Bibliographie(LinkedList<Entry> entrieList, String name) {
+    public Bibliography(LinkedList<Entry> entrieList, String name) {
         this.entrieList = entrieList;
         this.name = name;
         this.comments = null;
@@ -72,15 +72,15 @@ public class Bibliographie {
      * Removes and entry specified by the type of article it is inside and the value it contains.
      * Set inverse to true if you want to delete every entry except the specified.
      * @param types
-     * @param entries
+     * @param keyTypeSet
      * @param match
      * @param inverse
      */
-    public void removeEntrie(Set<TypeType> types, Set<KeyType> entries, String match, boolean inverse){
+    public void removeKey(Set<TypeType> types, Set<KeyType> keyTypeSet, String match, boolean inverse){
         LinkedList<Entry> tempEentrieList = new LinkedList<>(entrieList);
         for (Entry entry : entrieList) {
-            if ((!types.contains(entry.getTypeType()) && inverse && entries.isEmpty()) || types.isEmpty() || types.contains(entry.getTypeType())){
-                if (entries.isEmpty()){
+            if ((!types.contains(entry.getTypeType()) && inverse && keyTypeSet.isEmpty()) || types.isEmpty() || types.contains(entry.getTypeType())){
+                if (keyTypeSet.isEmpty()){
                     if (match == null || match.isEmpty()){
                         if (inverse){
                             if (!types.contains(entry.getTypeType())){
@@ -99,12 +99,12 @@ public class Bibliographie {
                 } else {
                     if (inverse){
                         for (KeyType type : KeyType.values()) {
-                            if (!entries.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(match))){
+                            if (!keyTypeSet.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(match))){
                                 tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
                             }
                         }
                     } else {
-                        for (KeyType keyType : entries) {
+                        for (KeyType keyType : keyTypeSet) {
                             if (entry.getKeys().containsKey(keyType.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(keyType.toString()).matches(match))){
                                 tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(keyType.toString());
                             }
@@ -159,6 +159,47 @@ public class Bibliographie {
                 }
             }
         }
+    }
+
+    /**
+     * Adds every entry from a list if the BibTexKey is not already found in the Bibliography
+     * @param entries
+     */
+    public void addEntries(LinkedList<Entry> entries){
+        for (Entry entry : entries) {
+            if (!getBibTexKeys().contains(entry.getBibtexkey())){
+                entrieList.add(entry);
+            }
+        }
+    }
+
+    /**
+     *
+     * @param entries
+     */
+    public void removeEntries(LinkedList<Entry> entries){
+        Set<String> bibTexKeys = new HashSet<>();
+        for (Entry entry : entries) {
+            bibTexKeys.add(entry.getBibtexkey());
+        }
+        removeEntries(bibTexKeys);
+    }
+
+    /**
+     *
+     * @param bibTexKeys
+     */
+    public void removeEntries(Set<String> bibTexKeys){
+
+        LinkedList<Entry> e = new LinkedList<>();
+
+        for (Entry entry : entrieList) {
+            if (bibTexKeys.contains(entry.getBibtexkey())){
+                e.add(entry);
+            }
+        }
+
+        entrieList = e;
     }
 
     /**
@@ -232,5 +273,13 @@ public class Bibliographie {
      */
     public String getSaveLocation() {
         return saveLocation;
+    }
+
+    public Set<String> getBibTexKeys(){
+        Set<String> keys = new HashSet<>();
+        for (Entry entry : entrieList) {
+            keys.add(entry.getBibtexkey());
+        }
+        return keys;
     }
 }

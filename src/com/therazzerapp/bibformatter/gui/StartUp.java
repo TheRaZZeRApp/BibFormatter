@@ -1,9 +1,8 @@
 package com.therazzerapp.bibformatter.gui;
 
 import com.therazzerapp.bibformatter.BibFormatter;
-import com.therazzerapp.bibformatter.bibliographie.Bibliographie;
+import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
-import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.filefilter.BIBFilter;
 
@@ -44,21 +43,21 @@ public class StartUp implements Runnable{
     private JMenuItem menuOpen;
     private JMenuItem menuSave;
 
-    private Bibliographie bibliographieOld;
-    private Bibliographie bibliographieNew;
+    private Bibliography bibliographyOld;
+    private Bibliography bibliographyNew;
 
-    public Bibliographie getBibliographieNew() {
-        return bibliographieNew;
+    public Bibliography getBibliographyNew() {
+        return bibliographyNew;
     }
 
-    public void setBibliographieNew(Bibliographie bibliographieNew) {
-        this.bibliographieNew = bibliographieNew;
+    public void setBibliographyNew(Bibliography bibliographyNew) {
+        this.bibliographyNew = bibliographyNew;
         updateBib();
     }
 
     private void updateBib(){
         DefaultListModel tableListModel = new DefaultListModel();
-        for (Entry entry : bibliographieNew.getEntrieList()) {
+        for (Entry entry : bibliographyNew.getEntrieList()) {
             rawCurrentTextArea.append(entry.getRawEntry());
             rawCurrentTextArea.setCaretPosition(0);
             tableListModel.addElement(entry.getBibtexkey());
@@ -66,8 +65,8 @@ public class StartUp implements Runnable{
         tableCurrentList.setModel(tableListModel);
     }
 
-    public Bibliographie getBibliographieOld() {
-        return bibliographieOld;
+    public Bibliography getBibliographyOld() {
+        return bibliographyOld;
     }
 
     public void run(){
@@ -140,11 +139,11 @@ public class StartUp implements Runnable{
                 tabbedPane1.setEnabled(true);
                 tablePain.setEnabled(true);
                 //bibliographieOld = BibLoader.load(bibChooser.getSelectedFile());
-                setBibliographieNew(bibliographieOld);
+                setBibliographyNew(bibliographyOld);
                 menuSave.setEnabled(true);
 
                 DefaultListModel tableOriginalListModel = new DefaultListModel();
-                for (Entry entry : bibliographieOld.getEntrieList()) {
+                for (Entry entry : bibliographyOld.getEntrieList()) {
                     sourceTextArea.append(entry.getRawEntry());
                     sourceTextArea.setCaretPosition(0);
                     tableOriginalListModel.addElement(entry.getBibtexkey());
@@ -154,7 +153,7 @@ public class StartUp implements Runnable{
         });
         menuSave.addActionListener(e -> {
             if (fileSaver.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION){
-                BibSaver.save(bibliographieNew,fileSaver.getSelectedFile().getPath()); //todo Fix correct path + file name
+                BibSaver.save(bibliographyNew,fileSaver.getSelectedFile().getPath()); //todo Fix correct path + file name
             }
         });
         tabbedPane1.addChangeListener(e -> {

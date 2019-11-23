@@ -14,6 +14,7 @@
 <li>Replace value/Set value</li>
 <li>Check for required keys</li>
 <li>Create Key+Value</li>
+<li>Create bib from aux file</li>
 
 ## Planned Features
 
@@ -21,7 +22,6 @@
 <li>Info/Error Message System</li>
 <li>Format URLs</li>
 <li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
-<li>Create bib from aux file</li>
 <li>Create bib from bcf file</li>
 <li>Bib comment section</li>
 <li>Generate HTML info file</li>
@@ -144,6 +144,9 @@ Example:
 
 ## Release History
 
+* 0.12.9
+    * Add: Option to generate bib file from aux file
+    * Add: Option to add every entry from a bib file to another bib file if the BibTexKey is not already found.
 * 0.11.9
     * Add: Option to create new keys and add a value
 * 0.10.9
