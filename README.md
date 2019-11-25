@@ -5,6 +5,7 @@
 
 <li>Save capitals</li>
 <li>Order keys</li>
+<li>Order types</li>
 <li>Format month</li>
 <li>Format pages</li>
 <li>Remove keys</li>
@@ -144,6 +145,8 @@ Example:
 
 ## Release History
 
+* 0.14.9
+    * Add: Command to order entries by a list of types
 * 0.13.9
     * Add: Command to merge two bibliography files
 * 0.12.9

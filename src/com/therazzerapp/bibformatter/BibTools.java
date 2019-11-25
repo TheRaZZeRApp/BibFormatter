@@ -18,6 +18,31 @@ import java.util.regex.Pattern;
  */
 public class BibTools {
 
+    /**
+     * Orders every Entry inside a bib file by a list.
+     * @param bibliography
+     * @param types
+     */
+    public static void orderTypes(Bibliography bibliography, ArrayList<TypeType> types){
+        LinkedList<Entry> entrieList = new LinkedList<>();
+        for (TypeType type : types) {
+            for (Entry entry : bibliography.getEntrieList()) {
+                if (entry.getType().equals(type.toString())){
+                    entrieList.add(entry);
+                }
+            }
+        }
+        bibliography.setEntrieList(entrieList);
+    }
+
+    /**
+     * Adds every entry from the second bib to first one. If the bibTexKey is already found the entry from prim will be completed with the entries from sec
+     * @param prim
+     * @param sec
+     * @param types
+     * @param keys
+     * @return
+     */
     public static Bibliography mergeBibliographies(Bibliography prim, Bibliography sec, Set<TypeType> types, Set<KeyType> keys){
         LinkedList<Entry> mergedEntries = new LinkedList<>();
         mergedEntries.addAll(prim.getEntrieList());

@@ -290,4 +290,11 @@ public class Bibliography {
         }
         return null;
     }
+
+    public void removeEntry(String bibTexKey){
+        for (Entry entry : entrieList) {
+            if (entry.getBibtexkey().equals(bibTexKey))
+                entrieList.remove(entry);
+        }
+    }
 }
