@@ -15,6 +15,7 @@
 <li>Check for required keys</li>
 <li>Create Key+Value</li>
 <li>Create bib from aux file</li>
+<li>Merge Bib files</li>
 
 ## Planned Features
 
@@ -32,7 +33,6 @@
 <li>RIS to BibTeX</li>
 <li>HTML to BibTeX</li>
 <li>Format into a canonical form</li>
-
 
 ## Requirements
 
@@ -144,6 +144,8 @@ Example:
 
 ## Release History
 
+* 0.13.9
+    * Add: Command to merge two bibliography files
 * 0.12.9
     * Add: Option to generate bib file from aux file
     * Add: Option to add every entry from a bib file to another bib file if the BibTexKey is not already found.

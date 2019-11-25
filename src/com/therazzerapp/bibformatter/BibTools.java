@@ -18,7 +18,29 @@ import java.util.regex.Pattern;
  */
 public class BibTools {
 
+    public static Bibliography mergeBibliographies(Bibliography prim, Bibliography sec, Set<TypeType> types, Set<KeyType> keys){
+        LinkedList<Entry> mergedEntries = new LinkedList<>();
+        mergedEntries.addAll(prim.getEntrieList());
+        for (Entry entry : sec.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                if (prim.getBibTexKeys().contains(entry.getBibtexkey())){
 
+                    LinkedHashMap<String,String> newKeyMap = new LinkedHashMap<>();
+                    newKeyMap.putAll(prim.getEntry(entry.getBibtexkey()).getKeys());
+                    for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                        if (!newKeyMap.containsKey(stringStringEntry.getKey()) && (keys.isEmpty() || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase())))){
+                            newKeyMap.put(stringStringEntry.getKey(),stringStringEntry.getValue());
+                        }
+                    }
+
+                    mergedEntries.add(new Entry(entry.getType(),entry.getBibtexkey(),newKeyMap));
+                } else {
+                    mergedEntries.add(entry);
+                }
+            }
+        }
+        return new Bibliography(mergedEntries,prim.getName()+sec.getName(),null,prim.getSaveLocation());
+    }
 
     /**
      * Checks if an {@link Entry} is missing keys.

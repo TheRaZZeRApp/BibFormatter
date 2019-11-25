@@ -99,6 +99,11 @@ public class Utils {
      */
     public static String trim(String text){
         //todo rewrite, code is half false and complete trash
+
+        if (text.endsWith(",")){
+            text = replaceLast(text,",","");
+        }
+
         int openCounter = 0;
         int closeCounter = 0;
         for (char c : text.toCharArray()) {
@@ -118,11 +123,10 @@ public class Utils {
         }
         text = text.replaceFirst("\\{","");
         text = replaceLast(text,"}","");
-        if (text.endsWith(",")){
-            text = replaceLast(text,",","");
-        }
+
         return text;
     }
+
 
     /**
      * Returns month number by reading Keys.MONTH entry
@@ -261,15 +265,7 @@ public class Utils {
      * @return
      */
     public static String getCommand(String rawCommand){
-        if (new File(rawCommand).exists()){
-            StringBuilder sb = new StringBuilder();
-            for (String c : FileManager.getFileContent(new File(rawCommand))) {
-                sb.append(c).append(" ");
-            }
-            return sb.toString();
-        } else {
-            return rawCommand;
-        }
+        return new File(rawCommand).exists() ? getCollectionAsString(FileManager.getFileContent(new File(rawCommand))) : rawCommand;
     }
 
     /**
@@ -279,10 +275,7 @@ public class Utils {
      * @return
      */
     public static boolean isArgumentsValid(String regEx, String arguments){
-        if (regEx.isEmpty()){
-            return true;
-        }
-        return arguments.matches(regEx);
+        return regEx.isEmpty() || arguments.matches(regEx);
     }
 
 
@@ -295,11 +288,10 @@ public class Utils {
     public static void getCommandArguments(StringBuilder currentMatch, String[] commandLines, int i, boolean readFiles) {
         if(new File(commandLines[i].trim()).exists() && readFiles){
             currentMatch.append(getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
-            currentMatch.append(" ");
         } else {
             currentMatch.append(commandLines[i].trim());
-            currentMatch.append(" ");
         }
+        currentMatch.append(" ");
     }
 
     /**
@@ -386,7 +378,7 @@ public class Utils {
                         Utils.getCommandKeys(commandLines[i], currentKeys);
                         break;
                     case 2:
-                        Utils.getCommandArguments(currentMatch, commandLines, i,readFile);
+                        Utils.getCommandArguments(currentMatch, commandLines, i,true);
                         break;
                     case 3:
                         Utils.getCommandArguments(currentValue, commandLines, i,readFile);

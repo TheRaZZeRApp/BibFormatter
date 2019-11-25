@@ -7,6 +7,10 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <description>
@@ -94,6 +98,23 @@ public class FileManager {
         } catch (IOException ignored) {
         }
         return text;
+    }
+
+    /**
+     * Returns a {@link Set <String>} of every match found in a file.
+     * @param file
+     * @return
+     */
+    public static Set<String> getMatches(File file, String match){
+        Set<String> citations = new HashSet<>();
+        Matcher matcher;
+        for (String s : FileManager.getFileContent(file)) {
+            matcher = Pattern.compile(match).matcher(s);
+            if (matcher.find()){
+                citations.add(matcher.group(1));
+            }
+        }
+        return citations;
     }
 
 }

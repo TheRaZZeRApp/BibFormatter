@@ -15,15 +15,13 @@ import java.util.regex.Pattern;
  * @since 0.12.9
  */
 public class AuxLoader {
+
+    /**
+     * Returns a {@link Set<String>} of every BibTexKey (i.e. chomsky:1990a) found in an aux file.
+     * @param file
+     * @return
+     */
     public static Set<String> getCitations(File file){
-        Set<String> citations = new HashSet<>();
-        Matcher matcher;
-        for (String s : FileManager.getFileContent(file)) {
-            matcher = Pattern.compile("\\\\abx@aux@defaultrefcontext\\{0\\}\\{([^\\}]*)").matcher(s);
-            if (matcher.find()){
-                citations.add(matcher.group(1));
-            }
-        }
-        return citations;
+        return FileManager.getMatches(file,"\\\\abx@aux@defaultrefcontext\\{0\\}\\{([^\\}]*)");//257
     }
 }

@@ -282,4 +282,12 @@ public class Bibliography {
         }
         return keys;
     }
+
+    public Entry getEntry(String bibTexKey){
+        for (Entry entry : entrieList) {
+            if (entry.getBibtexkey().equals(bibTexKey))
+                return entry;
+        }
+        return null;
+    }
 }

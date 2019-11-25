@@ -3,7 +3,6 @@ package com.therazzerapp.bibformatter.commands;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.content.loader.AuxLoader;
-import com.therazzerapp.bibformatter.content.saver.BibSaver;
 
 import java.io.File;
 
@@ -28,7 +27,6 @@ public class CFromAux {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,null ,null,null,currentValue,false);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
                     bibliography.removeEntries(AuxLoader.getCitations(new File(currentValue.toString())));
-                    BibSaver.save(bibliography,bibliography.getSaveLocation());
                 }
             }
         }

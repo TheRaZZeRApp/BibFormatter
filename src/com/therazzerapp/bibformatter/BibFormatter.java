@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @since 0.0.0
  */
 public class BibFormatter {
-    public static final String VERSION = "0.12.9";
+    public static final String VERSION = "0.13.9";
 
     public static void main(String[] args) {
 
@@ -105,6 +105,8 @@ public class BibFormatter {
             CFromAux.run(bib,arguments);
         } else if (command.matches(CAddEntry.COMMANDPATTERN)){
             CAddEntry.run(bib,arguments);
+        } else if (command.matches(CMergeBibliographies.COMMANDPATTERN)){
+            CMergeBibliographies.run(bib,arguments);
         }
     }
 }
