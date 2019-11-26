@@ -3,11 +3,14 @@ package com.therazzerapp.bibformatter.content.loader;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
+import com.therazzerapp.bibformatter.manager.FileManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,6 +65,7 @@ public class BibLoader {
         final String typKeyEx = "@(?<typ>[^{]{1,})\\{(?<bibtexkey>[^,]{1,}),";
         final String keysEx = "(?<keyName>[^ @\\t]{1,})[ ]{1,}=[ \\t]{1,}(?<keyValue>[^\\n]{1,})";
 
+        Set<String> key = new HashSet<>();
         for (String entry : entries) {
             Matcher typ = Pattern.compile(typKeyEx).matcher(entry);
             String typKey = "";
@@ -69,6 +73,7 @@ public class BibLoader {
             while (typ.find()){
                 typKey = typ.group("typ");
                 bibKey = typ.group("bibtexkey");
+
             }
             Matcher keyMatcher = Pattern.compile(keysEx).matcher(entry);
             LinkedHashMap<String,String> entrieMap = new LinkedHashMap<>();

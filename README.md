@@ -17,12 +17,12 @@
 <li>Create Key+Value</li>
 <li>Create bib from aux file</li>
 <li>Merge Bib files</li>
+<li>Format URLs</li>
 
 ## Planned Features
 
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
-<li>Format URLs</li>
 <li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
 <li>Create bib from bcf file</li>
 <li>Bib comment section</li>
@@ -145,6 +145,9 @@ Example:
 
 ## Release History
 
+* 0.15.10
+    * Add: Command to format urls
+    * Fix: Added missing keys
 * 0.14.9
     * Add: Command to order entries by a list of types
 * 0.13.9

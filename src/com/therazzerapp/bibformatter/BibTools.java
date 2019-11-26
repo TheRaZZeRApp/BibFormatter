@@ -236,4 +236,34 @@ public class BibTools {
         }
         bibliography.setEntrieList(entrieList);
     }
+
+    /**
+     * Encloses every url in a specified type and a specified key with brackets \\url(x)
+     * @param bibliography
+     * @param types
+     * @param keys
+     */
+    public static void formatURL(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys){
+        LinkedList<Entry> entrieList = new LinkedList<>();
+        for (Entry entry : bibliography.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
+                LinkedHashMap<String,String> keyMap = new LinkedHashMap<>();
+                for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
+                    String temp = stringStringEntry.getValue();
+                    if (keys.isEmpty() || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))){
+                        String pattern = "(https{0,1}:\\/\\/)*[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)";
+                        Matcher m = Pattern.compile(pattern).matcher(stringStringEntry.getValue());
+                        while (m.find()){
+                            temp = Utils.replaceGroup(pattern,temp,0,"\\url{" + m.group(0) + "}");
+                        }
+                    }
+                    keyMap.put(stringStringEntry.getKey(),temp);
+                }
+                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keyMap));
+            } else {
+                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
+            }
+        }
+        bibliography.setEntrieList(entrieList);
+    }
 }
