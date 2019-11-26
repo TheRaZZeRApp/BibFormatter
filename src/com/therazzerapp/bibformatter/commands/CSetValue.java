@@ -1,9 +1,11 @@
 package com.therazzerapp.bibformatter.commands;
 
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
+import com.therazzerapp.bibformatter.manager.LogManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +17,9 @@ import java.util.Set;
  * @since 0.7.7
  */
 public final class CSetValue {
-    public static final String ARGUMENTPATTERN = "";
+    public static final String ARGUMENTPATTERN = " *((\\+[tT]|\\+type) [^+]* +|\\+[tT] ){0,1}((\\+[kK]|\\+key) [^+]* +|\\+[kK] ){0,1}((\\+[mM]|\\+match) [^+]* +|\\+[mM] ){0,1}((\\+[vV]|\\+value) [^+]* *|\\+[vV] ){1,1}";
     public static final String COMMANDPATTERN = "(-setValue|-sv) (?<arg>[^-]{0,})";
+    public static final String USAGE = "-setValue [+type <types>] [+key <keys>] [+match <match>] +value <value>";
 
     public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
@@ -34,6 +37,9 @@ public final class CSetValue {
                     bibliography.replaceValue(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim());
                 }
             }
+        } else {
+            LogManager.writeError(Constants.ERROR_INVALID_ARGUMENTS + "-setValue\n" + Constants.USSAGE + USAGE);
+            System.exit(1);
         }
     }
 }

@@ -297,4 +297,16 @@ public class Bibliography {
                 entrieList.remove(entry);
         }
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setComments(LinkedList<String> comments) {
+        this.comments = comments;
+    }
+
+    public void setSaveLocation(String saveLocation) {
+        this.saveLocation = saveLocation;
+    }
 }

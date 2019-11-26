@@ -8,6 +8,7 @@ package com.therazzerapp.bibformatter.manager;
  */
 public class LogManager {
     public static void writeError(String error){
+        System.out.println(error);
         writeError(error, "");
     }
     public static void writeError(String error, String fileAddition){

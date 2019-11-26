@@ -34,6 +34,8 @@
 <li>RIS to BibTeX</li>
 <li>HTML to BibTeX</li>
 <li>Format into a canonical form</li>
+<li>Load pre sets</li>
+
 
 ## Requirements
 
@@ -57,20 +59,16 @@ edit run.bat
 ## Usage example
 
 ```sh
--jar BibFormatter.jar <bibFile> {true|false} [-command [+options] <parameter>] ...
+-jar BibFormatter.jar -b <bibFile> [<outputPath>] [-command [[+parameter] <arguments>] ...
 ```
 
-Required Parameters:
+Required Commands:
 ```sh
 <bibFile>
 Specifie a .bib file path. i.e. "C:\Users\Computer\Documents\test.bib"
 ```
-```sh
-{true|false}
-Set to true or false if you want to debug the output
-```
 
-Optional Parameters:
+Optional Commands:
 ```sh
 --saveCapitals
 -sv
@@ -128,7 +126,7 @@ replaces every subtitle key inside a book type with a title key.
 It also replaces every issn key in an article with an isbn key. 
 ```
 ```sh
---setValue 
+--setValue [+type <types>] [+key <keys>] [+match <match>] +value <value>
 -sv
 You can specifiy a file which contains a list of commands or add them directly.
 If no type (i.e. book) is specified the changes will affect every type (until a type has specified).

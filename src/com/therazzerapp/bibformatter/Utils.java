@@ -350,21 +350,25 @@ public class Utils {
     public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue, boolean readFile){
         switch (commandLines[i]){
             case "+t":
+            case "+T":
             case "+type":
                 currentPosition = 0;
                 if (currentTypes != null) currentTypes.clear();
                 break;
             case "+k":
+            case "+K":
             case "+key":
                 currentPosition = 1;
                 if (currentKeys != null) currentKeys.clear();
                 break;
             case "+m":
+            case "+M":
             case "+match":
                 currentPosition = 2;
                 currentMatch.setLength(0);
                 break;
             case "+v":
+            case "+V":
             case "+value":
                 currentPosition = 3;
                 currentValue.setLength(0);
@@ -399,15 +403,19 @@ public class Utils {
     public static int getPosition(String arg, int position){
         switch (arg){
             case "+t":
+            case "+T":
             case "+type":
                 return 0;
             case "+k":
+            case "+K":
             case "+key":
                 return 1;
             case "+m":
+            case "+M":
             case "+match":
                 return 2;
             case "+v":
+            case "+V":
             case "+value":
                 return 3;
             default:
