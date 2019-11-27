@@ -54,7 +54,7 @@ public class JSONConfig {
                 new Gson().toJson(section.getObject(), jsonWriter);
                 jsonWriter.flush();
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 
