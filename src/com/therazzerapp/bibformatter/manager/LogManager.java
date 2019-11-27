@@ -1,5 +1,7 @@
 package com.therazzerapp.bibformatter.manager;
 
+import com.therazzerapp.bibformatter.Constants;
+
 /**
  * Needs rewrite
  *
@@ -13,8 +15,8 @@ public class LogManager {
      * @param error
      */
     public static void writeError(String error){
-        System.out.println(error);
-        writeError(error, "");
+        System.out.println(Constants.ERROR + error);
+        writeError(Constants.ERROR + error, "");
     }
 
     /**
