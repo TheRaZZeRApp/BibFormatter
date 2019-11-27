@@ -1,16 +1,16 @@
 package com.therazzerapp.bibformatter.content.saver;
 
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.config.JSONConfig;
 import com.therazzerapp.bibformatter.config.JSONConfigSection;
 import com.therazzerapp.bibformatter.content.ConfigType;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <description>
+ * Handles saving and default creation of the config json file.
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.3.0
@@ -18,11 +18,10 @@ import java.util.Map;
 public class ConfigSaver {
 
     /**
-     *
-     * @param configMap
+     * Saves the specified config map to the default config save location (Can be found in {@link Constants})
+     * @param configMap the config map to save
      */
     public static void save(Map<ConfigType, Object> configMap){
-        File file = new File("./Data/config.json");
         JSONConfig config = new JSONConfig();
         JSONConfigSection root = config.newRootSection();
         for (ConfigType value : ConfigType.values()) {
@@ -38,11 +37,11 @@ public class ConfigSaver {
                     break;
             }
         }
-        config.save(root,file);
+        config.save(root,new File(Constants.PATH_EXT_DATA+Constants.FILE_EXT_CONFIG+Constants.EXTENSION_JSON));
     }
 
     /**
-     *
+     * Puts the default values in the config map.
      */
     public static void createDefaultConfig(){
         Map<ConfigType, Object> configMap = new HashMap<>();

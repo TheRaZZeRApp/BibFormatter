@@ -3,11 +3,9 @@ package com.therazzerapp.bibformatter.bibliographie;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
-import javafx.util.Pair;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -138,18 +136,6 @@ public class Bibliography {
     }
 
     /**
-     * Overrides every value in every key of every type
-     * @param value
-     */
-    public void setAllValues(String value){
-        for (Entry entry : entrieList) {
-            for (String s : entry.getKeys().keySet()) {
-                entrieList.get(entrieList.indexOf(entry)).getKeys().replace(s,value);
-            }
-        }
-    }
-
-    /**
      *
      * @param types
      * @param keys
@@ -182,41 +168,16 @@ public class Bibliography {
 
     /**
      *
-     * @param entries
-     */
-    public void removeEntries(LinkedList<Entry> entries){
-        Set<String> bibTexKeys = new HashSet<>();
-        for (Entry entry : entries) {
-            bibTexKeys.add(entry.getBibtexkey());
-        }
-        removeEntries(bibTexKeys);
-    }
-
-    /**
-     *
      * @param bibTexKeys
      */
     public void removeEntries(Set<String> bibTexKeys){
-
         LinkedList<Entry> e = new LinkedList<>();
-
         for (Entry entry : entrieList) {
             if (bibTexKeys.contains(entry.getBibtexkey())){
                 e.add(entry);
             }
         }
-
         entrieList = e;
-    }
-
-    /**
-     * Copies the value of the specified key in a specified type to the new replacement key and delete the original key.
-     * @param type
-     * @param key
-     * @param replacement
-     */
-    public void replaceKey(TypeType type, KeyType key, KeyType replacement){
-        replaceKey(type,key,replacement,null, false);
     }
 
     /**
@@ -237,15 +198,6 @@ public class Bibliography {
                 }
             }
         }
-    }
-
-    /**
-     * Copies the value of the specified key to the new replacement key and delete the original key.
-     * @param key
-     * @param replacement
-     */
-    public void replaceKey(KeyType key, KeyType replacement){
-        replaceKey(null,key,replacement,null, false);
     }
 
     /**

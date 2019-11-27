@@ -90,7 +90,7 @@ public class BibTools {
      * @return
      */
     public static Set<FlawerdEntry> checkType(Bibliography bibliography, Set<TypeType> types, RequiredFields requiredFields, String args, boolean print){
-        Set<FlawerdEntry> flawerdEntries = new HashSet<>();
+        Set<FlawerdEntry> flawedEntries = new HashSet<>();
         for (Entry entry : bibliography.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 FlawerdEntry flawerdEntry = new FlawerdEntry(entry.getBibtexkey(),entry.getTypeType());
@@ -100,20 +100,20 @@ public class BibTools {
                     }
                 }
                 if (!flawerdEntry.getKeyTypes().isEmpty()){
-                    flawerdEntries.add(flawerdEntry);
+                    flawedEntries.add(flawerdEntry);
                 }
             }
         }
         if (print){
             if (args.isEmpty() || args.equals("html")){
-                Utils.exportFlawedEntryAsHTML(bibliography, flawerdEntries);
+                Utils.exportFlawedEntryAsHTML(bibliography, flawedEntries);
             } else if (args.equals("txt")){
-                Utils.exportFlawedEntryAsTXT(bibliography, flawerdEntries);
+                Utils.exportFlawedEntryAsTXT(bibliography, flawedEntries);
             }else if (args.equals("json")){
-                Utils.exportFlawedEntryAsJSON(bibliography, flawerdEntries);
+                Utils.exportFlawedEntryAsJSON(bibliography, flawedEntries);
             }
         }
-        return flawerdEntries;
+        return flawedEntries;
     }
 
     /**
@@ -201,20 +201,21 @@ public class BibTools {
     /**
      * Orders every {@link Entry} in a {@link Bibliography} by an entry order list specified in a String.
      * @param bibliography
-     * @return
+     * @param types
+     * @param keys
      */
     public static void orderEntries(Bibliography bibliography, Set<TypeType> types, ArrayList<KeyType> keys){
-        LinkedList<Entry> tempEntrieList = new LinkedList<>();
+        LinkedList<Entry> tempEntryList = new LinkedList<>();
         for (Entry entry : bibliography.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
-                tempEntrieList.add(
+                tempEntryList.add(
                         new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), Utils.getObjectAsString(keys.toArray())))
                 );
             } else {
-                tempEntrieList.add(entry);
+                tempEntryList.add(entry);
             }
         }
-        bibliography.setEntrieList(tempEntrieList);
+        bibliography.setEntrieList(tempEntryList);
     }
 
     /**
@@ -225,7 +226,7 @@ public class BibTools {
      * @param characterMap
      */
     public static void saveSpecialCharacters(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String characterMap){
-        LinkedList<Entry> entrieList = new LinkedList<>();
+        LinkedList<Entry> entryList = new LinkedList<>();
         for (Entry entry : bibliography.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 LinkedHashMap<String,String> keyMap = new LinkedHashMap<>();
@@ -242,12 +243,12 @@ public class BibTools {
                     }
                     keyMap.put(stringStringEntry.getKey(),temp);
                 }
-                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keyMap));
+                entryList.add(new Entry(entry.getType(),entry.getBibtexkey(),keyMap));
             } else {
-                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
+                entryList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
             }
         }
-        bibliography.setEntrieList(entrieList);
+        bibliography.setEntrieList(entryList);
     }
 
     /**
@@ -257,26 +258,25 @@ public class BibTools {
      * @param keys
      */
     public static void formatURL(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys){
-        LinkedList<Entry> entrieList = new LinkedList<>();
+        LinkedList<Entry> entryList = new LinkedList<>();
         for (Entry entry : bibliography.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 LinkedHashMap<String,String> keyMap = new LinkedHashMap<>();
                 for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
                     String temp = stringStringEntry.getValue();
                     if (keys.isEmpty() || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))){
-                        String pattern = "(https{0,1}:\\/\\/)*[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)";
-                        Matcher m = Pattern.compile(pattern).matcher(stringStringEntry.getValue());
+                        Matcher m = Pattern.compile(Constants.REGEX_WEBSITE).matcher(stringStringEntry.getValue());
                         while (m.find()){
-                            temp = Utils.replaceGroup(pattern,temp,0,"\\url{" + m.group(0) + "}");
+                            temp = Utils.replaceGroup(Constants.REGEX_WEBSITE,temp,0,"\\url{" + m.group(0) + "}");
                         }
                     }
                     keyMap.put(stringStringEntry.getKey(),temp);
                 }
-                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),keyMap));
+                entryList.add(new Entry(entry.getType(),entry.getBibtexkey(),keyMap));
             } else {
-                entrieList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
+                entryList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
             }
         }
-        bibliography.setEntrieList(entrieList);
+        bibliography.setEntrieList(entryList);
     }
 }

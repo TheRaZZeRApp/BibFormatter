@@ -21,6 +21,7 @@ public class Constants {
     //Regex
     public static final String REGEX_YES = "^([yY] *$|yes *$|YES *$|Yes *$) *";
     public static final String REGEX_DOI = "10\\.(\\d{4,9})\\/([-._;()\\/:A-Z0-9]+)";
+    public static final String REGEX_WEBSITE = "(https{0,1}:\\/\\/)*[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)";
 
     //Charsets
     public static final String CHARSET_ANSI = "windows-1252";
@@ -39,5 +40,6 @@ public class Constants {
     public static final String FILE_EXT_DEFAULT_CHECKFILE = "valRequiredFields";
     public static final String FILE_EXT_DEFAULT_CHARACTARMAP = "unicode2latex";
     public static final String FILE_EXT_DEFAULT_DOIPREFIX = "doiprefix";
+    public static final String FILE_EXT_CONFIG = "config";
 
 }

@@ -1,5 +1,6 @@
 package com.therazzerapp.bibformatter.content.loader;
 
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.config.JSONConfig;
 import com.therazzerapp.bibformatter.config.JSONConfigSection;
 import com.therazzerapp.bibformatter.content.ConfigType;
@@ -18,17 +19,16 @@ import java.util.Map;
 public class ConfigLoader {
 
     /**
-     *
-     * @return
+     * Loads the config json file and converts the data into a map.
+     * Keys can be found in {@link com.therazzerapp.bibformatter.KeyType}
+     * @return the config map.
      */
     public static Map<ConfigType, Object> load(){
         Map<ConfigType, Object> configMap = new HashMap<>();
-
-        File file = new File("./Data/config.json");
+        File file = new File(Constants.PATH_EXT_DATA+Constants.FILE_EXT_CONFIG+Constants.EXTENSION_JSON);
         if(!file.exists()){
             ConfigSaver.createDefaultConfig();
         }
-
         JSONConfigSection root = new JSONConfig().load(file);
         for (ConfigType value : ConfigType.values()) {
             switch (value.getTyp()){
