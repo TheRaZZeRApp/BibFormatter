@@ -13,9 +13,14 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.3.0
  */
 public class ConfigSaver {
+
+    /**
+     *
+     * @param configMap
+     */
     public static void save(Map<ConfigType, Object> configMap){
         File file = new File("./Data/config.json");
         JSONConfig config = new JSONConfig();
@@ -36,6 +41,9 @@ public class ConfigSaver {
         config.save(root,file);
     }
 
+    /**
+     *
+     */
     public static void createDefaultConfig(){
         Map<ConfigType, Object> configMap = new HashMap<>();
         configMap.put(ConfigType.ENTRYORDER,"title shorttitle author year month day journal booktitle location on publisher address series volume number pages doi isbn issn url urldate copyright category note metadata");
@@ -47,6 +55,7 @@ public class ConfigSaver {
         configMap.put(ConfigType.INDENTSPACESAMOUNT,3);
         configMap.put(ConfigType.INDENTVALUECOLUMM,12);
         configMap.put(ConfigType.WRITEEMPTYENTRIES,false);
+        configMap.put(ConfigType.OVERRIDEPUBLISHER,false);
         configMap.put(ConfigType.DEFAULTCHARACTERMAP,"unicode2latex");
         save(configMap);
     }

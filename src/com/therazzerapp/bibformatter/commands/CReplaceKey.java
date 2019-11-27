@@ -1,5 +1,6 @@
 package com.therazzerapp.bibformatter.commands;
 
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
@@ -19,6 +20,11 @@ public class CReplaceKey {
     public static final String ARGUMENTPATTERN = "";
     public static final String COMMANDPATTERN = "(-replaceKey|-rk) (?<arg>[^-]{0,})";
 
+    /**
+     *
+     * @param bibliography
+     * @param arguments
+     */
     public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");
@@ -32,7 +38,7 @@ public class CReplaceKey {
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines,currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliography.replaceKey(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim().matches("(yes|y) *"));
+                    bibliography.replaceKey(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim().matches(Constants.REGEX_YES));
                 }
             }
         }

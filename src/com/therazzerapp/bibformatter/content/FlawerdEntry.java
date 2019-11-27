@@ -36,33 +36,57 @@ public class FlawerdEntry {
         this.keyTypes = new HashSet<>();
     }
 
+    /**
+     *
+     * @param keyType
+     */
     public void addKey(KeyType keyType){
         keyTypes.add(keyType);
     }
 
+    /**
+     *
+     * @param key
+     */
     public void addKey(String key){
         keyTypes.add(KeyType.valueOf(key.toUpperCase()));
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBibTexKey() {
         return bibTexKey;
     }
 
+    /**
+     *
+     * @return
+     */
     public TypeType getTypeType() {
         return typeType;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<KeyType> getKeyTypes() {
         return keyTypes;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] getKeyTypesAsArray(){
-        String[] temp = new String[keyTypes.size()];
+        String[] t = new String[keyTypes.size()];
         int i = 0;
-        for (KeyType keyType : keyTypes) {
-            temp[i] = keyType.toString();
+        for (KeyType k : keyTypes) {
+            t[i] = k.toString();
             i++;
         }
-        return temp;
+        return t;
     }
 }

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.1.0
  */
 public class FileManager {
 
@@ -33,7 +33,7 @@ public class FileManager {
 
     /**
      * Export the content of a {@link String} to a file.
-     * path needs to contain an extension.
+     * Path needs to contain an extension.
      * @param text
      * @param path
      */

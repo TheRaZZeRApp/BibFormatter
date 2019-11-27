@@ -13,9 +13,14 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.3.0
  */
 public class ConfigLoader {
+
+    /**
+     *
+     * @return
+     */
     public static Map<ConfigType, Object> load(){
         Map<ConfigType, Object> configMap = new HashMap<>();
 

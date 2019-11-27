@@ -14,9 +14,14 @@ import java.util.*;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.4.3
  */
 public class RequiredFieldsSaver {
+
+    /**
+     *
+     * @param requiredFields
+     */
     public static void save(RequiredFields requiredFields){
         String path = "./Data/CheckFiles/" + requiredFields.getName();
         JSONConfigSection root = new JSONConfig().newRootSection();
@@ -29,6 +34,9 @@ public class RequiredFieldsSaver {
         FileManager.exportJSONFile(root,path);
     }
 
+    /**
+     *
+     */
     public static void createDefaultRequiredFields(){
         Map<TypeType, ArrayList<KeyType>> reqFieldsMap = new HashMap<>();
         ArrayList<KeyType> temp = new ArrayList<>();

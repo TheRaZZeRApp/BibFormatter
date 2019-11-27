@@ -3,7 +3,6 @@ package com.therazzerapp.bibformatter.content.loader;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
-import com.therazzerapp.bibformatter.manager.FileManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -18,9 +17,16 @@ import java.util.regex.Pattern;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.0.0
  */
 public class BibLoader {
+
+    /**
+     *
+     * @param file
+     * @param saveLocation
+     * @return
+     */
     public static Bibliography load(File file, String saveLocation){
         BufferedReader bufferedReader;
         InputStream inputStream = null;
@@ -60,6 +66,11 @@ public class BibLoader {
         return new Bibliography(formatEntries(entries),file.getName().replaceAll(".bib",""),saveLocation);
     }
 
+    /**
+     *
+     * @param entries
+     * @return
+     */
     private static LinkedList<Entry> formatEntries(LinkedList<String> entries){
         LinkedList<Entry> entryLinkedList = new LinkedList<>();
         final String typKeyEx = "@(?<typ>[^{]{1,})\\{(?<bibtexkey>[^,]{1,}),";

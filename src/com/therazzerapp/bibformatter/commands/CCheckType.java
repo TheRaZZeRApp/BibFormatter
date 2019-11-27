@@ -21,6 +21,11 @@ public class CCheckType {
     public static final String ARGUMENTPATTERN = "";
     public static final String COMMANDPATTERN = "(-checkType|-ct) (?<arg>[^-]{0,})";
 
+    /**
+     *
+     * @param bibliography
+     * @param arguments
+     */
     public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");

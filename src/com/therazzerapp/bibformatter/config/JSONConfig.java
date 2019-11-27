@@ -15,10 +15,17 @@ import java.io.IOException;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author ar56te876mis
+ * @since 0.3.3
  */
 public class JSONConfig {
+
+    /**
+     *
+     * @param file
+     * @return
+     */
     public JSONConfigSection load(File file) {
         try {
             JsonElement parse;
@@ -34,6 +41,11 @@ public class JSONConfig {
         }
     }
 
+    /**
+     *
+     * @param section
+     * @param file
+     */
     public void save(JSONConfigSection section, File file) {
         try {
             file.getParentFile().mkdirs();
@@ -46,6 +58,10 @@ public class JSONConfig {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public JSONConfigSection newRootSection() {
         return new JSONConfigSection(new JsonObject());
     }

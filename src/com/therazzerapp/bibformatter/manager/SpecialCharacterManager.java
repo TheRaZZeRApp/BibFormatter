@@ -16,7 +16,7 @@ import java.util.Set;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.4.2
  */
 public class SpecialCharacterManager {
     private static Set<CharacterMap> characterMaps = new HashSet<>();

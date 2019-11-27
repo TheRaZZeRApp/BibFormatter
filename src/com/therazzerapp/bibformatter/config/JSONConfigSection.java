@@ -12,8 +12,9 @@ import java.util.Map;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author ar56te876mis
+ * @since 0.3.3
  */
 public class JSONConfigSection {
     private final JsonObject object;
@@ -449,6 +450,12 @@ public class JSONConfigSection {
         return new JSONConfigSection(jsonObject);
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     * @since 0.10.9
+     */
     public JSONConfigSection addConfigSectionEntry(String name){
         JsonObject obj;
         if (object.has(name)){
@@ -480,7 +487,6 @@ public class JSONConfigSection {
             object.remove(entrySet.getKey());
         }
     }
-
 
     public boolean isEmpty() { //ja ist noch nicht richtig
         return object == null;

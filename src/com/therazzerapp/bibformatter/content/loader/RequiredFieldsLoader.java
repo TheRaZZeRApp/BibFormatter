@@ -15,9 +15,15 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.4.3
  */
 public class RequiredFieldsLoader {
+
+    /**
+     *
+     * @param file
+     * @return
+     */
     public static Map<TypeType, ArrayList<KeyType>> load(File file){
         Map<TypeType, ArrayList<KeyType>> reqFieldsMap = new HashMap<>();
         JSONConfigSection root = new JSONConfig().load(file);

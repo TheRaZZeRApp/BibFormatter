@@ -12,25 +12,41 @@ import java.util.Map;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.3.0
  */
 public class ConfigManager {
     private static Map<ConfigType, Object> configMap = new HashMap<>();
 
+    /**
+     *
+     */
     public static void load(){
         configMap = ConfigLoader.load();
         ContentObserver.update(2);
     }
 
+    /**
+     *
+     */
     public static void save(){
         ConfigSaver.save(configMap);
         ContentObserver.update(2);
     }
 
+    /**
+     *
+     * @param configProperty
+     * @return
+     */
     public static Object getConfigProperty(ConfigType configProperty){
         return configMap.get(configProperty);
     }
 
+    /**
+     *
+     * @param configProperty
+     * @param value
+     */
     public static void setConfigProperty(ConfigType configProperty, Object value){
         configMap.put(configProperty,value);
         save();

@@ -4,11 +4,12 @@ package com.therazzerapp.bibformatter.content;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.3.0
  */
 public enum ConfigType {
     ENTRYORDER("entryOrder", "string"),
     TYPEORDER("typeOrder", "string"),
+    OVERRIDEPUBLISHER("overridePublisher","boolean"),
     DEFAULTMONTHFORMAT("defaultMonthFormat", "string"),
     DEFAULTPAGESFORMAT("defaultPagesFormat", "string"),
     ENCLOSENUMERICS("encloseNumerals", "boolean"),
@@ -26,10 +27,18 @@ public enum ConfigType {
         this.typ = typ;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTyp() {
         return typ;
     }

@@ -19,6 +19,11 @@ public class CFromAux {
     public static final String COMMANDPATTERN = "(-fromAux|-fa) (?<arg>[^-]{0,})";
     public static final String USAGE = "-fromAux <auxPath>";
 
+    /**
+     *
+     * @param bibliography
+     * @param arguments
+     */
     public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");

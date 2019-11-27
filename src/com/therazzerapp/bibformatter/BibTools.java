@@ -19,6 +19,19 @@ import java.util.regex.Pattern;
 public class BibTools {
 
     /**
+     *
+     * @param bibliography
+     * @param types
+     * @param keys
+     * @param dois
+     * @param override
+     * @since <version>
+     */
+    public static void generatePublisher(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, Set<Integer> dois, boolean override){
+
+    }
+
+    /**
      * Orders every Entry inside a bib file by a list.
      * @param bibliography
      * @param types

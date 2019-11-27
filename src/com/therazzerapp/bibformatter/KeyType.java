@@ -4,7 +4,7 @@ package com.therazzerapp.bibformatter;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.1.0
  */
 public enum KeyType {
     TITLE,

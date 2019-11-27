@@ -149,6 +149,13 @@ public class Bibliography {
         }
     }
 
+    /**
+     *
+     * @param types
+     * @param keys
+     * @param match
+     * @param override
+     */
     public void replaceKey(Set<TypeType> types, LinkedList<KeyType> keys, String match, boolean override){
         if (keys.size()%2 == 0){
             for (Entry entry : entrieList) {
@@ -241,6 +248,11 @@ public class Bibliography {
         replaceKey(null,key,replacement,null, false);
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public LinkedList<String> getValues(KeyType key){
         LinkedList<String> linkedList = new LinkedList<>();
 
@@ -251,18 +263,34 @@ public class Bibliography {
         return linkedList;
     }
 
+    /**
+     *
+     * @return
+     */
     public LinkedList<Entry> getEntrieList() {
         return entrieList;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public LinkedList<String> getComments() {
         return comments;
     }
 
+    /**
+     *
+     * @param entrieList
+     */
     public void setEntrieList(LinkedList<Entry> entrieList) {
         this.entrieList = entrieList;
     }
@@ -275,6 +303,10 @@ public class Bibliography {
         return saveLocation;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<String> getBibTexKeys(){
         Set<String> keys = new HashSet<>();
         for (Entry entry : entrieList) {
@@ -283,6 +315,11 @@ public class Bibliography {
         return keys;
     }
 
+    /**
+     *
+     * @param bibTexKey
+     * @return
+     */
     public Entry getEntry(String bibTexKey){
         for (Entry entry : entrieList) {
             if (entry.getBibtexkey().equals(bibTexKey))
@@ -291,6 +328,10 @@ public class Bibliography {
         return null;
     }
 
+    /**
+     *
+     * @param bibTexKey
+     */
     public void removeEntry(String bibTexKey){
         for (Entry entry : entrieList) {
             if (entry.getBibtexkey().equals(bibTexKey))
@@ -298,14 +339,26 @@ public class Bibliography {
         }
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @param comments
+     */
     public void setComments(LinkedList<String> comments) {
         this.comments = comments;
     }
 
+    /**
+     *
+     * @param saveLocation
+     */
     public void setSaveLocation(String saveLocation) {
         this.saveLocation = saveLocation;
     }

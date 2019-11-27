@@ -12,9 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <description>
+ * Random collection of useful functions.
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <rezzer101@googlemail.com>
  * @since 0.0.0
  */
 public class Utils {
@@ -23,15 +23,17 @@ public class Utils {
      * Exports the content of every {@link FlawerdEntry} in a {@link Set} as a formatted HTML file.
      * @param bib
      * @param flawedEntries
+     * @since <version>
      */
     public static void exportFlawedEntryAsHTML(Bibliography bib, Set<FlawerdEntry> flawedEntries){
-
+        //todo
     }
 
     /**
      * Exports the content of every {@link FlawerdEntry} in a {@link Set} as a plain text file.
      * @param bib
      * @param flawedEntries
+     * @since 0.9.8
      */
     public static void exportFlawedEntryAsTXT(Bibliography bib, Set<FlawerdEntry> flawedEntries){
         StringBuilder sb = new StringBuilder();
@@ -51,6 +53,7 @@ public class Utils {
      * Exports the content of every {@link FlawerdEntry} in a {@link Set} as a JSON file.
      * @param bib
      * @param flawedEntries
+     * @since 0.10.9
      */
     public static void exportFlawedEntryAsJSON(Bibliography bib, Set<FlawerdEntry> flawedEntries){
         JSONConfigSection root = new JSONConfig().newRootSection();
@@ -81,10 +84,27 @@ public class Utils {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
 
+    /**
+     *
+     * @param regex
+     * @param source
+     * @param groupToReplace
+     * @param replacement
+     * @return
+     */
     public static String replaceGroup(String regex, String source, int groupToReplace, String replacement) {
         return replaceGroup(regex, source, groupToReplace, 1, replacement);
     }
 
+    /**
+     *
+     * @param regex
+     * @param source
+     * @param groupToReplace
+     * @param groupOccurrence
+     * @param replacement
+     * @return
+     */
     public static String replaceGroup(String regex, String source, int groupToReplace, int groupOccurrence, String replacement) {
         Matcher m = Pattern.compile(regex).matcher(source);
         for (int i = 0; i < groupOccurrence; i++)
@@ -330,6 +350,17 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param commandLines
+     * @param currentPosition
+     * @param i
+     * @param currentTypes
+     * @param currentKeys
+     * @param currentMatch
+     * @param currentValue
+     * @return
+     */
     public static int getCommandValues(String[] commandLines, int currentPosition, int i, Collection<TypeType> currentTypes, Collection<KeyType> currentKeys, StringBuilder currentMatch, StringBuilder currentValue){
         return getCommandValues(commandLines,currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue,true);
     }
@@ -433,5 +464,16 @@ public class Utils {
      */
     public static boolean isCommandEndReached(String[] commandLines, int i, int end, int currentPosition){
         return currentPosition == -1 || i == commandLines.length - 1 || (getPosition(commandLines[i+1],currentPosition) < currentPosition) || (getPosition(commandLines[i+1],currentPosition) == currentPosition && commandLines[i+1].startsWith("+"));
+    }
+
+    /**
+     * If a string contains a doi at any point it will return only the matched doi.
+     * @param text
+     * @return
+     * @since 0.16.12
+     */
+    public static String formatDOI(String text){
+        Matcher m = Pattern.compile(Constants.REGEX_DOI,Pattern.CASE_INSENSITIVE).matcher(text);
+        return m.group(0);
     }
 }

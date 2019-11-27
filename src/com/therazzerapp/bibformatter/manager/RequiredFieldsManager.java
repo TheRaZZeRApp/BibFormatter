@@ -13,11 +13,16 @@ import java.util.*;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.4.3
  */
 public class RequiredFieldsManager {
     private static Set<RequiredFields> requiredFields = new HashSet<>();
 
+    /**
+     *
+     * @param file
+     * @return
+     */
     public static RequiredFields load(File file){
         RequiredFields rF = new RequiredFields(file);
         requiredFields.add(rF);
@@ -25,6 +30,11 @@ public class RequiredFieldsManager {
         return rF;
     }
 
+    /**
+     *
+     * @param mapName
+     * @return
+     */
     public static RequiredFields getRequiredFieldsMap(String mapName){
         for (RequiredFields requiredField : requiredFields) {
             if (requiredField.getName().equals(mapName)){
@@ -34,6 +44,9 @@ public class RequiredFieldsManager {
         return null;
     }
 
+    /**
+     *
+     */
     public static void init(){
         File file = new File("./Data/CheckFiles/valRequiredFields.json");
         if(!file.exists()){
@@ -50,6 +63,9 @@ public class RequiredFieldsManager {
         }
     }
 
+    /**
+     *
+     */
     public static void save(){
         for (RequiredFields requiredField : requiredFields) {
             RequiredFieldsSaver.save(requiredField);
@@ -57,6 +73,12 @@ public class RequiredFieldsManager {
         ContentObserver.update(2);
     }
 
+    /**
+     *
+     * @param type
+     * @param mapName
+     * @return
+     */
     public static ArrayList<KeyType> getRequiredFields(TypeType type, String mapName){
         for (RequiredFields requiredField : requiredFields) {
             if (requiredField.getName().equals(mapName)){
@@ -66,6 +88,10 @@ public class RequiredFieldsManager {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public static RequiredFields getDefaultMap(){
         for (RequiredFields requiredField : requiredFields) {
             if (requiredField.getName().equals("valRequiredFields"))

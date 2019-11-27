@@ -21,6 +21,11 @@ public final class CSetValue {
     public static final String COMMANDPATTERN = "(-setValue|-sv) (?<arg>[^-]{0,})";
     public static final String USAGE = "-setValue [+type <types>] [+key <keys>] [+match <match>] +value <value>";
 
+    /**
+     *
+     * @param bibliography
+     * @param arguments
+     */
     public static void run(Bibliography bibliography, String arguments){
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");

@@ -27,7 +27,6 @@
 <li>Create bib from bcf file</li>
 <li>Bib comment section</li>
 <li>Generate HTML info file</li>
-<li>Format Date</li>
 <li>Format Authors</li>
 <li>Ordinals to LaTeX superscript</li>
 <li>Format DOI</li>
@@ -143,6 +142,10 @@ Example:
 
 ## Release History
 
+* 0.16.12
+    * Add: Generate Doi publisher map
+    * Fix: Various little things
+    * Fix: JavaDoc
 * 0.15.10
     * Add: Command to format urls
     * Fix: Added missing keys

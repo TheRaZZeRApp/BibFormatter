@@ -17,13 +17,13 @@ import java.util.regex.Pattern;
  * @since 0.0.0
  */
 public class BibFormatter {
-    public static final String VERSION = "0.15.11";
 
     public static void main(String[] args) {
 
         ConfigManager.load();
         SpecialCharacterManager.initiate();
         RequiredFieldsManager.init();
+        DoiPrefixManager.init();
 
         if(!new File("./run.bat").exists()){
             StringBuilder sb = new StringBuilder();
@@ -81,6 +81,12 @@ public class BibFormatter {
         }
     }
 
+    /**
+     *
+     * @param bib
+     * @param command
+     * @param arguments
+     */
     private static void runCommands(Bibliography bib, final String command, String arguments){
         if (command.matches(CReplaceKey.COMMANDPATTERN)){
             CReplaceKey.run(bib,arguments);
@@ -112,7 +118,8 @@ public class BibFormatter {
             COrderTypes.run(bib,arguments);
         } else if (command.matches(CFormatURL.COMMANDPATTERN)){
             CFormatURL.run(bib,arguments);
+        } else if (command.matches(CGeneratePublisher.COMMANDPATTERN)){
+            CGeneratePublisher.run(bib,arguments);
         }
-
     }
 }

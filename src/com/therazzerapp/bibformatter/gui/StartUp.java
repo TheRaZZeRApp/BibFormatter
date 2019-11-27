@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter.gui;
 
-import com.therazzerapp.bibformatter.BibFormatter;
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
@@ -82,7 +82,7 @@ public class StartUp implements Runnable{
         frame.setResizable(true);
         frame.setContentPane(mainPanel);
         frame.setSize(900,600);
-        frame.setTitle("BibFormatter " + BibFormatter.VERSION);
+        frame.setTitle("BibFormatter " + Constants.VERSION);
         frame.setLocationRelativeTo(null);
 
         tabbedPane2.setEnabled(false);

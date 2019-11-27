@@ -7,15 +7,24 @@ import java.util.Set;
  * <description>
  *
  * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
- * @since <VERSION>
+ * @since 0.1.0
  */
 public class ContentObserver {
+
     private static Set<ContentUpdater> contentUpdaterSet = new HashSet<>();
 
+    /**
+     *
+     * @param contentUpdater
+     */
     public static void addContentUser(ContentUpdater contentUpdater){
         contentUpdaterSet.add(contentUpdater);
     }
 
+    /**
+     *
+     * @param contentUpdater
+     */
     public static void removeContentUser(ContentUpdater contentUpdater){
         contentUpdaterSet.remove(contentUpdater);
     }
