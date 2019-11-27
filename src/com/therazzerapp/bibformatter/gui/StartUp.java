@@ -13,7 +13,7 @@ import javax.swing.event.ListSelectionListener;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since <VERSION>
  */
 public class StartUp implements Runnable{

@@ -1,5 +1,6 @@
 package com.therazzerapp.bibformatter.content;
 
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
@@ -12,7 +13,7 @@ import java.util.Map;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.9.8
  */
 public class RequiredFields {
@@ -26,7 +27,7 @@ public class RequiredFields {
      */
     public RequiredFields(File file) {
         this.requiredFieldsMap = RequiredFieldsLoader.load(file);
-        this.name = Utils.replaceLast(file.getName(),".json","");
+        this.name = Utils.replaceLast(file.getName(), Constants.EXTENSION_JSON,"");
     }
 
     /**

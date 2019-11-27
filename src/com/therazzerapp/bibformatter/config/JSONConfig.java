@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * <description>
  *
- * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @author ar56te876mis
  * @since 0.3.3
  */

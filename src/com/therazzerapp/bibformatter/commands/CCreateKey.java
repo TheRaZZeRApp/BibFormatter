@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.11.9
  */
 public class CCreateKey {

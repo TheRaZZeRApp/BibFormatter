@@ -1,17 +1,14 @@
 package com.therazzerapp.bibformatter.content.loader;
 
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.12.9
  */
 public class AuxLoader {
@@ -22,6 +19,6 @@ public class AuxLoader {
      * @return
      */
     public static Set<String> getCitations(File file){
-        return FileManager.getMatches(file,"\\\\abx@aux@defaultrefcontext\\{0\\}\\{([^\\}]*)");//257
+        return FileUtils.getMatches(file,"\\\\abx@aux@defaultrefcontext\\{0\\}\\{([^\\}]*)");//257
     }
 }

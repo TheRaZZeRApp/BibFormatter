@@ -1,13 +1,13 @@
 package com.therazzerapp.bibformatter.content.saver;
 
 import com.therazzerapp.bibformatter.content.CharacterMap;
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.4.2
  */
 public class SpecialCharacterSaver {
@@ -22,7 +22,7 @@ public class SpecialCharacterSaver {
         for (String s : characterMap.getCharacterMap().keySet()) {
             sb.append(s).append("\n").append(characterMap.getCharacterMap().get(s)).append("\n");
         }
-        FileManager.exportFile(sb.toString(),"./Data/"+filename);
+        FileUtils.exportFile(sb.toString(),"./Data/"+filename);
     }
 
     /**
@@ -39,9 +39,9 @@ public class SpecialCharacterSaver {
      */
     private static void createDefaultSpecialCharacterMap(String path, String dest){
         StringBuilder sb = new StringBuilder();
-        for (String s : FileManager.getFileContentJar(path)) {
+        for (String s : FileUtils.getFileContentJar(path)) {
             sb.append(s).append("\n");
         }
-        FileManager.exportFile(sb.toString(),dest);
+        FileUtils.exportFile(sb.toString(),dest);
     }
 }

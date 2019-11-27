@@ -3,7 +3,6 @@ package com.therazzerapp.bibformatter.manager;
 import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.content.CharacterMap;
 import com.therazzerapp.bibformatter.content.ConfigType;
-import com.therazzerapp.bibformatter.content.ContentObserver;
 import com.therazzerapp.bibformatter.content.saver.SpecialCharacterSaver;
 
 import java.io.File;
@@ -13,7 +12,7 @@ import java.util.Set;
 /**
  * Manages the currently load special character maps.
  *
- * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.4.2
  */
 public class SpecialCharacterManager {
@@ -30,21 +29,19 @@ public class SpecialCharacterManager {
      */
     public static void load(File file){
         characterMaps.add(new CharacterMap(file));
-        ContentObserver.update(2);
     }
 
     /**
      * Saves a specified character map into a new file by a specified path.
-     * @param characterMapName the character map to save
+     * @param name the character map to save
      * @param path the path where the character map gets saved. Needs to contain an extension (def. .txt)
      */
-    public static void save(String characterMapName, String path){
-        for (CharacterMap map : characterMaps) {
-            if (map.getName().equalsIgnoreCase(characterMapName)){
-                SpecialCharacterSaver.save(map,path);
+    public static void save(String name, String path){
+        for (CharacterMap m : characterMaps) {
+            if (m.getName().equalsIgnoreCase(name)){
+                SpecialCharacterSaver.save(m,path);
             }
         }
-        ContentObserver.update(2);
     }
 
     /**
@@ -52,10 +49,10 @@ public class SpecialCharacterManager {
      * Default maps: <br>Unicode: "./Data/unicode2latex.txt"
      */
     public static void initiate(){
-        if(!new File("./Data/unicode2latex.txt").exists()){
+        if(!new File(Constants.PATH_EXT_DATA +Constants.FILE_EXT_DEFAULT_CHARACTARMAP+Constants.EXTENSION_TXT).exists()){
             SpecialCharacterSaver.createDefaultUnicode2Latex();
         }
-        File defaultMap = new File("./Data/" + ConfigManager.getConfigProperty(ConfigType.DEFAULTCHARACTERMAP)+".txt");
+        File defaultMap = new File(Constants.PATH_EXT_DATA + ConfigManager.getConfigProperty(ConfigType.DEFAULTCHARACTERMAP)+Constants.EXTENSION_TXT);
         if (defaultMap.exists()){
             load(defaultMap);
         } else {
@@ -65,13 +62,13 @@ public class SpecialCharacterManager {
 
     /**
      * Returns the first character map from the set of currently loaded character maps with a matching name.
-     * @param characterMapName the name of the character map (should be the character map file name without extension)
+     * @param name the name of the character map (should be the character map file name without extension)
      * @return the first character map where map.getName matches the specified name,<br>null if no map with this name was found
      */
-    public static CharacterMap getCharacterMap(String characterMapName) {
-        for (CharacterMap map : characterMaps) {
-            if (map.getName().equalsIgnoreCase(characterMapName)){
-                return map;
+    public static CharacterMap getCharacterMap(String name) {
+        for (CharacterMap m : characterMaps) {
+            if (m.getName().equalsIgnoreCase(name)){
+                return m;
             }
         }
         return null;

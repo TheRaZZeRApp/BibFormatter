@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.7.7
  */
 public class CRemoveEntry {

@@ -12,7 +12,7 @@ import java.util.Map;
  * Represents the entry of a bib file. Containing the type (i.e. book), the BibKey (i.e. chomsky:1990a)
  * and every entry (i.e. title/author/year)
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.0.0
  */
 public class Entry {

@@ -1,6 +1,7 @@
 package com.therazzerapp.bibformatter.manager;
 
 import com.therazzerapp.bibformatter.Constants;
+import com.therazzerapp.bibformatter.content.FileUtils;
 import com.therazzerapp.bibformatter.content.loader.DoiPrefixLoader;
 
 import java.io.File;
@@ -12,10 +13,14 @@ import java.util.regex.Pattern;
 /**
  * <description>
  *
- * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.16.12
  */
 public class DoiPrefixManager {
+
+    /**
+     *
+     */
     private static Map<Integer,String> dois = new HashMap<>();
 
     /**
@@ -23,14 +28,15 @@ public class DoiPrefixManager {
      * If not generate it.
      */
     public static void init(){
-        if(!new File("./Data/doiprefix.txt").exists()){
+        File f = new File(Constants.PATH_EXT_DATA+Constants.FILE_EXT_DEFAULT_DOIPREFIX+Constants.EXTENSION_TXT);
+        if(!f.exists()){
             StringBuilder sb = new StringBuilder();
-            for (String s : FileManager.getFileContentJar("data/doiprefix.txt")) {
+            for (String s : FileUtils.getFileContentJar(Constants.PATH_INT_DATA+Constants.FILE_EXT_DEFAULT_DOIPREFIX+Constants.EXTENSION_TXT)) {
                 sb.append(s).append("\n");
             }
-            FileManager.exportFile(sb.toString(),"./Data/doiprefix.txt");
+            FileUtils.exportFile(sb.toString(),Constants.PATH_EXT_DATA+Constants.FILE_EXT_DEFAULT_DOIPREFIX+Constants.EXTENSION_TXT);
         }
-        dois = DoiPrefixLoader.load(new File("./Data/doiprefix.txt"));
+        dois = DoiPrefixLoader.load(f);
     }
 
     /**
@@ -63,9 +69,9 @@ public class DoiPrefixManager {
      *          or 1000 if no publisher was found.
      */
     public static int getDoiPrefix(String publisherName){
-        for (Map.Entry<Integer, String> integerStringEntry : dois.entrySet()) {
-            if (integerStringEntry.getValue().equals(publisherName)){
-                return integerStringEntry.getKey();
+        for (Map.Entry<Integer, String> i : dois.entrySet()) {
+            if (i.getValue().equals(publisherName)){
+                return i.getKey();
             }
         }
         return 1000;

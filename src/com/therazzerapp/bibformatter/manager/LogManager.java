@@ -1,11 +1,12 @@
 package com.therazzerapp.bibformatter.manager;
 
 import com.therazzerapp.bibformatter.Constants;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 /**
  * Needs rewrite
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.1.0
  */
 public class LogManager {
@@ -25,7 +26,7 @@ public class LogManager {
      * @param fileAddition
      */
     public static void writeError(String error, String fileAddition){
-        FileManager.exportFile(error, "./" + fileAddition +"error.log");
+        FileUtils.exportFile(error, "./" + fileAddition +"error.log");
     }
 
     /**
@@ -34,6 +35,6 @@ public class LogManager {
      * @param path
      */
     public static void writeDebug(String debug, String path){
-        FileManager.exportFile(debug, path+"debug.txt");
+        FileUtils.exportFile(debug, path+"debug.txt");
     }
 }

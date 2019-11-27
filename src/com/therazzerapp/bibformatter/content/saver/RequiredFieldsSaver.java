@@ -1,19 +1,20 @@
 package com.therazzerapp.bibformatter.content.saver;
 
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.config.JSONConfig;
 import com.therazzerapp.bibformatter.config.JSONConfigSection;
 import com.therazzerapp.bibformatter.content.RequiredFields;
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 import java.util.*;
 
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.4.3
  */
 public class RequiredFieldsSaver {
@@ -23,15 +24,11 @@ public class RequiredFieldsSaver {
      * @param requiredFields
      */
     public static void save(RequiredFields requiredFields){
-        String path = "./Data/CheckFiles/" + requiredFields.getName();
-        JSONConfigSection root = new JSONConfig().newRootSection();
-
-        for (Map.Entry<TypeType, ArrayList<KeyType>> stringArrayListEntry : requiredFields.getRequiredFieldsMap().entrySet()) {
-            String[] temp = Utils.listToArray(stringArrayListEntry.getValue());
-            root.setStringArray(stringArrayListEntry.getKey().toString(),temp);
+        JSONConfigSection r = new JSONConfig().newRootSection();
+        for (Map.Entry<TypeType, ArrayList<KeyType>> s : requiredFields.getRequiredFieldsMap().entrySet()) {
+            r.setStringArray(s.getKey().toString(),Utils.listToArray(s.getValue()));
         }
-
-        FileManager.exportJSONFile(root,path);
+        FileUtils.exportJSONFile(r,Constants.PATH_EXT_CHECKFILES + requiredFields.getName());
     }
 
     /**
@@ -42,16 +39,16 @@ public class RequiredFieldsSaver {
         ArrayList<KeyType> temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
-        temp.add(KeyType.PAGES);
         temp.add(KeyType.YEAR);
+        temp.add(KeyType.PAGES);
         temp.add(KeyType.BOOKTITLE);
         temp.add(KeyType.PUBLISHER);
         reqFieldsMap.put(TypeType.INPROCEEDINGS,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
-        temp.add(KeyType.PAGES);
         temp.add(KeyType.YEAR);
+        temp.add(KeyType.PAGES);
         temp.add(KeyType.JOURNAL);
         temp.add(KeyType.NUMBER);
         temp.add(KeyType.VOLUME);
@@ -59,14 +56,14 @@ public class RequiredFieldsSaver {
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
-        temp.add(KeyType.INSTITUTION);
         temp.add(KeyType.YEAR);
+        temp.add(KeyType.INSTITUTION);
         reqFieldsMap.put(TypeType.TECHREPORT,temp);
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
-        temp.add(KeyType.PAGES);
         temp.add(KeyType.YEAR);
+        temp.add(KeyType.PAGES);
         temp.add(KeyType.BOOKTITLE);
         temp.add(KeyType.PUBLISHER);
         reqFieldsMap.put(TypeType.INCOLLECTION,temp);
@@ -79,8 +76,8 @@ public class RequiredFieldsSaver {
         temp = new ArrayList<>();
         temp.add(KeyType.AUTHOR);
         temp.add(KeyType.TITLE);
-        temp.add(KeyType.PAGES);
         temp.add(KeyType.YEAR);
+        temp.add(KeyType.PAGES);
         temp.add(KeyType.BOOKTITLE);
         temp.add(KeyType.PUBLISHER);
         reqFieldsMap.put(TypeType.INBOOK,temp);
@@ -114,6 +111,6 @@ public class RequiredFieldsSaver {
         temp.add(KeyType.TITLE);
         temp.add(KeyType.YEAR);
         reqFieldsMap.put(TypeType.DEFAULT,temp);
-        save(new RequiredFields(reqFieldsMap,"valRequiredFields"));
+        save(new RequiredFields(reqFieldsMap,Constants.FILE_EXT_DEFAULT_CHECKFILE));
     }
 }

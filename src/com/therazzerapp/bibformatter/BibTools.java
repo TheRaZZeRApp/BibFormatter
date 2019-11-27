@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.1.0
  */
 public class BibTools {
@@ -37,15 +37,15 @@ public class BibTools {
      * @param types
      */
     public static void orderTypes(Bibliography bibliography, ArrayList<TypeType> types){
-        LinkedList<Entry> entrieList = new LinkedList<>();
+        LinkedList<Entry> entryList = new LinkedList<>();
         for (TypeType type : types) {
             for (Entry entry : bibliography.getEntrieList()) {
                 if (entry.getType().equals(type.toString())){
-                    entrieList.add(entry);
+                    entryList.add(entry);
                 }
             }
         }
-        bibliography.setEntrieList(entrieList);
+        bibliography.setEntrieList(entryList);
     }
 
     /**

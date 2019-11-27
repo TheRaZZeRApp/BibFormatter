@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * <description>
  *
- * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.16.12
  */
 public class CGeneratePublisher {

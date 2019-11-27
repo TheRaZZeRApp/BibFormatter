@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter.content.loader;
 
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * <description>
  *
- * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.16.12
  */
 public class DoiPrefixLoader {
@@ -24,7 +24,7 @@ public class DoiPrefixLoader {
      */
     public static Map<Integer,String> load(File file){
         Map<Integer,String> unicodeMap = new HashMap<>();
-        ArrayList<String> content = FileManager.getFileContent(file);
+        ArrayList<String> content = FileUtils.getFileContent(file);
         for (int i = 0; i < (content.size()-1); i+=2) {
             unicodeMap.put(Integer.parseInt(content.get(i+1)),content.get(i));
         }

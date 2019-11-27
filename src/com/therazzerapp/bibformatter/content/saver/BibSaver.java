@@ -1,14 +1,14 @@
 package com.therazzerapp.bibformatter.content.saver;
 
 import com.therazzerapp.bibformatter.Constants;
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.0.0
  */
 public class BibSaver {
@@ -33,6 +33,6 @@ public class BibSaver {
         if (!fileName.endsWith(".bib")){
             fileName+=".bib";
         }
-        FileManager.exportFile(sb.toString(),fileName);
+        FileUtils.exportFile(sb.toString(),fileName);
     }
 }

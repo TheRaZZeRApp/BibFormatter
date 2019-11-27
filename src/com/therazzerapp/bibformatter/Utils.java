@@ -4,7 +4,7 @@ import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.config.JSONConfig;
 import com.therazzerapp.bibformatter.config.JSONConfigSection;
 import com.therazzerapp.bibformatter.content.FlawerdEntry;
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 import java.io.File;
 import java.util.*;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * Random collection of useful functions.
  *
- * @author Paul Eduard Koenig <rezzer101@googlemail.com>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.0.0
  */
 public class Utils {
@@ -46,7 +46,7 @@ public class Utils {
                 sb.append(keyType);
             }
         }
-        FileManager.exportFile(sb.toString(),Utils.replaceLast(bib.getSaveLocation(),"(\\.bib|\\_formatted\\.bib)","")+"_check");
+        FileUtils.exportFile(sb.toString(),Utils.replaceLast(bib.getSaveLocation(),"(\\.bib|\\_formatted\\.bib)","")+"_check");
     }
 
     /**
@@ -70,7 +70,7 @@ public class Utils {
                 }
             }
         }
-        FileManager.exportJSONFile(root,Utils.replaceLast(bib.getSaveLocation(),"(\\.bib|\\_formatted\\.bib)","")+"_check");
+        FileUtils.exportJSONFile(root,Utils.replaceLast(bib.getSaveLocation(),"(\\.bib|\\_formatted\\.bib)","")+"_check");
     }
 
     /**
@@ -285,7 +285,7 @@ public class Utils {
      * @return
      */
     public static String getCommand(String rawCommand){
-        return new File(rawCommand).exists() ? getCollectionAsString(FileManager.getFileContent(new File(rawCommand))) : rawCommand;
+        return new File(rawCommand).exists() ? getCollectionAsString(FileUtils.getFileContent(new File(rawCommand))) : rawCommand;
     }
 
     /**
@@ -307,7 +307,7 @@ public class Utils {
      */
     public static void getCommandArguments(StringBuilder currentMatch, String[] commandLines, int i, boolean readFiles) {
         if(new File(commandLines[i].trim()).exists() && readFiles){
-            currentMatch.append(getCollectionAsString(FileManager.getFileContent(new File(commandLines[i]))));
+            currentMatch.append(getCollectionAsString(FileUtils.getFileContent(new File(commandLines[i]))));
         } else {
             currentMatch.append(commandLines[i].trim());
         }
@@ -322,7 +322,7 @@ public class Utils {
     public static void getCommandTypes(String commandLines, Collection<TypeType> currentTypes) {
         if (currentTypes != null)
         if(new File(commandLines).exists()){
-            for (String s : FileManager.getFileContent(new File(commandLines))) {
+            for (String s : FileUtils.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
                     currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
                 }
@@ -340,7 +340,7 @@ public class Utils {
     public static void getCommandKeys(String commandLines, Collection<KeyType> currentKeys) {
         if (currentKeys != null)
         if(new File(commandLines).exists()){
-            for (String s : FileManager.getFileContent(new File(commandLines))) {
+            for (String s : FileUtils.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
                     currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
                 }

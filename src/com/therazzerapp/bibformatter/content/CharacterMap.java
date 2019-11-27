@@ -9,7 +9,7 @@ import java.util.Map;
  * Contains the character map name and a {@link Map} where the key represents the special character and the value represents the replacement.
  * Can be constructed using a txt file where the first line represents the key and the second line the value etc.
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.6.4
  */
 public class CharacterMap {

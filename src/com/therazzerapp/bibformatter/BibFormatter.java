@@ -2,6 +2,7 @@ package com.therazzerapp.bibformatter;
 
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.commands.*;
+import com.therazzerapp.bibformatter.content.FileUtils;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 import com.therazzerapp.bibformatter.content.saver.BibSaver;
 import com.therazzerapp.bibformatter.manager.*;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.0.0
  */
 public class BibFormatter {
@@ -27,10 +28,10 @@ public class BibFormatter {
 
         if(!new File("./run.bat").exists()){
             StringBuilder sb = new StringBuilder();
-            for (String s : FileManager.getFileContentJar("data/run.bat")) {
+            for (String s : FileUtils.getFileContentJar("data/run.bat")) {
                 sb.append(s).append("\n");
             }
-            FileManager.exportFile(sb.toString(),"./run.bat");
+            FileUtils.exportFile(sb.toString(),"./run.bat");
         }
 
         if (args.length == 0){

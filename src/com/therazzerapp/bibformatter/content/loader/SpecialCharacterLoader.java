@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter.content.loader;
 
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.4.2
  */
 public class SpecialCharacterLoader {
@@ -25,7 +25,7 @@ public class SpecialCharacterLoader {
      */
     public static Map<String,String> load(File file){
         Map<String,String> unicodeMap = new HashMap<>();
-        ArrayList<String> content = FileManager.getFileContent(file);
+        ArrayList<String> content = FileUtils.getFileContent(file);
         for (int i = 1; i < (content.size()-1); i+=2) {
              unicodeMap.put(content.get(i),content.get(i+1));
              //"([^\\\\]|^)(\\x{" + content.get(i) + "})"
@@ -39,7 +39,7 @@ public class SpecialCharacterLoader {
      * @return
      */
     public static String loadRegExPatten(File file){
-        return FileManager.getFileContent(file).get(0);
+        return FileUtils.getFileContent(file).get(0);
     }
 
 }

@@ -30,6 +30,7 @@
 <li>Format Authors</li>
 <li>Ordinals to LaTeX superscript</li>
 <li>Format DOI</li>
+<li>Generate publisher key from DOI</li>
 <li>RIS to BibTeX</li>
 <li>HTML to BibTeX</li>
 <li>Format into a canonical form</li>

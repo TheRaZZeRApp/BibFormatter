@@ -1,6 +1,6 @@
 package com.therazzerapp.bibformatter.content.loader;
 
-import com.therazzerapp.bibformatter.manager.FileManager;
+import com.therazzerapp.bibformatter.content.FileUtils;
 
 import java.io.File;
 import java.util.Set;
@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * <description>
  *
- * @author The RaZZeR App <rezzer101@googlemail.com; e-mail@therazzerapp.de>
+ * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.13.9
  */
 public class BCFLoader {
@@ -19,7 +19,7 @@ public class BCFLoader {
      * @return
      */
     public static Set<String> getCitations(File file){
-        return FileManager.getMatches(file,"<bcf:citekey order=\"[0-9]*\">([^\\<]*)");
+        return FileUtils.getMatches(file,"<bcf:citekey order=\"[0-9]*\">([^\\<]*)");
     }
 
     /**
@@ -28,6 +28,6 @@ public class BCFLoader {
      * @return
      */
     public static Set<String> getBibliographies(File file){
-        return FileManager.getMatches(file,"<bcf:datasource type=\"file\" datatype=\"bibtex\">([^\\<]*)");
+        return FileUtils.getMatches(file,"<bcf:datasource type=\"file\" datatype=\"bibtex\">([^\\<]*)");
     }
 }
