@@ -4,6 +4,7 @@ import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.bibliographie.Entry;
 import com.therazzerapp.bibformatter.content.FlawerdEntry;
 import com.therazzerapp.bibformatter.content.RequiredFields;
+import com.therazzerapp.bibformatter.manager.DoiPrefixManager;
 import com.therazzerapp.bibformatter.manager.SpecialCharacterManager;
 
 import java.util.*;
@@ -29,16 +30,19 @@ public class BibTools {
      */
     public static void formatDoi(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String format){
         for (Entry entry : bibliography.getEntrieList()) {
-            if (entry.getKeys().containsKey(KeyType.DOI.toString())){
-                entry.getKeys().replace(KeyType.DOI.toString(),Utils.formatDOI(entry.getKeys().get(KeyType.DOI.toString()),format));
-            } else {
-                if (types.isEmpty() || types.contains(entry.getTypeType())) {
-                    Map<String, String> temp = new HashMap<>(entry.getKeys());
-                    for (Map.Entry<String, String> stringStringEntry : temp.entrySet()) {
-                        if ((keys.isEmpty() && stringStringEntry.getKey().equals(KeyType.DOI.toString())) || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))) {
-                            if (Utils.formatDOI(stringStringEntry.getValue(),format)!=null){
-                                bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(stringStringEntry.getValue(),format));
-                            }
+            if (types.isEmpty() || types.contains(entry.getTypeType())) {
+                Map<String, String> temp = new HashMap<>(entry.getKeys());
+                if (temp.containsKey(KeyType.DOI.toString()) && (keys.isEmpty() || keys.contains(KeyType.DOI))){
+                    if (Utils.formatDOI(temp.get(KeyType.DOI.toString()),format)!=null){
+                        bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(temp.get(KeyType.DOI.toString()),format));
+                        continue;
+                    }
+                }
+                for (Map.Entry<String, String> stringStringEntry : temp.entrySet()) {
+                    if ((keys.isEmpty() && stringStringEntry.getKey().equals(KeyType.DOI.toString())) || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))) {
+                        if (Utils.formatDOI(stringStringEntry.getValue(),format)!=null){
+                            bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(stringStringEntry.getValue(),format));
+                            break;
                         }
                     }
                 }
@@ -47,16 +51,32 @@ public class BibTools {
     }
 
     /**
-     *
-     * @param bibliography
-     * @param types
-     * @param keys
-     * @param dois
-     * @param override
-     * @since <version>
+     * If a DOI is found in an entry the matching publisher name will be added as value in the publisher key.
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param keys the keys in which to search for DOIs
+     * @param dois the set of DOIs that should be used for generation
+     * @param override set to true if you want to override the existing doi value if already present
+     * @since 0.18.12
      */
     public static void generatePublisher(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, Set<Integer> dois, boolean override){
-
+        for (Entry entry : bibliography.getEntrieList()) {
+            if (types.isEmpty() || types.contains(entry.getTypeType())) {
+                Map<String, String> temp = new HashMap<>(entry.getKeys());
+                for (Map.Entry<String, String> stringStringEntry : temp.entrySet()) {
+                    if ((keys.isEmpty() && stringStringEntry.getKey().equals(KeyType.DOI.toString())) || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))) {
+                        if (Utils.formatDOI(stringStringEntry.getValue(),"raw")!=null){
+                            if (dois.isEmpty() || dois.contains(Integer.parseInt(Utils.formatDOI(stringStringEntry.getValue(),"prefix")))){
+                                if (override || !temp.containsKey(KeyType.PUBLISHER.toString())){
+                                    bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.PUBLISHER.toString(), DoiPrefixManager.getPublisherName(Integer.parseInt(Utils.formatDOI(stringStringEntry.getValue(),"prefix"))));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

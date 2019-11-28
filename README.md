@@ -19,10 +19,10 @@
 <li>Create Key+Value</li>
 <li>Create bib from aux file</li>
 <li>Merge Bib files</li>
+<li>Generate publisher key from DOI</li>
 
 ## Planned Features
 
-<li>Generate publisher key from DOI</li>
 <li>Bib comment section</li>
 <li>Load pre sets</li>
 <li>Format Authors</li>
@@ -142,6 +142,8 @@ Example:
 
 ## Release History
 
+* 0.18.12
+    * Add: Command to generate a publisher
 * 0.17.12
     * Add: Command to Format DOIs
     * Add: Option to add every Type/Key in an argument (#)

@@ -354,7 +354,6 @@ public class Utils {
                     if (s1.trim().equals("#")){
                         Collections.addAll(currentKeys, KeyType.values());
                     } else {
-                        System.out.println(s1);
                         currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
                     }
                 }
@@ -491,6 +490,7 @@ public class Utils {
      * @since 0.16.12
      */
     public static String formatDOI(String text, String format){
+        int i = 0;
         String s = "";
         switch (format){
             case "raw":
@@ -504,10 +504,15 @@ public class Utils {
                 break;
             case "url":
                 s = "\\url{https://doi.org/$}";
+                break;
+            case "prefix":
+                s = "$";
+                i = 1;
+                break;
         }
         Matcher m = Pattern.compile(Constants.REGEX_DOI,Pattern.CASE_INSENSITIVE).matcher(text);
         if (m.find()){
-            return s.replaceAll("\\$",m.group(0));
+            return s.replaceAll("\\$",m.group(i));
         }
         return null;
     }

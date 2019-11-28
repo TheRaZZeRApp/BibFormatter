@@ -35,8 +35,10 @@ public class CGeneratePublisher {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
                     Set<Integer> doiPrefix = new HashSet<>();
-                    for (String s : currentMatch.toString().split(" ")) {
-                        doiPrefix.add(Integer.parseInt(s));
+                    if (!currentMatch.toString().trim().isEmpty()){
+                        for (String s : currentMatch.toString().split(" ")) {
+                            doiPrefix.add(Integer.parseInt(s));
+                        }
                     }
                     BibTools.generatePublisher(bibliography,currentTypes,currentKeys,doiPrefix,currentValue.toString().matches(Constants.REGEX_YES));
                 }
