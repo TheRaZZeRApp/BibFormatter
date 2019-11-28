@@ -253,15 +253,14 @@ public class Utils {
     }
 
     /**
-     * Returns a Collection as a String with a space between every appended String.
-     * @return
+     * Returns an Array as a String with a space between every appended String.
+     * @return string of every object in the Array
      */
     public static String getObjectAsString(Object[] a){
         StringBuilder stringBuilder = new StringBuilder();
         for (Object o : a) {
             stringBuilder.append(o.toString());
             stringBuilder.append(" ");
-
         }
         return stringBuilder.toString();
     }
@@ -290,9 +289,9 @@ public class Utils {
 
     /**
      * Checks if the given arguments are correct formatted.
-     * @param regEx
-     * @param arguments
-     * @return
+     * @param regEx how the argument should look like
+     * @param arguments the argument to check
+     * @return true if the argument matches the regular expression, false if not
      */
     public static boolean isArgumentsValid(String regEx, String arguments){
         return regEx.isEmpty() || arguments.matches(regEx);
@@ -316,7 +315,6 @@ public class Utils {
 
     /**
      * Adds every {@link TypeType} found in a file or String and adds it to a {@link Collection<TypeType>} of types.
-     * If a * was found, add every type.
      * @param commandLines
      * @param currentTypes
      */
@@ -325,25 +323,16 @@ public class Utils {
         if(new File(commandLines).exists()){
             for (String s : FileUtils.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
-                    if (s1.trim().equals("#")){
-                        Collections.addAll(currentTypes, TypeType.values());
-                    } else {
-                        currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
-                    }
+                    currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
                 }
             }
         } else {
-            if (commandLines.trim().equals("#")){
-                Collections.addAll(currentTypes, TypeType.values());
-            } else {
-                currentTypes.add(TypeType.valueOf(commandLines.toUpperCase()));
-            }
+            currentTypes.add(TypeType.valueOf(commandLines.toUpperCase()));
         }
     }
 
     /**
      * Adds every {@link KeyType} found in a file or String and adds it to a {@link Collection<KeyType>} of keys.
-     * If a * was found, add every key.
      * @param commandLines
      * @param currentKeys
      */
@@ -352,20 +341,11 @@ public class Utils {
         if(new File(commandLines).exists()){
             for (String s : FileUtils.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
-                    if (s1.trim().equals("#")){
-                        Collections.addAll(currentKeys, KeyType.values());
-                    } else {
-                        System.out.println(s1);
-                        currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
-                    }
+                    currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
                 }
             }
         } else {
-            if (commandLines.trim().equals("#")){
-                Collections.addAll(currentKeys, KeyType.values());
-            } else {
-                currentKeys.add(KeyType.valueOf(commandLines.toUpperCase()));
-            }
+            currentKeys.add(KeyType.valueOf(commandLines.toUpperCase()));
         }
     }
 
@@ -487,29 +467,12 @@ public class Utils {
 
     /**
      * If a string contains a doi at any point it will return only the matched doi.
-     * @param text the text to check/format
-     * @return the formatted doi, null if no doi was found.
+     * @param text the text to check
+     * @return the doi, null if no doi was found
      * @since 0.16.12
      */
-    public static String formatDOI(String text, String format){
-        String s = "";
-        switch (format){
-            case "raw":
-                s = "$";
-                break;
-            case "doi":
-                s = "doi:$";
-                break;
-            case "proxy":
-                s = "https://doi.org/$";
-                break;
-            case "url":
-                s = "\\url{https://doi.org/$}";
-        }
+    public static String formatDOI(String text){
         Matcher m = Pattern.compile(Constants.REGEX_DOI,Pattern.CASE_INSENSITIVE).matcher(text);
-        if (m.find()){
-            return s.replaceAll("\\$",m.group(0));
-        }
-        return null;
+        return m.group(0);
     }
 }
