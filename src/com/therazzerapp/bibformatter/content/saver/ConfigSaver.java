@@ -56,6 +56,7 @@ public class ConfigSaver {
         configMap.put(ConfigType.WRITEEMPTYENTRIES,false);
         configMap.put(ConfigType.OVERRIDEPUBLISHER,false);
         configMap.put(ConfigType.DEFAULTCHARACTERMAP,"unicode2latex");
+        configMap.put(ConfigType.DOISTYLE,"raw");
         save(configMap);
     }
 }

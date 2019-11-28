@@ -17,6 +17,7 @@ public enum ConfigType {
     INDENTSPACESAMOUNT("indentSpacesAmount","int"),
     INDENTVALUECOLUMM("indentValueColumm","int"),
     WRITEEMPTYENTRIES("writeEmptyEntries","boolean"),
+    DOISTYLE("doiStyle","string"),
     DEFAULTCHARACTERMAP("defaultCharacterMap","string");
 
     private final String name;

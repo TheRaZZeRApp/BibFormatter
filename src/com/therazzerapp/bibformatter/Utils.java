@@ -316,6 +316,7 @@ public class Utils {
 
     /**
      * Adds every {@link TypeType} found in a file or String and adds it to a {@link Collection<TypeType>} of types.
+     * If a * was found, add every type.
      * @param commandLines
      * @param currentTypes
      */
@@ -324,16 +325,25 @@ public class Utils {
         if(new File(commandLines).exists()){
             for (String s : FileUtils.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
-                    currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
+                    if (s1.trim().equals("#")){
+                        Collections.addAll(currentTypes, TypeType.values());
+                    } else {
+                        currentTypes.add(TypeType.valueOf(s1.toUpperCase()));
+                    }
                 }
             }
         } else {
-            currentTypes.add(TypeType.valueOf(commandLines.toUpperCase()));
+            if (commandLines.trim().equals("#")){
+                Collections.addAll(currentTypes, TypeType.values());
+            } else {
+                currentTypes.add(TypeType.valueOf(commandLines.toUpperCase()));
+            }
         }
     }
 
     /**
      * Adds every {@link KeyType} found in a file or String and adds it to a {@link Collection<KeyType>} of keys.
+     * If a * was found, add every key.
      * @param commandLines
      * @param currentKeys
      */
@@ -342,11 +352,20 @@ public class Utils {
         if(new File(commandLines).exists()){
             for (String s : FileUtils.getFileContent(new File(commandLines))) {
                 for (String s1 : s.split(" ")) {
-                    currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
+                    if (s1.trim().equals("#")){
+                        Collections.addAll(currentKeys, KeyType.values());
+                    } else {
+                        System.out.println(s1);
+                        currentKeys.add(KeyType.valueOf(s1.toUpperCase()));
+                    }
                 }
             }
         } else {
-            currentKeys.add(KeyType.valueOf(commandLines.toUpperCase()));
+            if (commandLines.trim().equals("#")){
+                Collections.addAll(currentKeys, KeyType.values());
+            } else {
+                currentKeys.add(KeyType.valueOf(commandLines.toUpperCase()));
+            }
         }
     }
 
@@ -468,12 +487,29 @@ public class Utils {
 
     /**
      * If a string contains a doi at any point it will return only the matched doi.
-     * @param text
-     * @return
+     * @param text the text to check/format
+     * @return the formatted doi, null if no doi was found.
      * @since 0.16.12
      */
-    public static String formatDOI(String text){
+    public static String formatDOI(String text, String format){
+        String s = "";
+        switch (format){
+            case "raw":
+                s = "$";
+                break;
+            case "doi":
+                s = "doi:$";
+                break;
+            case "proxy":
+                s = "https://doi.org/$";
+                break;
+            case "url":
+                s = "\\url{https://doi.org/$}";
+        }
         Matcher m = Pattern.compile(Constants.REGEX_DOI,Pattern.CASE_INSENSITIVE).matcher(text);
-        return m.group(0);
+        if (m.find()){
+            return s.replaceAll("\\$",m.group(0));
+        }
+        return null;
     }
 }

@@ -121,6 +121,8 @@ public class BibFormatter {
             CFormatURL.run(bib,arguments);
         } else if (command.matches(CGeneratePublisher.COMMANDPATTERN)){
             CGeneratePublisher.run(bib,arguments);
+        } else if (command.matches(CFormatDoi.COMMANDPATTERN)){
+            CFormatDoi.run(bib,arguments);
         }
     }
 }

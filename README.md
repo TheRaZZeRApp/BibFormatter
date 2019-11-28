@@ -8,7 +8,9 @@
 <li>Order types</li>
 <li>Format month</li>
 <li>Format pages</li>
+<li>Format DOI</li>
 <li>Remove keys</li>
+<li>Format URLs</li>
 <li>Save special characters</li>
 <li>Multi special character map support</li>
 <li>Replace key</li>
@@ -17,25 +19,22 @@
 <li>Create Key+Value</li>
 <li>Create bib from aux file</li>
 <li>Merge Bib files</li>
-<li>Format URLs</li>
 
 ## Planned Features
 
+<li>Generate publisher key from DOI</li>
+<li>Bib comment section</li>
+<li>Load pre sets</li>
+<li>Format Authors</li>
+<li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
 <li>Complete Debug</li>
 <li>Info/Error Message System</li>
-<li>Generate check file for required fields (i.e. bibtex_check_0.2.0)</li>
 <li>Create bib from bcf file</li>
-<li>Bib comment section</li>
 <li>Generate HTML info file</li>
-<li>Format Authors</li>
 <li>Ordinals to LaTeX superscript</li>
-<li>Format DOI</li>
-<li>Generate publisher key from DOI</li>
 <li>RIS to BibTeX</li>
 <li>HTML to BibTeX</li>
 <li>Format into a canonical form</li>
-<li>Load pre sets</li>
-
 
 ## Requirements
 
@@ -143,6 +142,10 @@ Example:
 
 ## Release History
 
+* 0.17.12
+    * Add: Command to Format DOIs
+    * Add: Option to add every Type/Key in an argument (#)
+    * Fix: JavaDoc
 * 0.16.12
     * Add: Generate Doi publisher map
     * Fix: Various little things

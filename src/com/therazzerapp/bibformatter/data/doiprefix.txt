@@ -5470,8 +5470,6 @@ Crop Science Society of Japan
 1626
 Cross Current Publisher
 36344
-Crosscurrent Publisher
-
 Crossref
 13003
 CrossRef Prefix (FundRef)
@@ -5702,8 +5700,6 @@ Degerler Egitimi Dergisi
 34234
 Delaware Academy of Medicine - Delaware Public Health Association
 32481
-Deleted
-
 Delhi Ophthalmological Society
 36536
 Delictae: Revista de Estudos Interdisciplinares sobre o Delito
@@ -18120,8 +18116,6 @@ National and University Library of the Republic of Srpska
 7251
 National Assembly Budget Office
 35525
-National Association for Professional Development Schools
-
 National Association of Directors of Nursing Administration in Long Term Care
 22189
 National Association of Geoscience Teachers

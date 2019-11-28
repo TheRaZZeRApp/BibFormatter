@@ -19,6 +19,34 @@ import java.util.regex.Pattern;
 public class BibTools {
 
     /**
+     * Search for DOIs in the specified types and the specified keys.
+     * If found, format them in the specified style and copy the value in the Doi key.
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param keys the keys in which to search for DOIs
+     * @param format the format in which the DOI gets transformed
+     * @since 0.17.12
+     */
+    public static void formatDoi(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String format){
+        for (Entry entry : bibliography.getEntrieList()) {
+            if (entry.getKeys().containsKey(KeyType.DOI.toString())){
+                entry.getKeys().replace(KeyType.DOI.toString(),Utils.formatDOI(entry.getKeys().get(KeyType.DOI.toString()),format));
+            } else {
+                if (types.isEmpty() || types.contains(entry.getTypeType())) {
+                    Map<String, String> temp = new HashMap<>(entry.getKeys());
+                    for (Map.Entry<String, String> stringStringEntry : temp.entrySet()) {
+                        if ((keys.isEmpty() && stringStringEntry.getKey().equals(KeyType.DOI.toString())) || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))) {
+                            if (Utils.formatDOI(stringStringEntry.getValue(),format)!=null){
+                                bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(stringStringEntry.getValue(),format));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      *
      * @param bibliography
      * @param types
@@ -57,8 +85,7 @@ public class BibTools {
      * @return
      */
     public static Bibliography mergeBibliographies(Bibliography prim, Bibliography sec, Set<TypeType> types, Set<KeyType> keys){
-        LinkedList<Entry> mergedEntries = new LinkedList<>();
-        mergedEntries.addAll(prim.getEntrieList());
+        LinkedList<Entry> mergedEntries = new LinkedList<>(prim.getEntrieList());
         for (Entry entry : sec.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 if (prim.getBibTexKeys().contains(entry.getBibtexkey())){
