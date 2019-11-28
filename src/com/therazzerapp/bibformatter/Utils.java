@@ -253,15 +253,14 @@ public class Utils {
     }
 
     /**
-     * Returns a Collection as a String with a space between every appended String.
-     * @return
+     * Returns an Array as a String with a space between every appended String.
+     * @return string of every object in the Array
      */
     public static String getObjectAsString(Object[] a){
         StringBuilder stringBuilder = new StringBuilder();
         for (Object o : a) {
             stringBuilder.append(o.toString());
             stringBuilder.append(" ");
-
         }
         return stringBuilder.toString();
     }
@@ -290,9 +289,9 @@ public class Utils {
 
     /**
      * Checks if the given arguments are correct formatted.
-     * @param regEx
-     * @param arguments
-     * @return
+     * @param regEx how the argument should look like
+     * @param arguments the argument to check
+     * @return true if the argument matches the regular expression, false if not
      */
     public static boolean isArgumentsValid(String regEx, String arguments){
         return regEx.isEmpty() || arguments.matches(regEx);
@@ -468,8 +467,8 @@ public class Utils {
 
     /**
      * If a string contains a doi at any point it will return only the matched doi.
-     * @param text
-     * @return
+     * @param text the text to check
+     * @return the doi, null if no doi was found
      * @since 0.16.12
      */
     public static String formatDOI(String text){
