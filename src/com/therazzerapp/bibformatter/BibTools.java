@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <description>
+ * Collection of functions to modify {@link Bibliography} objects in various ways.
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.1.0
@@ -22,6 +22,7 @@ public class BibTools {
     /**
      * Search for DOIs in the specified types and the specified keys.
      * If found, format them in the specified style and copy the value in the Doi key.
+     *
      * @param bibliography the {@link Bibliography} to modify
      * @param types the types to apply changes to
      * @param keys the keys in which to search for DOIs
@@ -52,6 +53,7 @@ public class BibTools {
 
     /**
      * If a DOI is found in an entry the matching publisher name will be added as value in the publisher key.
+     *
      * @param bibliography the {@link Bibliography} to modify
      * @param types the types to apply changes to
      * @param keys the keys in which to search for DOIs
@@ -81,8 +83,9 @@ public class BibTools {
 
     /**
      * Orders every Entry inside a bib file by a list.
-     * @param bibliography
-     * @param types
+     *
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the list to order after
      */
     public static void orderTypes(Bibliography bibliography, ArrayList<TypeType> types){
         LinkedList<Entry> entryList = new LinkedList<>();
@@ -97,19 +100,19 @@ public class BibTools {
     }
 
     /**
-     * Adds every entry from the second bib to first one. If the bibTexKey is already found the entry from prim will be completed with the entries from sec
-     * @param prim
-     * @param sec
-     * @param types
-     * @param keys
-     * @return
+     * Adds every entry from the second bib to first one. If the bibTexKey is already found the entry from prim will be completed with the entries from sec.
+     *
+     * @param prim the main bib, everything gets added to this one
+     * @param sec the bib that will be appended
+     * @param types the types to apply changes to
+     * @param keys the type of keys that will be added
+     * @return the modified bibliography
      */
     public static Bibliography mergeBibliographies(Bibliography prim, Bibliography sec, Set<TypeType> types, Set<KeyType> keys){
         LinkedList<Entry> mergedEntries = new LinkedList<>(prim.getEntrieList());
         for (Entry entry : sec.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 if (prim.getBibTexKeys().contains(entry.getBibtexkey())){
-
                     LinkedHashMap<String,String> newKeyMap = new LinkedHashMap<>();
                     newKeyMap.putAll(prim.getEntry(entry.getBibtexkey()).getKeys());
                     for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
@@ -117,7 +120,6 @@ public class BibTools {
                             newKeyMap.put(stringStringEntry.getKey(),stringStringEntry.getValue());
                         }
                     }
-
                     mergedEntries.add(new Entry(entry.getType(),entry.getBibtexkey(),newKeyMap));
                 } else {
                     mergedEntries.add(entry);
@@ -129,12 +131,14 @@ public class BibTools {
 
     /**
      * Checks if an {@link Entry} is missing keys.
-     * @param bibliography
-     * @param types
-     * @param requiredFields
-     * @param args
-     * @param print
-     * @return
+     * Possible export ways: txt/html/json
+     *
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param requiredFields the list of keys a type needs
+     * @param args the way the list of missing keys per entry get exported
+     * @param print set to true if you want to export the results in a file
+     * @return the set of flawed entries
      */
     public static Set<FlawerdEntry> checkType(Bibliography bibliography, Set<TypeType> types, RequiredFields requiredFields, String args, boolean print){
         Set<FlawerdEntry> flawedEntries = new HashSet<>();
@@ -165,10 +169,12 @@ public class BibTools {
 
     /**
      * Encloses every char listed in characters with {} in all the specified types and keys
-     * @param bibliography
-     * @param types
-     * @param keys
-     * @param characters
+     * If no characters are specified only uppercase will be used.
+     *
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param keys the keys to apply changes to
+     * @param characters the characters to be enclosed
      */
     public static void capitalizeValue(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String characters){
 
@@ -201,8 +207,12 @@ public class BibTools {
     }
 
     /**
+     * Formats the Month value inside a bib by a specified style.
+     * number = 01; name = jan
      *
-     * @param bibliography
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param style the style
      */
     public static void formatMonth(Bibliography bibliography, Set<TypeType> types, String style){
         for (Entry entry : bibliography.getEntrieList()) {
@@ -224,10 +234,12 @@ public class BibTools {
     }
 
     /**
+     * Formats the Page value inside a bib by a specified style.
+     * single = -; double = --
      *
-     * @param bibliography
-     * @param types
-     * @param style
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param style the style
      */
     public static void formatPages(Bibliography bibliography, Set<TypeType> types, String style){
         for (Entry entry : bibliography.getEntrieList()) {
@@ -247,17 +259,16 @@ public class BibTools {
 
     /**
      * Orders every {@link Entry} in a {@link Bibliography} by an entry order list specified in a String.
-     * @param bibliography
-     * @param types
-     * @param keys
+     *
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param keys the list in which order the keys will be sorted after.
      */
     public static void orderEntries(Bibliography bibliography, Set<TypeType> types, ArrayList<KeyType> keys){
         LinkedList<Entry> tempEntryList = new LinkedList<>();
         for (Entry entry : bibliography.getEntrieList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
-                tempEntryList.add(
-                        new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), Utils.getObjectAsString(keys.toArray())))
-                );
+                tempEntryList.add(new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), Utils.getObjectAsString(keys.toArray()))));
             } else {
                 tempEntryList.add(entry);
             }
@@ -267,10 +278,11 @@ public class BibTools {
 
     /**
      * Replaces every special character in a specified key by another symbol linked in the character map specified.
-     * @param bibliography
-     * @param types
-     * @param keys
-     * @param characterMap
+     *
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param keys the keys to apply changes to
+     * @param characterMap the character map you want to use
      */
     public static void saveSpecialCharacters(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String characterMap){
         LinkedList<Entry> entryList = new LinkedList<>();
@@ -300,9 +312,10 @@ public class BibTools {
 
     /**
      * Encloses every url in a specified type and a specified key with brackets \\url(x)
-     * @param bibliography
-     * @param types
-     * @param keys
+     *
+     * @param bibliography the {@link Bibliography} to modify
+     * @param types the types to apply changes to
+     * @param keys the keys to apply changes to
      */
     public static void formatURL(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys){
         LinkedList<Entry> entryList = new LinkedList<>();
