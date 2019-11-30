@@ -22,6 +22,9 @@ public class Constants {
     public static final String REGEX_YES = "^([yY] *$|yes *$|YES *$|Yes *$) *";
     public static final String REGEX_DOI = "10\\.(\\d{4,9})\\/([-._;()\\/:A-Z0-9]+)";
     public static final String REGEX_WEBSITE = "(https{0,1}:\\/\\/)*[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)";
+    public static final String REGEX_BIBKEY = "(?<entrie>@[^@]{1,})";
+    public static final String REGEX_BIBKEYTYPE = "(?<keyName>[^ @\\t]{1,})[ ]{1,}=[ \\t]{1,}(?<keyValue>[^\\n]{1,})";
+    public static final String REGEX_BIBTYPETYPE = "@(?<typ>[^{]{1,})\\{(?<bibtexkey>[^,]{1,}),";
 
     //Charsets
     public static final String CHARSET_ANSI = "windows-1252";
