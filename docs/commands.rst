@@ -88,12 +88,8 @@ Bibliography Commands
           ``[+type <types>]``,"Only entries of this type will be checked. If not other specified every type will be checked"
           ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (``.\Data\CheckFiles\valRequiredFields.json``)"
           ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
-            .. csv-table::
-                :widths: 8, 15
-
-                **txt**,"Checks if an entry is missing keys and exports the missing keys for every entry as a list."
-                **json**,"``-ct``"
-                **html**,"``-checkType [+type <types>] [+match <required>] [+value <style>]``"
+          ``Styles:``,"``txt``   Exports missing keys as a simple txt
+                        ``json``   Exports missing keys as a simple txt"
 
 .. raw:: html
 
