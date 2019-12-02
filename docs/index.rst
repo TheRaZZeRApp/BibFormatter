@@ -14,13 +14,10 @@ Documentation
     :titlesonly:
 
     install
-    quickstart
     config
     commands
     examples
     faq
-    support
-    source-code
 
 Links
 =====

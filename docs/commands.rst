@@ -145,7 +145,7 @@ Bibliography Commands
         **Shortcut**,"``-fm``"
         **Usage**,"``-formatMonth [+type <types>] [+value <style>]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
-          ``[+value <style>]``,"Specify the style to format the month after (name/number). If no parameter is specified the standard format is by name."
+          ``[+value <style>]``,"Specify the style to format the month after (name/number). If no parameter is specified the standard format is ``name``."
         **Styles**,"``name`` jul"
         ,"``number`` 07"
 
@@ -163,7 +163,7 @@ Bibliography Commands
         **Shortcut**,"``-fp``"
         **Usage**,"``-formatPages [+type <types>] [+value <style>]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
-          ``[+value <style>]``,"Specify the style to format the pages after (single/double). If no parameter is specified the standard format is double."
+          ``[+value <style>]``,"Specify the style to format the pages after (single/double). If no parameter is specified the standard format is ``double``."
         **Styles**,"``single`` 157-160"
         ,"``double`` 157--160"
 
@@ -332,7 +332,7 @@ Bibliography Commands
         **Usage**,"``-saveSymbols [+type <types>] [+key <keys>] [+value <characterMap>]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
-          ``[+value <characterMap>]``,"The character map file name (´´.Data/<characterMap>.txt´´). If no map is specified the standard one is loaded (unicode2latex)"
+          ``[+value <characterMap>]``,"The character map file name (``.Data/<characterMap>.txt``). If no map is specified the standard one is loaded (``unicode2latex``)"
 
 .. raw:: html
 
@@ -349,8 +349,8 @@ Bibliography Commands
         **Usage**,"``-setValue [+type <types>] [+key <keys>] [+match <match>] <+value <value>>``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
-          ``[+match <match>]``,"Only values matching this value will be affected (to escape special characters when using regex matching, use a file (e.g. ´´+match C:/regexcode.txt´´)). If no matching string is specified the changes will effect every value."
-          ``<+value <value>>``,"The character map file name (´´.Data/<characterMap>.txt´´). If no map is specified the standard one is loaded (unicode2latex)"
+          ``[+match <match>]``,"Only values matching this value will be affected (to escape special characters when using regex matching, use a file (e.g. ``+match C:/regexcode.txt``)). If no matching string is specified the changes will effect every value."
+          ``<+value <value>>``,"The character map file name (``.Data/<characterMap>.txt``). If no map is specified the standard one is loaded (unicode2latex)"
 
 Utility Commands
 ~~~~~~~~~~~~~~~~
