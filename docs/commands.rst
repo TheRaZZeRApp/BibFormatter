@@ -88,11 +88,9 @@ Bibliography Commands
           ``[+type <types>]``,"Only entries of this type will be checked. If not other specified every type will be checked"
           ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (``.\Data\CheckFiles\valRequiredFields.json``)"
           ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
-        **Style**,"``txt`` Exports the list of missing keys as plain txt"
+        **Styles**,"``txt`` Exports the list of missing keys as plain txt"
         ,"``json`` Exports the list of missing keys as json array"
         ,"``html`` Exports the list of missing keys as a html document (e.g. BibChecker)"
-
-
 
 .. raw:: html
 
@@ -127,6 +125,96 @@ Bibliography Commands
           ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
           ``[+key <keys>]``,"Specify the keys in which you want to search for DOIs. If no keys are specified only the doi key will be analysed.``"
           ``[+value <style>]``,"Specify the style to format the DOI after (raw/doi/proxy/url/prefix)"
+        **Styles**,"``raw`` 10.1000/foobar"
+        ,"``doi`` doi:10.1000/foobar"
+        ,"``proxy`` https://doi.org/10.1000/foobar"
+        ,"``url`` \url{https://doi.org/10.1000/foobar}"
+        ,"``prefix`` 1000"
+
+.. raw:: html
+
+    <span id="command--formatMonth"></span>
+
+.. topic:: ``-formatMonth``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Formats the month value into the described format."
+        **Shortcut**,"``-fm``"
+        **Usage**,"``-formatMonth [+type <types>] [+value <style>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+value <style>]``,"Specify the style to format the month after (name/number). If no parameter is specified the standard format is by name."
+        **Styles**,"``name`` jul"
+        ,"``number`` 07"
+
+.. raw:: html
+
+    <span id="command--formatPages"></span>
+
+.. topic:: ``-formatPages``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Formats the pages value into the described format."
+        **Shortcut**,"``-fp``"
+        **Usage**,"``-formatPages [+type <types>] [+value <style>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+value <style>]``,"Specify the style to format the pages after (single/double). If no parameter is specified the standard format is double."
+        **Styles**,"``single`` 157-160"
+        ,"``double`` 157--160"
+
+.. raw:: html
+
+    <span id="command--formatURL"></span>
+
+.. topic:: ``-formatURL``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Formats a url found in a value into the correct format."
+        **Shortcut**,"``-fu``"
+        **Usage**,"``-createKey [+type <types>] [+key <keys>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not other specified every key will be affected"
+
+.. raw:: html
+
+    <span id="command--fromAux"></span>
+
+.. topic:: ``-fromAux``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Removes every entry in the currently loaded bibliography that is not cited in the ``.aux`` file."
+        **Shortcut**,"``-fa``"
+        **Usage**,"``-fromAux <+value <path>>``"
+          ``<+value <path>>``,"The exact path to the ``.aux`` file you want to load (no spaces allowed)"
+
+.. raw:: html
+
+    <span id="command--generatePublisher"></span>
+
+.. topic:: ``-generatePublisher``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"If an entry contains a DOI it will search in the DOI prefix list after a matching publisher name and if found add this as value to a new publisher key."
+        **Shortcut**,"``-gp``"
+        **Usage**,"``-generatePublisher [+type <types>] [+key <keys>] [+match <dois>] [+value {y|n}]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+key <keys>]``,"Specify the keys in which you want to search for DOIs. If no keys are specified only the doi key will be analysed."
+          ``[+match <dois>]``,"Specify the DOIs you want to accept. If no DOIs are specified every DOI will be accepted."
+          ``[+value {y|n}]``,"Set to y if you want to override any already existing publisher value. If not other specified overriding is set to no."
 
 Utility Commands
 ~~~~~~~~~~~~~~~~
