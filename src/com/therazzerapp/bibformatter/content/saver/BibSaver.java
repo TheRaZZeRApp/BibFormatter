@@ -25,11 +25,22 @@ public class BibSaver {
                 sb.append(s).append("\n");
             }
         }
-        sb.append("%%Modified using BibFormatter " + Constants.VERSION + "\n");
-        sb.append("%%Entries: ").append(bibliography.getEntrieList().size()).append("\n\n");
+
+        int i = 0;
+
+        StringBuilder entries = new StringBuilder();
         for (Entry entry : bibliography.getEntrieList()) {
-            sb.append(entry.getRawEntry());
+            if (entry.getKeys().isEmpty()){
+                continue;
+            }
+            entries.append(entry.getRawEntry());
+            i++;
         }
+
+        sb.append("%%Modified using BibFormatter " + Constants.VERSION + "\n");
+        sb.append("%%Entries: ").append(i).append("\n\n");
+        sb.append(entries.toString());
+
         if (!fileName.endsWith(".bib")){
             fileName+=".bib";
         }

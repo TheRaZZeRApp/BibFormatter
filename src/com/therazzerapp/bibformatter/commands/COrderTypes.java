@@ -28,8 +28,8 @@ public class COrderTypes {
         if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
-
             ArrayList<TypeType> currentTypes = new ArrayList<>();           //0
+
 
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,null,null,null);

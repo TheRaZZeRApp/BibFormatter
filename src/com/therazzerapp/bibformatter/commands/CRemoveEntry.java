@@ -37,6 +37,7 @@ public class CRemoveEntry {
             for (int i = 0; i < commandLines.length; i++) {
                 currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
+                    System.out.println(currentValue.toString().trim().matches(Constants.REGEX_YES));
                     bibliography.removeKey(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim().matches(Constants.REGEX_YES));
                 }
             }

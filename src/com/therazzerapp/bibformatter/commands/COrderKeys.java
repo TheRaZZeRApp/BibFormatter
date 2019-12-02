@@ -16,9 +16,9 @@ import java.util.Set;
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
  * @since 0.7.7
  */
-public class COrderEntries {
+public class COrderKeys {
     public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-orderEntries|-oe) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTERN = "(-orderKeys|-ok) (?<arg>[^-]{0,})";
 
     /**
      *
@@ -32,11 +32,9 @@ public class COrderEntries {
 
             Set<TypeType> currentTypes = new HashSet<>();           //0
             ArrayList<KeyType> currentKeys = new ArrayList<>();     //1
-            StringBuilder currentMatch = new StringBuilder();       //2
-            StringBuilder currentValue = new StringBuilder();       //3
 
             for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
+                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,null,null);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
                     BibTools.orderEntries(bibliography,currentTypes,currentKeys);
                 }

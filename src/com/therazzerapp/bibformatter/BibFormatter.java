@@ -97,8 +97,8 @@ public class BibFormatter {
             CRemoveEntry.run(bib,arguments);
         } else if (command.matches(CSaveCapitals.COMMANDPATTERN)){
             CSaveCapitals.run(bib,arguments);
-        } else if (command.matches(COrderEntries.COMMANDPATTERN)){
-            COrderEntries.run(bib,arguments);
+        } else if (command.matches(COrderKeys.COMMANDPATTERN)){
+            COrderKeys.run(bib,arguments);
         } else if (command.matches(CFormatMonth.COMMANDPATTERN)){
             CFormatMonth.run(bib,arguments);
         } else if (command.matches(CFormatPages.COMMANDPATTERN)){

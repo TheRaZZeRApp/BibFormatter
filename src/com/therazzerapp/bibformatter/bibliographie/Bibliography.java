@@ -67,6 +67,7 @@ public class Bibliography {
     }
 
     /**
+     * //todo method is trash, invert could be much better implemented by modifying the sets in the command class
      * Removes and entry specified by the type of article it is inside and the value it contains.
      * Set inverse to true if you want to delete every entry except the specified.
      * @param types
@@ -77,7 +78,7 @@ public class Bibliography {
     public void removeKey(Set<TypeType> types, Set<KeyType> keyTypeSet, String match, boolean inverse){
         LinkedList<Entry> tempEentrieList = new LinkedList<>(entrieList);
         for (Entry entry : entrieList) {
-            if ((!types.contains(entry.getTypeType()) && inverse && keyTypeSet.isEmpty()) || types.isEmpty() || types.contains(entry.getTypeType())){
+            if (types.isEmpty() || types.contains(entry.getTypeType())){
                 if (keyTypeSet.isEmpty()){
                     if (match == null || match.isEmpty()){
                         if (inverse){
@@ -88,27 +89,38 @@ public class Bibliography {
                             tempEentrieList.remove(entry);
                         }
                     } else {
-                        for (KeyType type : KeyType.values()) {
-                            if (entry.getKeys().containsKey(type.toString()) && entry.getKeys().get(type.toString()).matches(match)){
-                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
+                        if (inverse){
+                            for (KeyType type : KeyType.values()) {
+                                if (entry.getKeys().containsKey(type.toString()) && !entry.getKeys().get(type.toString()).matches(match)){
+                                    tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
+                                }
+                            }
+                        } else {
+                            for (KeyType type : KeyType.values()) {
+                                if (entry.getKeys().containsKey(type.toString()) && entry.getKeys().get(type.toString()).matches(match)){
+                                    tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
+                                }
                             }
                         }
                     }
                 } else {
                     if (inverse){
                         for (KeyType type : KeyType.values()) {
-                            if (!keyTypeSet.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(match))){
-                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
+                            if (keyTypeSet.contains(type) && entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(match))){
+                                continue;
                             }
+                            tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
                         }
                     } else {
-                        for (KeyType keyType : keyTypeSet) {
-                            if (entry.getKeys().containsKey(keyType.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(keyType.toString()).matches(match))){
-                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(keyType.toString());
+                        for (KeyType type : keyTypeSet) {
+                            if (entry.getKeys().containsKey(type.toString()) && (match == null || match.isEmpty() || entry.getKeys().get(type.toString()).matches(match))){
+                                tempEentrieList.get(tempEentrieList.indexOf(entry)).getKeys().remove(type.toString());
                             }
                         }
                     }
                 }
+            } else if (!types.contains(entry.getTypeType()) && inverse){
+                tempEentrieList.remove(entry);
             }
         }
         entrieList = tempEentrieList;

@@ -18,7 +18,7 @@ Commands
 
     You can access a command listing via the ``-help`` command.
 
-    +value / +key / +match / +value can be shortened to +v / +k / +m /+v
+    +type / +key / +match / +value can be shortened to +t / +k / +m /+v
 
 General Commands
 ~~~~~~~~~~~~~~~~
@@ -37,7 +37,7 @@ General Commands
         **Shortcut**,"``-b``"
         **Usage**,"``-bibliography <file> [output]``"
           ``<file>``,"Exact path to the bibliography file you want to load"
-          ``[output]``,"The exact save path"
+          ``[output]``,"The exact save path. If not specified this will be the current location of the loaded ´´.bib´´ file appended with ´´_formatted.bib´´"
 
 .. raw:: html
 
@@ -49,7 +49,7 @@ General Commands
     .. csv-table::
         :widths: 8, 15
 
-        **Description**,"Debugs the modification process. If not other specified debugging is set to no."
+        **Description**,"Debugs the modification process. If not specified debugging is set to no."
         **Shortcut**,"``-d``"
         **Usage**,"``-debug {yes|no}``"
 
@@ -69,7 +69,7 @@ Bibliography Commands
         **Description**,"Adds every entry from other .bib files to the main bibliography file."
         **Shortcut**,"``-ae``"
         **Usage**,"``-addEntry [+type <types>] <+value <files>>``"
-          ``[+type <types>]``,"Only entries of this type get added. If not other specified every type will be added"
+          ``[+type <types>]``,"Only entries of this type get added. If not specified every type will be added"
           ``<+value <files>>``,"A list of all bibliography files. No spaces allowed"
 
 .. raw:: html
@@ -85,7 +85,7 @@ Bibliography Commands
         **Description**,"Checks if an entry is missing keys and exports the missing keys for every entry as a list."
         **Shortcut**,"``-ct``"
         **Usage**,"``-checkType [+type <types>] [+match <required>] [+value <style>]``"
-          ``[+type <types>]``,"Only entries of this type will be checked. If not other specified every type will be checked"
+          ``[+type <types>]``,"Only entries of this type will be checked. If not specified every type will be checked"
           ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (``.\Data\CheckFiles\valRequiredFields.json``)"
           ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
         **Styles**,"``txt`` Exports the list of missing keys as plain txt"
@@ -105,7 +105,7 @@ Bibliography Commands
         **Description**,"Creates a new key with a specified value."
         **Shortcut**,"``-ck``"
         **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <value>]``"
-          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Specify the keys you want to create. If multiple keys are listed they will all get the same value"
           ``[+value <value>]``,"Specify the value to put in the new key"
 
@@ -122,13 +122,13 @@ Bibliography Commands
         **Description**,"Searches for DOIs and adds the correct formatted value in the doi key."
         **Shortcut**,"``-fd``"
         **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <style>]``"
-          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Specify the keys in which you want to search for DOIs. If no keys are specified only the doi key will be analysed.``"
           ``[+value <style>]``,"Specify the style to format the DOI after (raw/doi/proxy/url/prefix)"
         **Styles**,"``raw`` 10.1000/foobar"
         ,"``doi`` doi:10.1000/foobar"
         ,"``proxy`` https://doi.org/10.1000/foobar"
-        ,"``url`` \url{https://doi.org/10.1000/foobar}"
+        ,"``url`` \\url{https://doi.org/10.1000/foobar}"
         ,"``prefix`` 1000"
 
 .. raw:: html
@@ -144,7 +144,7 @@ Bibliography Commands
         **Description**,"Formats the month value into the described format."
         **Shortcut**,"``-fm``"
         **Usage**,"``-formatMonth [+type <types>] [+value <style>]``"
-          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+value <style>]``,"Specify the style to format the month after (name/number). If no parameter is specified the standard format is by name."
         **Styles**,"``name`` jul"
         ,"``number`` 07"
@@ -162,7 +162,7 @@ Bibliography Commands
         **Description**,"Formats the pages value into the described format."
         **Shortcut**,"``-fp``"
         **Usage**,"``-formatPages [+type <types>] [+value <style>]``"
-          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+value <style>]``,"Specify the style to format the pages after (single/double). If no parameter is specified the standard format is double."
         **Styles**,"``single`` 157-160"
         ,"``double`` 157--160"
@@ -180,8 +180,8 @@ Bibliography Commands
         **Description**,"Formats a url found in a value into the correct format."
         **Shortcut**,"``-fu``"
         **Usage**,"``-createKey [+type <types>] [+key <keys>]``"
-          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
-          ``[+key <keys>]``,"Only the keys specified here will be affected. If not other specified every key will be affected"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
 
 .. raw:: html
 
@@ -211,10 +211,94 @@ Bibliography Commands
         **Description**,"If an entry contains a DOI it will search in the DOI prefix list after a matching publisher name and if found add this as value to a new publisher key."
         **Shortcut**,"``-gp``"
         **Usage**,"``-generatePublisher [+type <types>] [+key <keys>] [+match <dois>] [+value {y|n}]``"
-          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Specify the keys in which you want to search for DOIs. If no keys are specified only the doi key will be analysed."
           ``[+match <dois>]``,"Specify the DOIs you want to accept. If no DOIs are specified every DOI will be accepted."
-          ``[+value {y|n}]``,"Set to y if you want to override any already existing publisher value. If not other specified overriding is set to no."
+          ``[+value {yes|no}]``,"Set to yes/y if you want to override any already existing publisher value. If not specified overriding is set to no/n."
+
+.. raw:: html
+
+    <span id="command--mergeBibliographies"></span>
+
+.. topic:: ``-mergeBibliographies``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Add every entry or key from the specified ``.bib`` file that is not already in the loaded bibliography."
+        **Shortcut**,"``-mb``"
+        **Usage**,"``-mergeBibliographies [+type <types>] [+key <keys>] [+value <path>]``"
+          ``[+type <types>]``,"Only entries of this type will be added. If not specified every type will be added"
+          ``[+key <keys>]``,"Only the keys specified here will be added. If not specified every key will be added"
+          ``[+value <path>]``,"The exact path to the ``.bib`` file you want to load (no spaces allowed)"
+
+.. raw:: html
+
+    <span id="command--orderKeys"></span>
+
+.. topic:: ``-orderKeys``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Orders every key in a bib file by a given list."
+        **Shortcut**,"``-ok``"
+        **Usage**,"``-orderKeys [+type <types>] [+key <keys>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"The order in which the keys will be ordered. If no keys are specified the standard order listed from the config file is used (``entryOrder``)."
+
+.. raw:: html
+
+    <span id="command--orderTypes"></span>
+
+.. topic:: ``-orderTypes``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Orders every key in a bib file by a given list."
+        **Shortcut**,"``-ot``"
+        **Usage**,"``-orderTypes [+type <types>]``"
+          ``[+type <types>]``,"The order in which the entries will be ordered. If no types are specified the standard order listed from the config file is used (``typeOrder``)."
+
+.. raw:: html
+
+    <span id="command--removeEntry"></span>
+
+.. topic:: ``-removeEntry``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Removes specified entries/keys from a bibliography."
+        **Shortcut**,"``-re``"
+        **Usage**,"``-removeEntry [+type <types>] [+key <keys>] [+match <match>] [+value {y|n}]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
+          ``[+match <match>]``,"Only the values that match this pattern will be affected (for regex please use a file here). If no match is specified every value will be affected."
+          ``[+value {yes|no}]``,"Set to yes/y if you want to invert the whole statement. If not specified invert is set to no/n."
+
+.. raw:: html
+
+    <span id="command--replaceKey"></span>
+
+.. topic:: ``-replaceKey``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Replace a key with a new key."
+        **Shortcut**,"``-rk``"
+        **Usage**,"``-replaceKey [+type <types>] [+key <keys>] [+match <match>] [+value {y|n}]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
+          ``[+match <match>]``,"The value that has to match with the value of the key you want to override. If no match is specified every value will be affected."
+          ``[+value {yes|no}]``,"Set to yes/y if you want to override any already existing key. If not specified overriding is set to no/n."
 
 Utility Commands
 ~~~~~~~~~~~~~~~~
