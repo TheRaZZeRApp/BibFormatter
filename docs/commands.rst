@@ -12,7 +12,7 @@ Commands
     Type represents things like article/book/inbook etc. and Key represents things like author/title/pages/doi etc.
 
     Every command parameter argument can be written down in a .txt file and loaded by entering the exact path (useful if a path contains a space or for regex searches in certain commands).
-    (e.g. -createKey +t article C:/types.txt +k title +v C:/text.txt)
+    (e.g. ``-createKey +t article C:/Types.txt +k title +v C:/Text.txt``)
 
 .. tip::
 
@@ -88,6 +88,12 @@ Bibliography Commands
           ``[+type <types>]``,"Only entries of this type will be checked. If not other specified every type will be checked"
           ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (``.\Data\CheckFiles\valRequiredFields.json``)"
           ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
+            .. csv-table::
+                :widths: 8, 15
+
+                **txt**,"Checks if an entry is missing keys and exports the missing keys for every entry as a list."
+                **json**,"``-ct``"
+                **html**,"``-checkType [+type <types>] [+match <required>] [+value <style>]``"
 
 .. raw:: html
 
@@ -103,7 +109,7 @@ Bibliography Commands
         **Shortcut**,"``-ck``"
         **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <value>]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
-          ``[+key <keys>]``,"Specify the keys you want to create. If multiple keys are listed they will all get the same value``"
+          ``[+key <keys>]``,"Specify the keys you want to create. If multiple keys are listed they will all get the same value"
           ``[+value <value>]``,"Specify the value to put in the new key"
 
 .. raw:: html
