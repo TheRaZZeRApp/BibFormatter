@@ -18,6 +18,8 @@ Commands
 
     You can access a command listing via the ``-help`` command.
 
+    +value / +key / +match / +value can be shortened to +v / +k / +m /+v
+
 General Commands
 ~~~~~~~~~~~~~~~~
 .. raw:: html
@@ -84,7 +86,7 @@ Bibliography Commands
         **Shortcut**,"``-ct``"
         **Usage**,"``-checkType [+type <types>] [+match <required>] [+value <style>]``"
           ``[+type <types>]``,"Only entries of this type will be checked. If not other specified every type will be checked"
-          ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded ``(.\Data\CheckFiles\valRequiredFields.json)``"
+          ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (``.\Data\CheckFiles\valRequiredFields.json``)"
           ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
 
 .. raw:: html
@@ -97,13 +99,29 @@ Bibliography Commands
     .. csv-table::
         :widths: 8, 15
 
-        **Description**,""
+        **Description**,"Creates a new key with a specified value."
         **Shortcut**,"``-ck``"
         **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <value>]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
           ``[+key <keys>]``,"Specify the keys you want to create. If multiple keys are listed they will all get the same value``"
           ``[+value <value>]``,"Specify the value to put in the new key"
 
+.. raw:: html
+
+    <span id="command--formatDOI"></span>
+
+.. topic:: ``-formatDOI``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Searches for DOIs and adds the correct formatted value in the doi key."
+        **Shortcut**,"``-fd``"
+        **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <style>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+key <keys>]``,"Specify the keys in which you want to search for DOIs. If no keys are specified only the doi key will be analysed.``"
+          ``[+value <style>]``,"Specify the style to format the DOI after (raw/doi/proxy/url/prefix)"
 
 Utility Commands
 ~~~~~~~~~~~~~~~~

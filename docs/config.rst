@@ -2,12 +2,12 @@
 Configuration
 =============
 
-The config.json file gets generated (if not already existing) by clicking on the bibformatter.jar
+The config.json file gets generated (if not already existing) by clicking on the ``BibFormatter.jar``
 
 Configuration Files
 ===================
 
-Config file location: "./Data/config.json"
+Config file location: ``./Data/config.json``
 
 
 Settings
