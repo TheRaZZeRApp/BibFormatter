@@ -1,5 +1,8 @@
 # BibFormatter
 > BibFormatter is a program to clean up bib files.
+>
+>Manual & Commands 
+>https://bibformatter.readthedocs.io/en/latest/index.html
 
 ## Features
 

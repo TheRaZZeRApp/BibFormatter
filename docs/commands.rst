@@ -11,13 +11,14 @@ Commands
 
 .. tip::
 
-    You can access a command listing in-game via the ``-help`` command.
+    You can access a command listing via the ``-help`` command.
 
 General Commands
 ~~~~~~~~~~~~~~~~
 .. raw:: html
 
     <span id="command--bibliography"></span>
+    Everytime this command gets issued the currently loaded bibliography file will be saved (with all applied changes) and the new one will be loaded. Every command after this one will only effect the bibliography file loaded by this command (until -b is found again etc.).
 
 .. topic:: ``-bibliography``
     :class: command-topic
