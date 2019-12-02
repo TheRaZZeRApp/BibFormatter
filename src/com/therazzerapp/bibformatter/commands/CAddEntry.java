@@ -1,12 +1,14 @@
 package com.therazzerapp.bibformatter.commands;
 
+import com.therazzerapp.bibformatter.TypeType;
 import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
+import com.therazzerapp.bibformatter.bibliographie.Entry;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
-import com.therazzerapp.bibformatter.content.saver.BibSaver;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -29,19 +31,32 @@ public class CAddEntry {
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
 
+            Set<TypeType> currentTypes = new HashSet<>();           //0
             StringBuilder currentValue = new StringBuilder(); //3
 
             for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,null ,null,null,currentValue,false);
+                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes ,null,null,currentValue,false);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
                     Set<Bibliography> bibs = new HashSet<>();
                     for (String s : currentValue.toString().split(" ")) {
                         bibs.add(BibLoader.load(new File(s),""));
                     }
-                    for (Bibliography bib : bibs) {
-                        bibliography.addEntries(bib.getEntrieList());
+
+                    if (currentTypes.isEmpty()){
+                        for (Bibliography bib : bibs) {
+                            bibliography.addEntries(bib.getEntrieList());
+                        }
+                    } else {
+                        LinkedList<Entry> entries = new LinkedList<>();
+                        for (Bibliography bib : bibs) {
+                            for (Entry entry : bib.getEntrieList()) {
+                                if (currentTypes.contains(TypeType.valueOf(entry.getType().toUpperCase()))){
+                                    entries.add(entry);
+                                }
+                            }
+                        }
+                        bibliography.addEntries(entries);
                     }
-                    BibSaver.save(bibliography,bibliography.getSaveLocation());
                 }
             }
         }

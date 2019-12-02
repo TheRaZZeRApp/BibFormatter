@@ -9,7 +9,7 @@ rem commands=-capitalizeValue +t article book +k title
 rem ==========================================
 set a="Usage: <file:bibFile> <boolean:debug> -c1 -c2 -c3 ..."
 if ["%~1"]==[""] (
-	echo Error: No biblioghraphy file specified!
+	echo Error: No bibliography file specified!
 	echo %a%
 	goto stop
 )
@@ -22,7 +22,7 @@ if "%commands%"=="" (
 echo Bibliography: %1
 echo Commands: %commands%
 java -jar BibFormatter.jar -b %1 %save% %commands%
-goto ende
+goto end
 :stop
 pause
-:ende
+:end

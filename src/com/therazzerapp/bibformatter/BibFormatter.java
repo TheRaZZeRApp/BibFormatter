@@ -46,7 +46,7 @@ public class BibFormatter {
             StringBuilder temp = new StringBuilder();
             String saveLocation = "";
             for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-b")){
+                if (args[i].equals("-b") || args[i].equals("-bibliography")){
                     if (bib != null){
                         Matcher matcher = Pattern.compile("(-[a-zA-Z0-9]*([^-]{0,}))").matcher(temp.toString());
                         while (matcher.find()){
