@@ -33,11 +33,10 @@ public class CSaveSymbols {
 
             Set<TypeType> currentTypes = new HashSet<>();           //0
             Set<KeyType> currentKeys = new HashSet<>();             //1
-            StringBuilder currentMatch = new StringBuilder();       //2
             StringBuilder currentValue = new StringBuilder();       //3
 
             for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
+                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,null,currentValue);
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
                     String characterMap = currentValue.toString().trim();
                     if (characterMap.isEmpty()){

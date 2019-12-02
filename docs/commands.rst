@@ -297,8 +297,60 @@ Bibliography Commands
         **Usage**,"``-replaceKey [+type <types>] [+key <keys>] [+match <match>] [+value {y|n}]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
-          ``[+match <match>]``,"The value that has to match with the value of the key you want to override. If no match is specified every value will be affected."
+          ``[+match <match>]``,"The value that has to match with the value of the key you want to replace. If no match is specified every value will be affected."
           ``[+value {yes|no}]``,"Set to yes/y if you want to override any already existing key. If not specified overriding is set to no/n."
+
+.. raw:: html
+
+    <span id="command--saveCapitals"></span>
+
+.. topic:: ``-saveCapitals``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Enclose every uppercase letter. (´´This i A test´´ -> ´´{T}his is {A} test´´)."
+        **Shortcut**,"``-sc``"
+        **Usage**,"``-saveCapitals [+type <types>] [+key <keys>] [+match <characters>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
+          ``[+match <characters>]``,"Only the characters specified here will be enclosed. If not specified every character will be enclosed"
+
+.. raw:: html
+
+    <span id="command--saveSymbols"></span>
+
+.. topic:: ``-saveSymbols``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Replaces every special character with the correct latex code."
+        **Shortcut**,"``-ss``"
+        **Usage**,"``-saveSymbols [+type <types>] [+key <keys>] [+value <characterMap>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
+          ``[+value <characterMap>]``,"The character map file name (´´.Data/<characterMap>.txt´´). If no map is specified the standard one is loaded (unicode2latex)"
+
+.. raw:: html
+
+    <span id="command--setValue"></span>
+
+.. topic:: ``-setValue``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Set the specified value of a specified key in a specified typ to new value."
+        **Shortcut**,"``-sv``"
+        **Usage**,"``-setValue [+type <types>] [+key <keys>] [+match <match>] <+value <value>>``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
+          ``[+key <keys>]``,"Only the keys specified here will be affected. If not specified every key will be affected"
+          ``[+match <match>]``,"Only values matching this value will be affected (to escape special characters when using regex matching, use a file (e.g. ´´+match C:/regexcode.txt´´)). If no matching string is specified the changes will effect every value."
+          ``<+value <value>>``,"The character map file name (´´.Data/<characterMap>.txt´´). If no map is specified the standard one is loaded (unicode2latex)"
 
 Utility Commands
 ~~~~~~~~~~~~~~~~
@@ -307,6 +359,7 @@ Utility Commands
     <span id="command--help"></span>
 
 .. topic:: ``-help``
+    Not yet implemented!
     :class: command-topic
 
     .. csv-table::
@@ -314,7 +367,6 @@ Utility Commands
 
         **Description**,"Displays help for BibFormatter commands"
         **Shortcut**,"``-h``"
-        **Usage**,"``-help [-s] [-p <page>] [command...]``"
-          ``[-s]``,"List sub-commands of the given command, if applicable"
-          ``[-p <page>]``,"The page to retrieve"
-          ``[command...]``,"The command to retrieve help for"
+        **Usage**,"``-help [+match <command>] [+value <value>]``"
+          ``[+match <command>]``,"The command to retrieve help for. If no command is specified a list of all commands will be displayed"
+          ``[+value <value>]``,"The page to retrieve"
