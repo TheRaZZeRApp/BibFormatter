@@ -9,6 +9,11 @@ Commands
 
     Arguments enclosed in ``[ ]`` are optional, those enclosed in ``< >`` are required.
 
+    Type represents things like article/book/inbook etc. and Key represents things like author/title/pages/doi etc.
+
+    Every command parameter argument can be written down in a .txt file and loaded by entering the exact path (useful if a path contains a space or for regex searches in certain commands).
+    (e.g. -createKey +t article C:/types.txt +k title +v C:/text.txt)
+
 .. tip::
 
     You can access a command listing via the ``-help`` command.
@@ -18,9 +23,9 @@ General Commands
 .. raw:: html
 
     <span id="command--bibliography"></span>
-    Everytime this command gets issued the currently loaded bibliography file will be saved (with all applied changes) and the new one will be loaded. Every command after this one will only effect the bibliography file loaded by this command (until -b is found again etc.).
 
 .. topic:: ``-bibliography``
+    Everytime this command gets issued the currently loaded bibliography file will be saved (with all applied changes) and the new one will be loaded. Every command after this one will only effect the bibliography file loaded by this command (until -b is found again etc.).
     :class: command-topic
 
     .. csv-table::
@@ -42,7 +47,7 @@ General Commands
     .. csv-table::
         :widths: 8, 15
 
-        **Description**,"Debugs the modification process. If not other specified debuging is set to no."
+        **Description**,"Debugs the modification process. If not other specified debugging is set to no."
         **Shortcut**,"``-d``"
         **Usage**,"``-debug {yes|no}``"
 
@@ -62,7 +67,7 @@ Bibliography Commands
         **Description**,"Adds every entry from other .bib files to the main bibliography file."
         **Shortcut**,"``-ae``"
         **Usage**,"``-addEntry [+type <types>] <+value <files>>``"
-          ``[+type <types>]``,"Only entries of this type get added (e.g. article book) If not other specified every type will be added"
+          ``[+type <types>]``,"Only entries of this type get added. If not other specified every type will be added"
           ``<+value <files>>``,"A list of all bibliography files. No spaces allowed"
 
 .. raw:: html
@@ -78,9 +83,26 @@ Bibliography Commands
         **Description**,"Checks if an entry is missing keys and exports the missing keys for every entry as a list."
         **Shortcut**,"``-ct``"
         **Usage**,"``-checkType [+type <types>] [+match <required>] [+value <style>]``"
-          ``[+type <types>]``,"Only entries of this type will be checked (e.g. article book). If not other specified every type will be checked"
-          ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (.\Data\CheckFiles\valRequiredFields.json)"
+          ``[+type <types>]``,"Only entries of this type will be checked. If not other specified every type will be checked"
+          ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded ``(.\Data\CheckFiles\valRequiredFields.json)``"
           ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
+
+.. raw:: html
+
+    <span id="command--createKey"></span>
+
+.. topic:: ``-createKey``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,""
+        **Shortcut**,"``-ck``"
+        **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <value>]``"
+          ``[+type <types>]``,"Only entries of this type will be affected. If not other specified every type will be affected"
+          ``[+key <keys>]``,"Specify the keys you want to create. If multiple keys are listed they will all get the same value``"
+          ``[+value <value>]``,"Specify the value to put in the new key"
 
 
 Utility Commands
