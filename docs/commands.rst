@@ -25,8 +25,7 @@ General Commands
     .. csv-table::
         :widths: 8, 15
 
-        **Description**,"Load a new .bib file. If no output path is specified the modified
-                         bib gets saved in the same folder where the original .bib file is located."
+        **Description**,"Load a new .bib file. If no output path is specified the modified bib gets saved in the same folder where the original .bib file is located."
         **Shortcut**,"``-b``"
         **Usage**,"``-bibliography <file> [output]``"
           ``<file>``,"Exact path to the bibliography file you want to load"
@@ -42,8 +41,7 @@ General Commands
     .. csv-table::
         :widths: 8, 15
 
-        **Description**,"Debugs the modification process.
-                         If not other specified debuging is set to no."
+        **Description**,"Debugs the modification process. If not other specified debuging is set to no."
         **Shortcut**,"``-d``"
         **Usage**,"``-debug {yes|no}``"
 
@@ -52,7 +50,7 @@ Bibliography Commands
 ~~~~~~~~~~~~~~~~
 .. raw:: html
 
-    <span id="command-//help"></span>
+    <span id="command--addEntry"></span>
 
 .. topic:: ``-addEntry``
     :class: command-topic
@@ -63,9 +61,25 @@ Bibliography Commands
         **Description**,"Adds every entry from other .bib files to the main bibliography file."
         **Shortcut**,"``-ae``"
         **Usage**,"``-addEntry [+type <types>] <+value <files>>``"
-          ``[+type <types>]``,"Only entries of this type get added (e.g. article book)
-                               If not other specified every type will be added"
+          ``[+type <types>]``,"Only entries of this type get added (e.g. article book) If not other specified every type will be added"
           ``<+value <files>>``,"A list of all bibliography files. No spaces allowed"
+
+.. raw:: html
+
+    <span id="command--checkType"></span>
+
+.. topic:: ``-checkType``
+    :class: command-topic
+
+    .. csv-table::
+        :widths: 8, 15
+
+        **Description**,"Checks if an entry is missing keys and exports the missing keys for every entry as a list."
+        **Shortcut**,"``-ct``"
+        **Usage**,"``-checkType [+type <types>] [+match <required>] [+value <style>]``"
+          ``[+type <types>]``,"Only entries of this type will be checked (e.g. article book). If not other specified every type will be checked"
+          ``[+match <required>]``,"Specify a .json file which represents a map of required keys for every type. If not specified the default map will be loaded (.\Data\CheckFiles\valRequiredFields.json)"
+          ``[+value <style>]``,"Specify the output style of the missing keys. (txt/json/html)"
 
 
 Utility Commands
