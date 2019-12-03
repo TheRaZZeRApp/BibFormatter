@@ -4,6 +4,7 @@ Commands
 
 .. contents::
     :local:
+    :backlinks: none
 
 .. note::
 
