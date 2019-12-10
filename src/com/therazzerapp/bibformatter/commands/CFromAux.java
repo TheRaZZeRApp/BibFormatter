@@ -12,34 +12,17 @@ import java.io.File;
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.12.9
+ * @since 0.19.12
  */
-public class CFromAux {
-    public static final String ARGUMENTPATTERN = "[^+ ]*\\.aux";
-    public static final String COMMANDPATTERN = "(-fromAux|-fa) (?<arg>[^-]{0,})";
-    public static final String USAGE = "-fromAux <auxPath>";
+public class CFromAux extends Command{
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
-            String[] commandLines = Utils.getCommand(arguments).split(" ");
-            int currentPosition = -1;
+    public CFromAux(String arguments) {
+        super("FromAux", "[^+ ]*\\.aux", Constants.COMMANDPATTER_FROMAUX, "-fromAux <auxPath>", arguments);
+    }
 
-            StringBuilder currentValue = new StringBuilder(); //3
-
-            for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,null ,null,null,currentValue,false);
-                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliography.removeEntries(AuxLoader.getCitations(new File(currentValue.toString())));
-                }
-            }
-        } else {
-            LogManager.writeError(Constants.ERROR_INVALID_ARGUMENTS + "-fromAUX\n" + Constants.USSAGE + USAGE);
-            System.exit(1);
-        }
+    @Override
+    protected void action(Bibliography bibliography) {
+        compileArgs();
+        bibliography.removeEntries(AuxLoader.getCitations(new File(value)));
     }
 }

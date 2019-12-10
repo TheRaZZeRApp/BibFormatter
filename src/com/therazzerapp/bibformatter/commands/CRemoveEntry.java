@@ -1,46 +1,24 @@
 package com.therazzerapp.bibformatter.commands;
 
 import com.therazzerapp.bibformatter.Constants;
-import com.therazzerapp.bibformatter.KeyType;
-import com.therazzerapp.bibformatter.TypeType;
-import com.therazzerapp.bibformatter.Utils;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.7.7
+ * @since 0.19.12
  */
-public class CRemoveEntry {
-    public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-removeEntry|-re) (?<arg>[^-]{0,})";
+public class CRemoveEntry extends Command {
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
-            String[] commandLines = Utils.getCommand(arguments).split(" ");
-            int currentPosition = -1;
+    public CRemoveEntry(String arguments) {
+        super("RemoveEntry", "", Constants.COMMANDPATTER_REMOVEENTRY, "", arguments);
+    }
 
-            Set<TypeType> currentTypes = new HashSet<>();           //0
-            Set<KeyType> currentKeys = new HashSet<>();             //1
-            StringBuilder currentMatch = new StringBuilder();       //2
-            StringBuilder currentValue = new StringBuilder();       //3
 
-            for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
-                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    System.out.println(currentValue.toString().trim().matches(Constants.REGEX_YES));
-                    bibliography.removeKey(currentTypes,currentKeys,currentMatch.toString().trim(),currentValue.toString().trim().matches(Constants.REGEX_YES));
-                }
-            }
-        }
+    @Override
+    protected void action(Bibliography bibliography) {
+        compileArgs();
+        bibliography.removeKey(types,keys,match,isYes());
     }
 }

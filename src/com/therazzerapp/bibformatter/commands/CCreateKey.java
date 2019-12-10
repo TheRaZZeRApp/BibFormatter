@@ -1,43 +1,23 @@
 package com.therazzerapp.bibformatter.commands;
 
-import com.therazzerapp.bibformatter.KeyType;
-import com.therazzerapp.bibformatter.TypeType;
-import com.therazzerapp.bibformatter.Utils;
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.11.9
+ * @since 0.19.12
  */
-public class CCreateKey {
-    public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-createKey|-ck) (?<arg>[^-]{0,})";
+public class CCreateKey extends Command {
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
-            String[] commandLines = Utils.getCommand(arguments).split(" ");
-            int currentPosition = -1;
+    public CCreateKey(String ARGUMENTS) {
+        super("CreateKey", Constants.COMMANDPATTER_CREATEKEY, ARGUMENTS);
+    }
 
-            Set<TypeType> currentTypes = new HashSet<>();           //0
-            Set<KeyType> currentKeys = new HashSet<>();             //1
-            StringBuilder currentValue = new StringBuilder();       //3
-
-            for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,null,currentValue);
-                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliography.createKey(currentTypes,currentKeys,currentValue.toString().trim());
-                }
-            }
-        }
+    @Override
+    protected void action(Bibliography bibliography) {
+        compileArgs();
+        bibliography.createKey(types,keys,match,isYes());
     }
 }

@@ -21,6 +21,9 @@ Commands
 
     +type / +key / +match / +value can be shortened to +t / +k / +m /+v
 
+    You can invert types and keys by surrounding them with ``!``
+    (e.g ``!article!`` will select every type except articles)
+
 General Commands
 ~~~~~~~~~~~~~~~~
 .. raw:: html
@@ -38,7 +41,7 @@ General Commands
         **Shortcut**,"``-b``"
         **Usage**,"``-bibliography <file> [output]``"
           ``<file>``,"Exact path to the bibliography file you want to load"
-          ``[output]``,"The exact save path. If not specified this will be the current location of the loaded ´´.bib´´ file appended with ´´_formatted.bib´´"
+          ``[output]``,"The exact save path. If not specified this will be the current location of the loaded ``.bib`` file appended with ``_formatted.bib``"
 
 .. raw:: html
 
@@ -105,10 +108,11 @@ Bibliography Commands
 
         **Description**,"Creates a new key with a specified value."
         **Shortcut**,"``-ck``"
-        **Usage**,"``-createKey [+type <types>] [+key <keys>] [+value <value>]``"
+        **Usage**,"``-createKey [+type <types>] [+key <keys>] [+match <value>] [+value {yes|no}]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"
           ``[+key <keys>]``,"Specify the keys you want to create. If multiple keys are listed they will all get the same value"
-          ``[+value <value>]``,"Specify the value to put in the new key"
+          ``[+match <value>]``,"Specify the value to put in the new key"
+          ``[+value {yes|no}]``,"Set to yes/y if you want to override any already existing key. If not specified overriding is set to no/n."
 
 .. raw:: html
 
@@ -311,7 +315,7 @@ Bibliography Commands
     .. csv-table::
         :widths: 8, 15
 
-        **Description**,"Enclose every uppercase letter. (´´This i A test´´ -> ´´{T}his is {A} test´´)."
+        **Description**,"Enclose every uppercase letter. (´´This is A test´´ -> ´´{T}his is {A} test´´)."
         **Shortcut**,"``-sc``"
         **Usage**,"``-saveCapitals [+type <types>] [+key <keys>] [+match <characters>]``"
           ``[+type <types>]``,"Only entries of this type will be affected. If not specified every type will be affected"

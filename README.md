@@ -68,6 +68,12 @@ A complete list of all commands can be found here: https://bibformatter.readthed
 
 ## Release History
 
+* 0.19.12
+    * Add: New Command System
+    * Add: Ability to invert Types and Keys
+    * Add: Override option on create Key
+    * Fix: Various little things
+    * Fix: JavaDoc
 * 0.18.12
     * Add: Command to generate a publisher
 * 0.17.12

@@ -41,7 +41,7 @@ public class CBibliography {
                 if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
                     Bibliography temp = BibLoader.load(new File(bibPath),saveLocation);
                     bibliography.setName(temp.getName());
-                    bibliography.setEntrieList(temp.getEntrieList());
+                    bibliography.setEntryList(temp.getEntryList());
                     bibliography.setComments(temp.getComments());
                     bibliography.setSaveLocation(temp.getSaveLocation());
                 }

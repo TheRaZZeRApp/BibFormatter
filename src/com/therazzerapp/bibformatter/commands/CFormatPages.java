@@ -1,48 +1,27 @@
 package com.therazzerapp.bibformatter.commands;
 
 import com.therazzerapp.bibformatter.BibTools;
-import com.therazzerapp.bibformatter.TypeType;
-import com.therazzerapp.bibformatter.Utils;
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.manager.ConfigManager;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.8.8
+ * @since 0.19.12
  */
-public class CFormatPages {
-    public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-formatPages|-fp) (?<arg>[^-]{0,})";
+public class CFormatPages extends Command{
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
-            String[] commandLines = Utils.getCommand(arguments).split(" ");
-            int currentPosition = -1;
+    public CFormatPages(String ARGUMENTS) {
+        super("FormatPages", Constants.COMMANDPATTER_FORMATPAGES, ARGUMENTS);
+    }
 
-            Set<TypeType> currentTypes = new HashSet<>();           //0
-            StringBuilder currentValue = new StringBuilder();       //3
 
-            for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,null,null,currentValue);
-                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    String style = currentValue.toString().trim();
-                    if (style.isEmpty()){
-                        style = (String) ConfigManager.getConfigProperty(ConfigType.DEFAULTPAGESFORMAT);
-                    }
-                    BibTools.formatPages(bibliography,currentTypes,style);
-                }
-            }
-        }
+    @Override
+    protected void action(Bibliography bibliography) {
+        compileArgs();
+        BibTools.formatPages(bibliography,types,value.isEmpty() ? ConfigManager.getAsString(ConfigType.DEFAULTPAGESFORMAT) : value);
     }
 }

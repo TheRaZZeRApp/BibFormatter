@@ -29,7 +29,7 @@ public class BibSaver {
         int i = 0;
 
         StringBuilder entries = new StringBuilder();
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (entry.getKeys().isEmpty()){
                 continue;
             }

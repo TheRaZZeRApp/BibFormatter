@@ -1,5 +1,6 @@
 package com.therazzerapp.bibformatter.manager;
 
+import com.therazzerapp.bibformatter.KeyType;
 import com.therazzerapp.bibformatter.content.ConfigType;
 import com.therazzerapp.bibformatter.content.loader.ConfigLoader;
 import com.therazzerapp.bibformatter.content.saver.ConfigSaver;
@@ -41,6 +42,20 @@ public class ConfigManager {
      */
     public static Object getConfigProperty(ConfigType configProperty){
         return configMap.get(configProperty);
+    }
+
+    /**
+     * Returns the config value for the specified {@link ConfigType}
+     * @param configProperty the key to check.
+     * @return the config value as String, empty String if key with the give {@link ConfigType} was found.
+     * @since 0.19.12
+     */
+    public static String getAsString(ConfigType configProperty){
+        try {
+            return (String) configMap.get(configProperty);
+        } catch (ClassCastException | NullPointerException ignored){
+            return "";
+        }
     }
 
     /**

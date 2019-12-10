@@ -1,9 +1,6 @@
 package com.therazzerapp.bibformatter.commands;
 
-import com.therazzerapp.bibformatter.BibTools;
-import com.therazzerapp.bibformatter.KeyType;
-import com.therazzerapp.bibformatter.TypeType;
-import com.therazzerapp.bibformatter.Utils;
+import com.therazzerapp.bibformatter.*;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
 import com.therazzerapp.bibformatter.content.loader.BibLoader;
 
@@ -15,32 +12,17 @@ import java.util.Set;
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.13.9
+ * @since 0.19.12
  */
-public class CMergeBibliographies {
-    public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-mergeBibliographies|-mb) (?<arg>[^-]{0,})";
+public class CMergeBibliographies extends Command{
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
-            String[] commandLines = Utils.getCommand(arguments).split(" ");
-            int currentPosition = -1;
+    public CMergeBibliographies(String ARGUMENTS) {
+        super("MergeBibliographies", Constants.COMMANDPATTER_MERGEBIBLIOGRAPHIES, ARGUMENTS);
+    }
 
-            Set<TypeType> currentTypes = new HashSet<>();           //0
-            Set<KeyType> currentKeys = new HashSet<>();             //1
-            StringBuilder currentValue = new StringBuilder();       //3
-
-            for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,null,currentValue,false);
-                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    bibliography.setEntrieList(BibTools.mergeBibliographies(bibliography, BibLoader.load(new File(currentValue.toString()), ""),currentTypes,currentKeys).getEntrieList());
-                }
-            }
-        }
+    @Override
+    protected void action(Bibliography bibliography) {
+        compileArgs();
+        bibliography.setEntryList(BibTools.mergeBibliographies(bibliography, BibLoader.load(new File(value), ""),types,keys).getEntryList());
     }
 }

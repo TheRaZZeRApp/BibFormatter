@@ -30,19 +30,19 @@ public class BibTools {
      * @since 0.17.12
      */
     public static void formatDoi(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String format){
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())) {
                 Map<String, String> temp = new HashMap<>(entry.getKeys());
                 if (temp.containsKey(KeyType.DOI.toString()) && (keys.isEmpty() || keys.contains(KeyType.DOI))){
                     if (Utils.formatDOI(temp.get(KeyType.DOI.toString()),format)!=null){
-                        bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(temp.get(KeyType.DOI.toString()),format));
+                        bibliography.getEntryList().get(bibliography.getEntryList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(temp.get(KeyType.DOI.toString()),format));
                         continue;
                     }
                 }
                 for (Map.Entry<String, String> stringStringEntry : temp.entrySet()) {
                     if ((keys.isEmpty() && stringStringEntry.getKey().equals(KeyType.DOI.toString())) || keys.contains(KeyType.valueOf(stringStringEntry.getKey().toUpperCase()))) {
                         if (Utils.formatDOI(stringStringEntry.getValue(),format)!=null){
-                            bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(stringStringEntry.getValue(),format));
+                            bibliography.getEntryList().get(bibliography.getEntryList().indexOf(entry)).getKeys().put(KeyType.DOI.toString(),Utils.formatDOI(stringStringEntry.getValue(),format));
                             break;
                         }
                     }
@@ -62,7 +62,7 @@ public class BibTools {
      * @since 0.18.12
      */
     public static void generatePublisher(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, Set<Integer> dois, boolean override){
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())) {
                 Map<String, String> temp = new HashMap<>(entry.getKeys());
                 for (Map.Entry<String, String> stringStringEntry : temp.entrySet()) {
@@ -70,7 +70,7 @@ public class BibTools {
                         if (Utils.formatDOI(stringStringEntry.getValue(),"raw")!=null){
                             if (dois.isEmpty() || dois.contains(Integer.parseInt(Utils.formatDOI(stringStringEntry.getValue(),"prefix")))){
                                 if (override || !temp.containsKey(KeyType.PUBLISHER.toString())){
-                                    bibliography.getEntrieList().get(bibliography.getEntrieList().indexOf(entry)).getKeys().put(KeyType.PUBLISHER.toString(), DoiPrefixManager.getPublisherName(Integer.parseInt(Utils.formatDOI(stringStringEntry.getValue(),"prefix"))));
+                                    bibliography.getEntryList().get(bibliography.getEntryList().indexOf(entry)).getKeys().put(KeyType.PUBLISHER.toString(), DoiPrefixManager.getPublisherName(Integer.parseInt(Utils.formatDOI(stringStringEntry.getValue(),"prefix"))));
                                     break;
                                 }
                             }
@@ -90,13 +90,13 @@ public class BibTools {
     public static void orderTypes(Bibliography bibliography, ArrayList<TypeType> types){
         LinkedList<Entry> entryList = new LinkedList<>();
         for (TypeType type : types) {
-            for (Entry entry : bibliography.getEntrieList()) {
+            for (Entry entry : bibliography.getEntryList()) {
                 if (entry.getType().equals(type.toString())){
                     entryList.add(entry);
                 }
             }
         }
-        bibliography.setEntrieList(entryList);
+        bibliography.setEntryList(entryList);
     }
 
     /**
@@ -109,8 +109,8 @@ public class BibTools {
      * @return the modified bibliography
      */
     public static Bibliography mergeBibliographies(Bibliography prim, Bibliography sec, Set<TypeType> types, Set<KeyType> keys){
-        LinkedList<Entry> mergedEntries = new LinkedList<>(prim.getEntrieList());
-        for (Entry entry : sec.getEntrieList()) {
+        LinkedList<Entry> mergedEntries = new LinkedList<>(prim.getEntryList());
+        for (Entry entry : sec.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 if (prim.getBibTexKeys().contains(entry.getBibtexkey())){
                     LinkedHashMap<String,String> newKeyMap = new LinkedHashMap<>();
@@ -142,7 +142,7 @@ public class BibTools {
      */
     public static Set<FlawerdEntry> checkType(Bibliography bibliography, Set<TypeType> types, RequiredFields requiredFields, String args, boolean print){
         Set<FlawerdEntry> flawedEntries = new HashSet<>();
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 FlawerdEntry flawerdEntry = new FlawerdEntry(entry.getBibtexkey(),entry.getTypeType());
                 for (KeyType requiredField : requiredFields.getRequiredFields(entry.getTypeType())) {
@@ -185,9 +185,9 @@ public class BibTools {
             regEx  = "([" + characters + "]+(?![^\\{]*\\}))";
         }
 
-        Bibliography tempBib = new Bibliography(bibliography.getEntrieList(), bibliography.getName(), bibliography.getComments());
+        Bibliography tempBib = new Bibliography(bibliography.getEntryList(), bibliography.getName(), bibliography.getComments());
 
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 for (KeyType keyType : KeyType.values()) {
                     if (keys.isEmpty() || keys.contains(keyType)){
@@ -196,14 +196,14 @@ public class BibTools {
                         while (matcher.find()){
                             temp = temp.replaceFirst(regEx,"{"+matcher.group(1)+"}");
                         }
-                        tempBib.getEntrieList().get(tempBib.getEntrieList().indexOf(entry)).getKeys().remove(keyType.toString());
-                        tempBib.getEntrieList().get(tempBib.getEntrieList().indexOf(entry)).getKeys().put(keyType.toString(),temp);
+                        tempBib.getEntryList().get(tempBib.getEntryList().indexOf(entry)).getKeys().remove(keyType.toString());
+                        tempBib.getEntryList().get(tempBib.getEntryList().indexOf(entry)).getKeys().put(keyType.toString(),temp);
                     }
                 }
             }
         }
 
-        bibliography.setEntrieList(tempBib.getEntrieList());
+        bibliography.setEntryList(tempBib.getEntryList());
     }
 
     /**
@@ -215,17 +215,17 @@ public class BibTools {
      * @param style the style
      */
     public static void formatMonth(Bibliography bibliography, Set<TypeType> types, String style){
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 if (entry.getKeys().containsKey("month")){
-                    int i = bibliography.getEntrieList().indexOf(entry);
-                    int month = Utils.getMonth(bibliography.getEntrieList().get(i).getKeys().get("month"));
+                    int i = bibliography.getEntryList().indexOf(entry);
+                    int month = Utils.getMonth(bibliography.getEntryList().get(i).getKeys().get("month"));
                     switch (style){
                         case "name":
-                            bibliography.getEntrieList().get(i).getKeys().replace("month",Utils.getMonthByNumber(month));
+                            bibliography.getEntryList().get(i).getKeys().replace("month",Utils.getMonthByNumber(month));
                             break;
                         case "number":
-                            bibliography.getEntrieList().get(i).getKeys().replace("month",Utils.formatMonth(month));
+                            bibliography.getEntryList().get(i).getKeys().replace("month",Utils.formatMonth(month));
                             break;
                     }
                 }
@@ -242,15 +242,15 @@ public class BibTools {
      * @param style the style
      */
     public static void formatPages(Bibliography bibliography, Set<TypeType> types, String style){
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 if (entry.getKeys().containsKey("pages")){
-                    int i = bibliography.getEntrieList().indexOf(entry);
-                    String page = bibliography.getEntrieList().get(i).getKeys().get("pages").replaceAll("–","-");;
+                    int i = bibliography.getEntryList().indexOf(entry);
+                    String page = bibliography.getEntryList().get(i).getKeys().get("pages").replaceAll("–","-");;
                     if(style.matches("single") && page.matches("[0-9]{1,}--[0-9]{1,}")){
-                        bibliography.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("--","-"));
+                        bibliography.getEntryList().get(i).getKeys().replace("pages",page.replaceAll("--","-"));
                     } else if (style.matches("double") && page.matches("[0-9]{1,}-[0-9]{1,}")){
-                        bibliography.getEntrieList().get(i).getKeys().replace("pages",page.replaceAll("-","--"));
+                        bibliography.getEntryList().get(i).getKeys().replace("pages",page.replaceAll("-","--"));
                     }
                 }
             }
@@ -266,14 +266,14 @@ public class BibTools {
      */
     public static void orderEntries(Bibliography bibliography, Set<TypeType> types, ArrayList<KeyType> keys){
         LinkedList<Entry> tempEntryList = new LinkedList<>();
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 tempEntryList.add(new Entry(entry.getType(),entry.getBibtexkey(),Utils.orderMapByList(entry.getKeys(), Utils.getObjectAsString(keys.toArray()))));
             } else {
                 tempEntryList.add(entry);
             }
         }
-        bibliography.setEntrieList(tempEntryList);
+        bibliography.setEntryList(tempEntryList);
     }
 
     /**
@@ -286,7 +286,7 @@ public class BibTools {
      */
     public static void saveSpecialCharacters(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys, String characterMap){
         LinkedList<Entry> entryList = new LinkedList<>();
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 LinkedHashMap<String,String> keyMap = new LinkedHashMap<>();
                 for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
@@ -307,7 +307,7 @@ public class BibTools {
                 entryList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
             }
         }
-        bibliography.setEntrieList(entryList);
+        bibliography.setEntryList(entryList);
     }
 
     /**
@@ -319,7 +319,7 @@ public class BibTools {
      */
     public static void formatURL(Bibliography bibliography, Set<TypeType> types, Set<KeyType> keys){
         LinkedList<Entry> entryList = new LinkedList<>();
-        for (Entry entry : bibliography.getEntrieList()) {
+        for (Entry entry : bibliography.getEntryList()) {
             if (types.isEmpty() || types.contains(entry.getTypeType())){
                 LinkedHashMap<String,String> keyMap = new LinkedHashMap<>();
                 for (Map.Entry<String, String> stringStringEntry : entry.getKeys().entrySet()) {
@@ -337,6 +337,6 @@ public class BibTools {
                 entryList.add(new Entry(entry.getType(),entry.getBibtexkey(),entry.getKeys()));
             }
         }
-        bibliography.setEntrieList(entryList);
+        bibliography.setEntryList(entryList);
     }
 }

@@ -57,7 +57,7 @@ public class StartUp implements Runnable{
 
     private void updateBib(){
         DefaultListModel tableListModel = new DefaultListModel();
-        for (Entry entry : bibliographyNew.getEntrieList()) {
+        for (Entry entry : bibliographyNew.getEntryList()) {
             rawCurrentTextArea.append(entry.getRawEntry());
             rawCurrentTextArea.setCaretPosition(0);
             tableListModel.addElement(entry.getBibtexkey());
@@ -143,7 +143,7 @@ public class StartUp implements Runnable{
                 menuSave.setEnabled(true);
 
                 DefaultListModel tableOriginalListModel = new DefaultListModel();
-                for (Entry entry : bibliographyOld.getEntrieList()) {
+                for (Entry entry : bibliographyOld.getEntryList()) {
                     sourceTextArea.append(entry.getRawEntry());
                     sourceTextArea.setCaretPosition(0);
                     tableOriginalListModel.addElement(entry.getBibtexkey());

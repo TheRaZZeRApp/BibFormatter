@@ -48,7 +48,7 @@ public class SpecialCharacterManager {
      * Checks if the standard character maps exist and load them. If not create them and load.
      * Default maps: <br>Unicode: "./Data/unicode2latex.txt"
      */
-    public static void initiate(){
+    public static void init(){
         if(!new File(Constants.PATH_EXT_DATA +Constants.FILE_EXT_DEFAULT_CHARACTARMAP+Constants.EXTENSION_TXT).exists()){
             SpecialCharacterSaver.createDefaultUnicode2Latex();
         }
