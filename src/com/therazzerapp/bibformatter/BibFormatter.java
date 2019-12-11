@@ -89,22 +89,22 @@ public class BibFormatter {
      * @param arguments
      */
     private static void runCommands(Bibliography bib, final String command, String arguments){
-        if (command.matches(CReplaceKey.COMMANDPATTERN)){
-            CReplaceKey.run(bib,arguments);
-        } else if (command.matches(CSetValue.COMMANDPATTERN)){
-            CSetValue.run(bib,arguments);
+        if (command.matches(Constants.COMMANDPATTER_REPLACEKEY)){
+            new CReplaceKey(arguments).run(bib);
+        } else if (command.matches(Constants.COMMANDPATTER_SETVALUE)){
+            new CSetValue(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_REMOVEENTRY)){
             new CRemoveEntry(arguments).run(bib);
-        } else if (command.matches(CSaveCapitals.COMMANDPATTERN)){
-            CSaveCapitals.run(bib,arguments);
-        } else if (command.matches(COrderKeys.COMMANDPATTERN)){
-            COrderKeys.run(bib,arguments);
+        } else if (command.matches(Constants.COMMANDPATTER_SAVECAPITALS)){
+            new CSaveCapitals(arguments).run(bib);
+        } else if (command.matches(Constants.COMMANDPATTER_ORDERKEYS)){
+            new COrderKeys(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_FORMATMONTH)){
             new CFormatMonth(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_FORMATPAGES)){
             new CFormatPages(arguments).run(bib);
-        } else if (command.matches(CSaveSymbols.COMMANDPATTERN)){
-            CSaveSymbols.run(bib,arguments);
+        } else if (command.matches(Constants.COMMANDPATTER_SAVESYMBOLS)){
+            new CSaveSymbols(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_CHECKTYPE)){
             new CCheckType(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_CREATEKEY)){
@@ -115,12 +115,12 @@ public class BibFormatter {
             new CAddEntry(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_MERGEBIBLIOGRAPHIES)){
             new CMergeBibliographies(arguments).run(bib);
-        } else if (command.matches(COrderTypes.COMMANDPATTERN)){
-            COrderTypes.run(bib,arguments);
+        } else if (command.matches(Constants.COMMANDPATTER_ORDERTYPES)){
+            new COrderTypes(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_FORMATURL)){
             new CFormatURL(arguments).run(bib);
-        } else if (command.matches(CGeneratePublisher.COMMANDPATTERN)){
-            CGeneratePublisher.run(bib,arguments);
+        } else if (command.matches(Constants.COMMANDPATTER_GENERATEPUBLISHER)){
+            new CGeneratePublisher(arguments).run(bib);
         } else if (command.matches(Constants.COMMANDPATTER_FORMATDOI)){
             new CFormatDoi(arguments).run(bib);
         }

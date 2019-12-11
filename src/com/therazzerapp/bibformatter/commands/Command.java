@@ -90,7 +90,7 @@ public abstract class Command {
 
     /**
      * Check if the arguments a valid.
-     * @return
+     * @return true if the argument matches the regular expression, false if not
      */
     protected boolean isValid(){
         return ARGUMENTPATTERN.isEmpty() || ARGUMENTS.matches(ARGUMENTPATTERN);
@@ -103,9 +103,9 @@ public abstract class Command {
         Matcher m = Pattern.compile(Constants.REGEX_COMMAND_ARGUMENTS,Pattern.CASE_INSENSITIVE).matcher(ARGUMENTS);
         while (m.find()){
             if (m.group(1).matches(arg1)){
-                getCommandTypes(m.group(2).trim(),true, readFileArg1);
+                getCommandTypes(types,m.group(2).trim(),readFileArg1);
             } else if (m.group(1).matches(arg2)){
-                getCommandTypes(m.group(2).trim(),false, readFileArg2);
+                getCommandKeys(keys,m.group(2).trim(),readFileArg2);
             } else if (m.group(1).matches(arg3)){
                 match = getArguments(m.group(2).trim(),readFileArg3).trim();
             } else if (m.group(1).matches(arg4)){
@@ -115,19 +115,43 @@ public abstract class Command {
     }
 
     /**
+     * Adds every {@link KeyType} found in a file or String and adds it to a {@link Collection<KeyType>} of keys.
+     * If a * was found, add every key.
+     * @param k
+     * @param arguments
+     * @param readFiles
+     * @since 0.19.13
+     */
+    protected void getCommandKeys(Collection<KeyType> k, String arguments, boolean readFiles){
+        getCommandType(null,k,arguments,readFiles);
+    }
+
+    /**
+     * Adds every {@link TypeType} found in a file or String and adds it to a {@link Collection<TypeType>} of types.
+     * If a * was found, add every type.
+     * @param t
+     * @param arguments
+     * @param readFiles
+     * @since 0.19.13
+     */
+    protected void getCommandTypes(Collection<TypeType> t, String arguments, boolean readFiles){
+        getCommandType(t,null,arguments,readFiles);
+    }
+
+    /**
      * Adds every Type found in a file or String and adds it to a {@link Collection<>} of the given typetypes.
      * If a * was found, add every type.
      * @param arguments
-     * @param isType
      * @param readFiles
      */
-    private void getCommandTypes(String arguments, boolean isType, boolean readFiles) {
+    private void getCommandType(Collection<TypeType> t, Collection<KeyType> k , String arguments, boolean readFiles) {
+        boolean isType = (t != null);
         String args = getArguments(arguments,readFiles).trim();
         if (args.equals(Constants.UNLIMITEDCHARACTER)){
             if (isType){
-                Collections.addAll(types, TypeType.values());
+                Collections.addAll(t, TypeType.values());
             } else {
-                Collections.addAll(keys, KeyType.values());
+                Collections.addAll(k, KeyType.values());
             }
         } else {
             if (args.startsWith(Constants.INVERTCHARACTER) && args.endsWith(Constants.INVERTCHARACTER)){
@@ -137,24 +161,24 @@ public abstract class Command {
                         if (args.contains(typeType.toString())){
                             continue;
                         }
-                        types.add(typeType);
+                        t.add(typeType);
                     }
                 } else {
                     for (KeyType keyType : KeyType.values()) {
                         if (args.contains(keyType.toString())){
                             continue;
                         }
-                        keys.add(keyType);
+                        k.add(keyType);
                     }
                 }
             } else {
                 if (isType){
                     for (String s : args.split(" ")) {
-                        types.add(TypeType.valueOf(s.toUpperCase()));
+                        t.add(TypeType.valueOf(s.toUpperCase()));
                     }
                 } else {
                     for (String s : args.split(" ")) {
-                        keys.add(KeyType.valueOf(s.toUpperCase()));
+                        k.add(KeyType.valueOf(s.toUpperCase()));
                     }
                 }
             }
@@ -188,7 +212,7 @@ public abstract class Command {
 
     /**
      * Returns true if the value matches yes
-     * @return
+     * @return true if the value matches yes, false if not
      */
     protected boolean isYes(){
         return value.matches(Constants.REGEX_YES);

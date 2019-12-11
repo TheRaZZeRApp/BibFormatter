@@ -22,7 +22,8 @@ Commands
     +type / +key / +match / +value can be shortened to +t / +k / +m /+v
 
     You can invert types and keys by surrounding them with ``!``
-    (e.g ``!article!`` will select every type except articles)
+    (e.g. ``+t !article!`` will select every type except articles)
+    # selects everything (e.g. ``+t #`` will select every type)
 
 General Commands
 ~~~~~~~~~~~~~~~~

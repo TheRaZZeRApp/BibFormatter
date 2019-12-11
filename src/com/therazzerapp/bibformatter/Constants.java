@@ -9,7 +9,7 @@ package com.therazzerapp.bibformatter;
 public class Constants {
 
     //Main Program Version
-    public static final String VERSION = "0.19.12";
+    public static final String VERSION = "0.19.13";
 
     public static final String USSAGE = "Usage: ";
 
@@ -65,4 +65,18 @@ public class Constants {
     public static final String COMMANDPATTER_FORMATURL = "(-formatURL|-fu)(?<arg>[^-]{0,})";
     public static final String COMMANDPATTER_FROMAUX = "(-fromAux|-fa) (?<arg>[^-]{0,})";
     public static final String COMMANDPATTER_MERGEBIBLIOGRAPHIES = "(-mergeBibliographies|-mb) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_GENERATEPUBLISHER = "(-generatePublisher|-gp) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_ORDERKEYS = "(-orderKeys|-ok) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_ORDERTYPES = "(-orderTypes|-ot)(?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_REPLACEKEY = "(-replaceKey|-rk) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_SAVECAPITALS = "(-saveCapitals|-sc) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_SAVESYMBOLS = "(-saveSymbols|-ss) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_SETVALUE = "(-setValue|-sv) (?<arg>[^-]{0,})";
+    public static final String COMMANDPATTER_BIBLIOGRAPHY = "(-bibliography|-b) (?<arg>[^-]{0,})";
+
+    //ArgumentPattern
+    public static final String ARGUMENTPATTERN_SETVALUE = " *((\\+[tT]|\\+type) [^+]* +|\\+[tT] ){0,1}((\\+[kK]|\\+key) [^+]* +|\\+[kK] ){0,1}((\\+[mM]|\\+match) [^+]* +|\\+[mM] ){0,1}((\\+[vV]|\\+value) [^+]* *|\\+[vV] ){1,1}";
+
+    //Usage
+    public static final String USAGE_SETVALUE = "-setValue [+type <types>] [+key <keys>] [+match <match>] +value <value>";
 }

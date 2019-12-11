@@ -68,6 +68,8 @@ A complete list of all commands can be found here: https://bibformatter.readthed
 
 ## Release History
 
+* 0.19.13
+    * Add: Finished New Command System
 * 0.19.12
     * Add: New Command System
     * Add: Ability to invert Types and Keys

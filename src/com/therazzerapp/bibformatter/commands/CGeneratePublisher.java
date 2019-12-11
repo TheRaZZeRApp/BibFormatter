@@ -10,39 +10,29 @@ import java.util.Set;
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.16.12
+ * @since 0.19.13
  */
-public class CGeneratePublisher {
-    public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-generatePublisher|-gp) (?<arg>[^-]{0,})";
+public class CGeneratePublisher extends Command{
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
-            String[] commandLines = Utils.getCommand(arguments).split(" ");
-            int currentPosition = -1;
+    public CGeneratePublisher(String ARGUMENTS) {
+        super("GeneratePublisher", Constants.COMMANDPATTER_GENERATEPUBLISHER, ARGUMENTS);
+    }
 
-            Set<TypeType> currentTypes = new HashSet<>();           //0
-            Set<KeyType> currentKeys = new HashSet<>();             //1
-            StringBuilder currentMatch = new StringBuilder();       //2
-            StringBuilder currentValue = new StringBuilder();       //3
-
-            for (int i = 0; i < commandLines.length; i++) {
-                currentPosition = Utils.getCommandValues(commandLines, currentPosition,i,currentTypes,currentKeys,currentMatch,currentValue);
-                if (Utils.isCommandEndReached(commandLines,i,3,currentPosition)){
-                    Set<Integer> doiPrefix = new HashSet<>();
-                    if (!currentMatch.toString().trim().isEmpty()){
-                        for (String s : currentMatch.toString().split(" ")) {
-                            doiPrefix.add(Integer.parseInt(s));
-                        }
-                    }
-                    BibTools.generatePublisher(bibliography,currentTypes,currentKeys,doiPrefix,currentValue.toString().matches(Constants.REGEX_YES));
+    @Override
+    protected void action(Bibliography bibliography) {
+        compileArgs();
+        Set<Integer> doiPrefix = new HashSet<>();
+        if (!match.isEmpty()){
+            for (String s : match.split(" ")) {
+                try{
+                    doiPrefix.add(Integer.parseInt(s));
+                } catch (NumberFormatException ignored){
+                    //todo write error message
+                    return;
                 }
             }
         }
+        BibTools.generatePublisher(bibliography,types,keys,doiPrefix,isYes());
+
     }
 }

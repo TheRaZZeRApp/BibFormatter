@@ -1,28 +1,24 @@
 package com.therazzerapp.bibformatter.commands;
 
-import com.therazzerapp.bibformatter.Utils;
+import com.therazzerapp.bibformatter.Constants;
 import com.therazzerapp.bibformatter.bibliographie.Bibliography;
-import com.therazzerapp.bibformatter.content.loader.BibLoader;
-
-import java.io.File;
 
 /**
  * <description>
  *
  * @author Paul Eduard Koenig <s6604582@stud.uni-frankfurt.de>
- * @since 0.15.10
+ * @since 0.19.13
  */
-public class CBibliography {
-    public static final String ARGUMENTPATTERN = "";
-    public static final String COMMANDPATTERN = "(-bibliography|-b) (?<arg>[^-]{0,})";
+public class CBibliography extends Command{
 
-    /**
-     *
-     * @param bibliography
-     * @param arguments
-     */
-    public static void run(Bibliography bibliography, String arguments){
-        if (Utils.isArgumentsValid(ARGUMENTPATTERN,arguments)){
+    public CBibliography(String ARGUMENTS) {
+        super("Bibliography", Constants.COMMANDPATTER_BIBLIOGRAPHY, ARGUMENTS);
+    }
+
+    @Override
+    protected void action(Bibliography bibliography) {
+        //todo rewrite method
+        /*
             String[] commandLines = Utils.getCommand(arguments).split(" ");
             int currentPosition = -1;
 
@@ -46,6 +42,6 @@ public class CBibliography {
                     bibliography.setSaveLocation(temp.getSaveLocation());
                 }
             }
-        }
+        */
     }
 }
